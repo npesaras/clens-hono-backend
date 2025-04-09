@@ -3,7 +3,7 @@ import { pgTable, serial, text, timestamp, pgEnum } from 'drizzle-orm/pg-core';
 // Create the enum type
 export const userTypeEnum = pgEnum('usertype', ['admin', 'civilian', 'collector']);
 
-// Example table schema
+// User Table
 export const users = pgTable('users', {
   id: serial('id').primaryKey(),
   usertype: userTypeEnum('usertype'),
