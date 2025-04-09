@@ -11,13 +11,11 @@ A modern RESTful API built with Hono.js, Drizzle ORM, and PostgreSQL, featuring 
 - [Features](#features)
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
-- [Configuration](#configuration)
 - [Usage](#usage)
 - [API Documentation](#api-documentation)
 - [Database](#database)
 - [Project Structure](#project-structure)
-- [Contributing](#contributing)
-- [License](#license)
+
 
 ## ✨ Features
 
