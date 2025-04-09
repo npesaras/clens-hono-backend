@@ -1,15 +1,43 @@
 # Clens Hono Kit
 
-A modern web application built with Hono.js, Drizzle ORM, and PostgreSQL.
+A modern RESTful API built with Hono.js, Drizzle ORM, and PostgreSQL, featuring user management with authentication.
 
-## Prerequisites
+[![Node.js Version](https://img.shields.io/badge/node-%3E%3D%2018.0.0-brightgreen.svg)](https://nodejs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue.svg)](https://www.typescriptlang.org/)
+[![Hono](https://img.shields.io/badge/Hono-4.x-orange.svg)](https://hono.dev/)
 
-Before you begin, ensure you have the following installed:
-- [Node.js](https://nodejs.org/) (Latest LTS version recommended)
+## 📋 Table of Contents
+
+- [Features](#features)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Usage](#usage)
+- [API Documentation](#api-documentation)
+- [Database](#database)
+- [Project Structure](#project-structure)
+- [Contributing](#contributing)
+- [License](#license)
+
+## ✨ Features
+
+- RESTful API with CRUD operations
+- PostgreSQL database integration using Drizzle ORM
+- Authentication middleware
+- TypeScript support
+- Docker containerization
+- Environment-based configuration
+- Database migrations
+- Input validation
+
+## 🔧 Prerequisites
+
+- [Node.js](https://nodejs.org/) (v18 or higher)
+- [pnpm](https://pnpm.io/) (v8 or higher)
 - [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/)
 - [Git](https://git-scm.com/)
 
-## Project Setup
+## 🚀 Installation
 
 1. Clone the repository:
    ```bash
@@ -19,81 +47,177 @@ Before you begin, ensure you have the following installed:
 
 2. Install dependencies:
    ```bash
-   npm install
+   pnpm install
    ```
 
-3. Create a `.env` file in the root directory with the following content:
+3. Create environment configuration:
+   ```bash
+   cp .env.example .env
    ```
+   Update the `.env` file with your configuration:
+   ```env
    DATABASE_URL=postgres://postgres:postgres@localhost:5432/hono_db
+   ACCESS_TOKEN=your-secret-token-123
    ```
 
-4. Start the PostgreSQL database using Docker:
+4. Start the database:
    ```bash
    docker-compose up -d
    ```
 
-5. Run database migrations:
+5. Run migrations:
    ```bash
-   npm run migrate
+   pnpm run migrate
    ```
 
-## Available Scripts
+## ⚙️ Configuration
 
-- `npm run dev` - Start the development server
-- `npm run generate` - Generate database migrations
-- `npm run migrate` - Run database migrations
-- `npm run studio` - Open Drizzle Studio for database management
+### Environment Variables
 
-## Development
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `DATABASE_URL` | PostgreSQL connection URL | `postgres://postgres:postgres@localhost:5432/hono_db` |
+| `ACCESS_TOKEN` | Authentication token for API access | `your-secret-token-123` |
 
-1. Start the development server:
-   ```bash
-   npm run dev
-   ```
+## 📝 Usage
 
-2. The server will be running at `http://localhost:3000`
+### Development
 
-3. To manage your database through Drizzle Studio:
-   ```bash
-   npm run studio
-   ```
+Start the development server:
+```bash
+pnpm run dev
+```
+The server will be running at `http://localhost:3000`
 
-## API Endpoints
+### Database Management
 
-- `GET /` - Welcome message
-- `GET /users` - Get all users
-- `POST /users` - Create a new user
-  - Required fields: `name` and `email`
+Access Drizzle Studio for database management:
+```bash
+pnpm run studio
+```
 
-## Database Configuration
+### Available Scripts
 
-The project uses PostgreSQL with the following default configuration:
+| Command | Description |
+|---------|-------------|
+| `pnpm run dev` | Start development server |
+| `pnpm run generate` | Generate database migrations |
+| `pnpm run migrate` | Run database migrations |
+| `pnpm run studio` | Open Drizzle Studio |
+
+## 📚 API Documentation
+
+### Authentication
+
+All endpoints require Bearer token authentication:
+```http
+Authorization: Bearer your-secret-token-123
+```
+
+### Endpoints
+
+#### User Management
+
+##### Create User
+```http
+POST /users
+Content-Type: application/json
+
+{
+    "name": "John Doe",
+    "email": "john@example.com"
+}
+```
+
+##### Get All Users
+```http
+GET /users
+```
+
+##### Get User by ID
+```http
+GET /users/:id
+```
+
+##### Update User
+```http
+PUT /users/:id
+Content-Type: application/json
+
+{
+    "name": "John Updated"
+}
+```
+
+##### Delete User
+```http
+DELETE /users/:id
+```
+
+### Response Codes
+
+| Status Code | Description |
+|-------------|-------------|
+| 200 | Success |
+| 201 | Created |
+| 400 | Bad Request |
+| 401 | Unauthorized |
+| 404 | Not Found |
+| 500 | Server Error |
+
+## 💾 Database
+
+### Configuration
+
 - Host: localhost
 - Port: 5432
 - User: postgres
 - Password: postgres
 - Database: hono_db
 
-## Project Structure
+### Schema
+
+```sql
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    email TEXT NOT NULL UNIQUE,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+```
+
+## 📁 Project Structure
 
 ```
 clens-hono-kit/
 ├── src/
-│   ├── db/
-│   │   ├── config.ts    # Database configuration
-│   │   ├── schema.ts    # Database schema
-│   │   └── migrate.ts   # Migration script
-│   └── index.ts         # Main application file
-├── drizzle/             # Migration files
-├── docker-compose.yml   # Docker configuration
-└── package.json         # Project dependencies
+│   ├── controllers/    # Route handlers
+│   ├── db/            # Database configuration and schemas
+│   ├── middlewares/   # Custom middlewares
+│   ├── services/      # Business logic
+│   ├── utils/         # Utility functions
+│   └── index.ts       # Application entry point
+├── drizzle/           # Database migrations
+├── tests/            # Test files
+├── docker-compose.yml
+├── .env.example
+└── package.json
 ```
 
-## Contributing
+## 🤝 Contributing
 
-1. Create a new branch for your feature
-2. Make your changes
-3. Submit a pull request
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+Built with ❤️ using [Hono](https://hono.dev/) and [Drizzle ORM](https://orm.drizzle.team/)
 
 ```
 open http://localhost:3000
