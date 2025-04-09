@@ -2,7 +2,7 @@ import { eq, isNull, and } from 'drizzle-orm';
 import { db } from '../db/dbConfig.js';
 import { users } from '../db/schema.js';
 import { NotFoundError } from '../utils/error.js';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 import { env } from '../utils/env.js';
 
 export type UserType = 'admin' | 'civilian' | 'collector';
