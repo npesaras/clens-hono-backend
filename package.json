@@ -1,0 +1,26 @@
+{
+  "name": "clens-hono-kit",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "generate": "drizzle-kit generate",
+    "migrate": "tsx src/db/migrate.ts",
+    "studio": "drizzle-kit studio"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.14.0",
+    "dotenv": "^16.4.7",
+    "drizzle-orm": "^0.41.0",
+    "hono": "^4.7.6",
+    "pg": "^8.14.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.30",
+    "@types/pg": "^8.11.11",
+    "drizzle-kit": "^0.30.6",
+    "esbuild-register": "^3.6.0",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.3"
+  }
+}
