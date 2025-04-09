@@ -2,7 +2,7 @@
   "name": "clens-hono-kit",
   "type": "module",
   "scripts": {
-    "dev": "tsx watch src/index.ts",
+    "dev": "tsx watch --tsconfig tsconfig.json src/index.ts",
     "generate": "drizzle-kit generate",
     "migrate": "tsx src/db/migrate.ts",
     "studio": "drizzle-kit studio"
@@ -19,6 +19,7 @@
   "devDependencies": {
     "@types/node": "^20.17.30",
     "@types/pg": "^8.11.11",
+    "cross-env": "^7.0.3",
     "drizzle-kit": "^0.30.6",
     "esbuild-register": "^3.6.0",
     "ts-node": "^10.9.2",
