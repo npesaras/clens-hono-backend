@@ -1,15 +1,46 @@
 # Clens Hono Kit
 
-A modern web application built with Hono.js, Drizzle ORM, and PostgreSQL.
+A modern RESTful API built with Hono.js, Drizzle ORM, and PostgreSQL, featuring user management with authentication.
 
-## Prerequisites
+[![Node.js Version](https://img.shields.io/badge/node-%3E%3D%2018.0.0-brightgreen.svg)](https://nodejs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue.svg)](https://www.typescriptlang.org/)
+[![Hono](https://img.shields.io/badge/Hono-4.x-orange.svg)](https://hono.dev/)
 
-Before you begin, ensure you have the following installed:
-- [Node.js](https://nodejs.org/) (Latest LTS version recommended)
+## 📋 Table of Contents
+
+- [Features](#features)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Usage](#usage)
+- [API Documentation](#api-documentation)
+- [Database](#database)
+- [Project Structure](#project-structure)
+- [Contributing](#contributing)
+- [License](#license)
+
+## ✨ Features
+
+- RESTful API with CRUD operations
+- PostgreSQL database integration using Drizzle ORM
+- Token-based authentication
+- TypeScript support
+- Docker containerization
+- Environment-based configuration
+- Database migrations with Drizzle Kit
+- Input validation using Zod
+- Soft delete functionality
+- User type management (admin, civilian, collector)
+
+## 🔧 Prerequisites
+
+- [Node.js](https://nodejs.org/) (v18 or higher)
+- [pnpm](https://pnpm.io/) (v8 or higher)
 - [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/)
 - [Git](https://git-scm.com/)
+- [PostgreSQL](https://www.postgresql.org/) (via Docker)
 
-## Project Setup
+## 🚀 Installation
 
 1. Clone the repository:
    ```bash
@@ -19,82 +50,93 @@ Before you begin, ensure you have the following installed:
 
 2. Install dependencies:
    ```bash
-   npm install
+   pnpm install
    ```
 
-3. Create a `.env` file in the root directory with the following content:
+3. Create environment configuration:
+   ```bash
+   cp .env.example .env
    ```
+
+4. Update the `.env` file with your configuration:
+   ```env
+   NODE_ENV=development
+   PORT=3000
    DATABASE_URL=postgres://postgres:postgres@localhost:5432/hono_db
+   ACCESS_TOKEN=your-secret-token-123
+   SALT_ROUNDS=10
+   RATE_LIMIT_WINDOW=900000
+   RATE_LIMIT_MAX=100
+   HEALTH_CHECK_PATH=/health
    ```
 
-4. Start the PostgreSQL database using Docker:
+5. Start the database:
    ```bash
    docker-compose up -d
    ```
 
-5. Run database migrations:
+6. Run migrations:
    ```bash
-   npm run migrate
+   pnpm run migrate
    ```
 
-## Available Scripts
 
-- `npm run dev` - Start the development server
-- `npm run generate` - Generate database migrations
-- `npm run migrate` - Run database migrations
-- `npm run studio` - Open Drizzle Studio for database management
+## 📝 Usage
 
-## Development
+### Development
 
-1. Start the development server:
-   ```bash
-   npm run dev
-   ```
+Start the development server:
+```bash
+pnpm run dev
+```
+The server will be running at `http://localhost:3000`
 
-2. The server will be running at `http://localhost:3000`
+### Database Management
 
-3. To manage your database through Drizzle Studio:
-   ```bash
-   npm run studio
-   ```
+Generate migrations:
+```bash
+pnpm run generate
+```
 
-## API Endpoints
+Run migrations:
+```bash
+pnpm run migrate
+```
 
-- `GET /` - Welcome message
-- `GET /users` - Get all users
-- `POST /users` - Create a new user
-  - Required fields: `name` and `email`
+Access Drizzle Studio:
+```bash
+pnpm run studio
+```
 
-## Database Configuration
+## 📚 API Documentation
 
-The project uses PostgreSQL with the following default configuration:
-- Host: localhost
-- Port: 5432
-- User: postgres
-- Password: postgres
-- Database: hono_db
+### Response Codes
 
-## Project Structure
+| Status Code | Description |
+|-------------|-------------|
+| 200 | Success |
+| 201 | Created |
+| 400 | Bad Request - Invalid input |
+| 401 | Unauthorized - Missing or invalid token |
+| 404 | Not Found - Resource doesn't exist |
+| 409 | Conflict - Username/email already exists |
+| 500 | Server Error |
+
+## 📁 Project Structure
 
 ```
 clens-hono-kit/
 ├── src/
-│   ├── db/
-│   │   ├── config.ts    # Database configuration
-│   │   ├── schema.ts    # Database schema
-│   │   └── migrate.ts   # Migration script
-│   └── index.ts         # Main application file
-├── drizzle/             # Migration files
-├── docker-compose.yml   # Docker configuration
-└── package.json         # Project dependencies
-```
-
-## Contributing
-
-1. Create a new branch for your feature
-2. Make your changes
-3. Submit a pull request
-
-```
-open http://localhost:3000
+│   ├── controllers/     # Route handlers and request validation
+│   │   └── users/      # User-related controllers
+│   ├── db/             # Database configuration and schemas
+│   ├── middlewares/    # Authentication and other middlewares
+│   ├── services/       # Business logic and data access
+│   ├── utils/          # Utility functions and error handling
+│   └── index.ts        # Application entry point
+├── drizzle/            # Database migrations
+├── tests/              # Test files
+├── docker-compose.yml  # Docker services configuration
+├── .env.example        # Environment variables template
+└── package.json        # Project dependencies and scripts
 ```

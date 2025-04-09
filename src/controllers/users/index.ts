@@ -1,14 +1,28 @@
 import { Context } from 'hono';
 import { StatusCodes } from 'http-status-codes';
 import { z } from 'zod';
-import { createUser, deleteUser, getUserById, getUsers, updateUser } from '@/services/user';
+import { createUser, deleteUser, getUserById, getUsers, updateUser, UserType } from '@/services/user';
+
+const userTypeEnum = z.enum(['admin', 'civilian', 'collector']);
 
 const createUserSchema = z.object({
-  name: z.string().min(1, 'Name is required'),
-  email: z.string().email('Invalid email format')
+  usertype: userTypeEnum,
+  username: z.string().min(3, 'Username must be at least 3 characters'),
+  email: z.string().email('Invalid email format'),
+  firstname: z.string().min(1, 'First name is required'),
+  middlename: z.string().min(1, 'Middle name is required'),
+  lastname: z.string().min(1, 'Last name is required'),
+  password: z.string().min(8, 'Password must be at least 8 characters')
 });
 
-const updateUserSchema = createUserSchema.partial();
+const updateUserSchema = z.object({
+  usertype: userTypeEnum.optional(),
+  username: z.string().min(3, 'Username must be at least 3 characters').optional(),
+  email: z.string().email('Invalid email format').optional(),
+  firstname: z.string().min(1, 'First name is required').optional(),
+  middlename: z.string().min(1, 'Middle name is required').optional(),
+  lastname: z.string().min(1, 'Last name is required').optional()
+});
 
 export async function getUsersController(c: Context) {
   const users = await getUsers();
