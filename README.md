@@ -23,12 +23,14 @@ A modern RESTful API built with Hono.js, Drizzle ORM, and PostgreSQL, featuring 
 
 - RESTful API with CRUD operations
 - PostgreSQL database integration using Drizzle ORM
-- Authentication middleware
+- Token-based authentication
 - TypeScript support
 - Docker containerization
 - Environment-based configuration
-- Database migrations
-- Input validation
+- Database migrations with Drizzle Kit
+- Input validation using Zod
+- Soft delete functionality
+- User type management (admin, civilian, collector)
 
 ## 🔧 Prerequisites
 
@@ -36,6 +38,7 @@ A modern RESTful API built with Hono.js, Drizzle ORM, and PostgreSQL, featuring 
 - [pnpm](https://pnpm.io/) (v8 or higher)
 - [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/)
 - [Git](https://git-scm.com/)
+- [PostgreSQL](https://www.postgresql.org/) (via Docker)
 
 ## 🚀 Installation
 
@@ -54,30 +57,29 @@ A modern RESTful API built with Hono.js, Drizzle ORM, and PostgreSQL, featuring 
    ```bash
    cp .env.example .env
    ```
-   Update the `.env` file with your configuration:
+
+4. Update the `.env` file with your configuration:
    ```env
+   NODE_ENV=development
+   PORT=3000
    DATABASE_URL=postgres://postgres:postgres@localhost:5432/hono_db
    ACCESS_TOKEN=your-secret-token-123
+   SALT_ROUNDS=10
+   RATE_LIMIT_WINDOW=900000
+   RATE_LIMIT_MAX=100
+   HEALTH_CHECK_PATH=/health
    ```
 
-4. Start the database:
+5. Start the database:
    ```bash
    docker-compose up -d
    ```
 
-5. Run migrations:
+6. Run migrations:
    ```bash
    pnpm run migrate
    ```
 
-## ⚙️ Configuration
-
-### Environment Variables
-
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `DATABASE_URL` | PostgreSQL connection URL | `postgres://postgres:postgres@localhost:5432/hono_db` |
-| `ACCESS_TOKEN` | Authentication token for API access | `your-secret-token-123` |
 
 ## 📝 Usage
 
@@ -91,68 +93,22 @@ The server will be running at `http://localhost:3000`
 
 ### Database Management
 
-Access Drizzle Studio for database management:
+Generate migrations:
+```bash
+pnpm run generate
+```
+
+Run migrations:
+```bash
+pnpm run migrate
+```
+
+Access Drizzle Studio:
 ```bash
 pnpm run studio
 ```
 
-### Available Scripts
-
-| Command | Description |
-|---------|-------------|
-| `pnpm run dev` | Start development server |
-| `pnpm run generate` | Generate database migrations |
-| `pnpm run migrate` | Run database migrations |
-| `pnpm run studio` | Open Drizzle Studio |
-
 ## 📚 API Documentation
-
-### Authentication
-
-All endpoints require Bearer token authentication:
-```http
-Authorization: Bearer your-secret-token-123
-```
-
-### Endpoints
-
-#### User Management
-
-##### Create User
-```http
-POST /users
-Content-Type: application/json
-
-{
-    "name": "John Doe",
-    "email": "john@example.com"
-}
-```
-
-##### Get All Users
-```http
-GET /users
-```
-
-##### Get User by ID
-```http
-GET /users/:id
-```
-
-##### Update User
-```http
-PUT /users/:id
-Content-Type: application/json
-
-{
-    "name": "John Updated"
-}
-```
-
-##### Delete User
-```http
-DELETE /users/:id
-```
 
 ### Response Codes
 
@@ -160,65 +116,27 @@ DELETE /users/:id
 |-------------|-------------|
 | 200 | Success |
 | 201 | Created |
-| 400 | Bad Request |
-| 401 | Unauthorized |
-| 404 | Not Found |
+| 400 | Bad Request - Invalid input |
+| 401 | Unauthorized - Missing or invalid token |
+| 404 | Not Found - Resource doesn't exist |
+| 409 | Conflict - Username/email already exists |
 | 500 | Server Error |
-
-## 💾 Database
-
-### Configuration
-
-- Host: localhost
-- Port: 5432
-- User: postgres
-- Password: postgres
-- Database: hono_db
-
-### Schema
-
-```sql
-CREATE TABLE users (
-    id SERIAL PRIMARY KEY,
-    name TEXT NOT NULL,
-    email TEXT NOT NULL UNIQUE,
-    created_at TIMESTAMP DEFAULT NOW()
-);
-```
 
 ## 📁 Project Structure
 
 ```
 clens-hono-kit/
 ├── src/
-│   ├── controllers/    # Route handlers
-│   ├── db/            # Database configuration and schemas
-│   ├── middlewares/   # Custom middlewares
-│   ├── services/      # Business logic
-│   ├── utils/         # Utility functions
-│   └── index.ts       # Application entry point
-├── drizzle/           # Database migrations
-├── tests/            # Test files
-├── docker-compose.yml
-├── .env.example
-└── package.json
-```
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-Built with ❤️ using [Hono](https://hono.dev/) and [Drizzle ORM](https://orm.drizzle.team/)
-
-```
-open http://localhost:3000
+│   ├── controllers/     # Route handlers and request validation
+│   │   └── users/      # User-related controllers
+│   ├── db/             # Database configuration and schemas
+│   ├── middlewares/    # Authentication and other middlewares
+│   ├── services/       # Business logic and data access
+│   ├── utils/          # Utility functions and error handling
+│   └── index.ts        # Application entry point
+├── drizzle/            # Database migrations
+├── tests/              # Test files
+├── docker-compose.yml  # Docker services configuration
+├── .env.example        # Environment variables template
+└── package.json        # Project dependencies and scripts
 ```
