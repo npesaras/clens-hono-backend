@@ -3,7 +3,7 @@ import { StatusCodes } from 'http-status-codes';
 import { z } from 'zod';
 import { createUser, deleteUser, getUserById, getUsers, updateUser, UserType } from '@/services/user';
 
-const userTypeEnum = z.enum(['admin', 'civilian', 'collector']);
+const userTypeEnum = z.enum(['admin', 'civilian', 'collector']); //defined in schema
 
 const createUserSchema = z.object({
   usertype: userTypeEnum,
