@@ -1,12 +1,13 @@
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
-import { errorHandlerMiddleware } from './middlewares/error-handler.js'
-import { routes } from './controllers/routes.js'
-import { env } from './utils/env.js'
-import { db } from './db/dbConfig.js'
+import { errorHandlerMiddleware } from '@/middlewares/error-handler'
+import { routes } from '@/controllers/routes'
+import { env } from '@/utils/env'
+import { db } from '@/db/dbConfig'
 import { cors } from 'hono/cors'
 import { sql } from 'drizzle-orm'
-import { users } from './db/schema.js'
+import { users } from '@/db/schema'
+
 
 const app = new Hono()
 

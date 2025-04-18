@@ -1,4 +1,4 @@
-import { makeError } from '../utils/error.js';
+import { makeError } from '@/utils/error';
 import { type Context } from 'hono';
 
 export async function errorHandlerMiddleware(err: Error, c: Context) {
