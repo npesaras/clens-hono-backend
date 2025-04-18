@@ -1,4 +1,5 @@
-import usersRoutes from "./users/routes";
+import { Hono } from 'hono';
+import usersRoutes from '@/controllers/users/routes';
 
 export const routes = [usersRoutes] as const;
 

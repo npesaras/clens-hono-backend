@@ -1,9 +1,9 @@
 import { eq, isNull, and } from 'drizzle-orm';
-import { db } from '../db/dbConfig.js';
-import { users } from '../db/schema.js';
-import { NotFoundError } from '../utils/error.js';
+import { db } from '@/db/dbConfig';
+import { users } from '@/db/schema';
+import { NotFoundError } from '@/utils/error';
 import bcrypt from 'bcryptjs';
-import { env } from '../utils/env.js';
+import { env } from '@/utils/env';
 
 export type UserType = 'admin' | 'civilian' | 'collector';
 
