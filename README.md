@@ -16,8 +16,9 @@ A modern RESTful API built with Hono.js, Drizzle ORM, and PostgreSQL, featuring 
 - [Database](#database)
 - [Project Structure](#project-structure)
 
+<br>
 
-## ✨ Features
+# Features
 
 - RESTful API with CRUD operations
 - PostgreSQL database integration using Drizzle ORM
@@ -30,7 +31,9 @@ A modern RESTful API built with Hono.js, Drizzle ORM, and PostgreSQL, featuring 
 - Soft delete functionality
 - User type management (admin, civilian, collector)
 
-## 🔧 Prerequisites
+<br>
+
+# Prerequisites
 
 - [Node.js](https://nodejs.org/) (v18 or higher)
 - [pnpm](https://pnpm.io/) (v8 or higher)
@@ -38,7 +41,9 @@ A modern RESTful API built with Hono.js, Drizzle ORM, and PostgreSQL, featuring 
 - [Git](https://git-scm.com/)
 - [PostgreSQL](https://www.postgresql.org/) (via Docker)
 
-## 🚀 Installation
+<br>
+
+# Installation
 
 1. Clone the repository:
    ```bash
@@ -78,16 +83,19 @@ A modern RESTful API built with Hono.js, Drizzle ORM, and PostgreSQL, featuring 
    pnpm run migrate
    ```
 
+<br>
 
-## 📝 Usage
+# Usage
 
-### Development
+
+### Database
 
 Start the development server:
 ```bash
 pnpm run dev
 ```
 The server will be running at `http://localhost:3000`
+
 
 ### Database Management
 
@@ -106,9 +114,11 @@ Access Drizzle Studio:
 pnpm run studio
 ```
 
-## 📚 API Documentation
+<br>
 
-### Response Codes
+# API Documentation
+
+## Response Codes
 
 | Status Code | Description |
 |-------------|-------------|
@@ -120,7 +130,9 @@ pnpm run studio
 | 409 | Conflict - Username/email already exists |
 | 500 | Server Error |
 
-## 📁 Project Structure
+<br>
+
+# Project-Structure
 
 ```
 clens-hono-kit/
