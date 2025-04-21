@@ -11,7 +11,7 @@ import {
 const router = new Hono()
   .get("/users", authenticationMiddleware, getUsersController)
   .post("/users", authenticationMiddleware, createUserController)
-  .get("/users/public", (c) => c.text("Public User"))
+  //.get("/users/public", (c) => c.text("Public User"))
   .get("/users/:id", authenticationMiddleware, getUserController)
   .delete("/users/:id", authenticationMiddleware, deleteUserController)
   .put("/users/:id", authenticationMiddleware, updateUserController);
