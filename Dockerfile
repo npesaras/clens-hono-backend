@@ -33,12 +33,4 @@ RUN if [ ! -f .env ]; then \
 EXPOSE 5000
 
 # Create a startup script directly in the Dockerfile
-CMD echo "Waiting for postgres..." && \
-    until PGPASSWORD=postgres pg_isready -h postgres -U postgres; do \
-      echo "Postgres is unavailable - sleeping"; \
-      sleep 2; \
-    done && \
-    echo "Postgres is up - running migrations" && \
-    pnpm migrate && \
-    echo "Starting application..." && \
-    exec pnpm dev 
+CMD ["sh", "-c", "echo 'Waiting for postgres...' && until PGPASSWORD=postgres pg_isready -h postgres -U postgres; do echo 'Postgres is unavailable - sleeping'; sleep 2; done && echo 'Postgres is up - running migrations' && pnpm migrate && echo 'Starting application...' && exec pnpm dev"] 
