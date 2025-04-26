@@ -11,7 +11,7 @@ import {
   getUserController,
   getUsersController,
   updateUserController,
-} from "./index.js";
+} from "./userController.js";
 
 /**
  * User Router Configuration
