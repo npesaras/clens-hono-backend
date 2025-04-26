@@ -5,11 +5,26 @@ services:
       dockerfile: Dockerfile
     container_name: hono-api
     ports:
-      - "3000:3000"
+      - "5000:5000"
     depends_on:
       - postgres
     environment:
       - NODE_ENV=production
+      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/hono_db
+    restart: unless-stopped
+
+  drizzle-studio:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: drizzle-studio
+    command: pnpm studio
+    ports:
+      - "4000:4000"
+    depends_on:
+      - postgres
+      - app
+    environment:
       - DATABASE_URL=postgres://postgres:postgres@postgres:5432/hono_db
     restart: unless-stopped
 
