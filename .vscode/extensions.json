@@ -1,0 +1,17 @@
+{
+    "recommendations": [
+        // recommended extensions
+        "aaron-bond.better-comments", //better comments
+        "ritwickdey.LiveServer", //live server
+        "esbenp.prettier-vscode", //prettier
+        "wmaurer.change-case", //change-case
+        "streetsidesoftware.code-spell-checker", //code spell checker
+        "PKief.material-icon-theme", //material icon theme        
+        "dbaeumer.vscode-eslint", //eslint
+        "oderwat.indent-rainbow", //indent rainbow
+
+        //web development
+        "humaoid.rest-client",
+        "christian-kohler.npm-intellisense", //npm intelligence
+    ]
+}
