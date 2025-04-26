@@ -1,17 +1,17 @@
 {
   "compilerOptions": {
     /* Defaults */
-    "target": "ESNext", // Target ECMAScript version
-    "moduleResolution": "Bundler", // Module resolution strategy
-    "esModuleInterop": true, // Enable ES modules interoperability
-    "skipLibCheck": true, // Skip type checking for external libraries
-    "allowJs": true, // Allow JavaScript files to be included in the project
-    "checkJs": true, // Enable type checking for JavaScript files
-    "resolveJsonModule": true, // Enable JSON module resolution
-    "moduleDetection": "force", // Force module detection
+    "target": "ESNext",
+    "moduleResolution": "Bundler", 
+    "esModuleInterop": true, 
+    "skipLibCheck": true, 
+    "allowJs": true, 
+    "checkJs": true, 
+    "resolveJsonModule": true, 
+    "moduleDetection": "force", 
     "forceConsistentCasingInFileNames": true, // Enforce consistent casing in file names
-    "strict": true, // Enable all strict type checking options
-    "noUncheckedIndexedAccess": true, // Enable indexed access with undefined checks
+    "strict": true, 
+    "noUncheckedIndexedAccess": true, 
 
     /* Paths */
     "baseUrl": ".", // Base URL for resolving imports
