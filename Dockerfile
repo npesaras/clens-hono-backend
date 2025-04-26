@@ -20,7 +20,7 @@ COPY . .
 # Note: We set DATABASE_URL to postgres:5432 which is the docker-compose service name
 RUN if [ ! -f .env ]; then \
     echo "NODE_ENV=production" > .env && \
-    echo "PORT=5000" >> .env && \  
+    echo "PORT=5000" >> .env && \
     echo "DATABASE_URL=postgres://postgres:postgres@postgres:5432/hono_db?sslmode=disable" >> .env && \
     echo "ACCESS_TOKEN=your-secret-token-123" >> .env && \
     echo "SALT_ROUNDS=10" >> .env && \
@@ -29,11 +29,16 @@ RUN if [ ! -f .env ]; then \
     echo "HEALTH_CHECK_PATH=/health" >> .env; \
     fi
 
-# Fix line endings in the script and make it executable
-RUN sed -i 's/\r$//' scripts/dockerStart.sh && chmod +x scripts/dockerStart.sh
-
 # Expose the port the app runs on
 EXPOSE 5000
 
-# Use the start script as dockerStart.sh
-CMD ["/bin/sh", "./scripts/dockerStart.sh"] 
+# Create a startup script directly in the Dockerfile
+CMD echo "Waiting for postgres..." && \
+    until PGPASSWORD=postgres pg_isready -h postgres -U postgres; do \
+      echo "Postgres is unavailable - sleeping"; \
+      sleep 2; \
+    done && \
+    echo "Postgres is up - running migrations" && \
+    pnpm migrate && \
+    echo "Starting application..." && \
+    exec pnpm dev 
