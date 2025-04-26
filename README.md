@@ -31,7 +31,7 @@ A modern RESTful API built with Hono.js, Drizzle ORM, and PostgreSQL, featuring 
 
 1. Clone the repository:
    ```bash
-   git clone <your-repository-url>
+   git clone https://github.com/npesaras/clens-hono-backend.git
    cd clens-hono-kit
    ```
 
