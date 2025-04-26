@@ -11,7 +11,7 @@ services:
         condition: service_healthy
     environment:
       - NODE_ENV=production
-      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/hono_db
+      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/hono_db?sslmode=disable
       - ACCESS_TOKEN=your-secret-token-123
     restart: unless-stopped
 
@@ -29,7 +29,7 @@ services:
       app:
         condition: service_started
     environment:
-      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/hono_db
+      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/hono_db?sslmode=disable
     restart: unless-stopped
 
   postgres:
