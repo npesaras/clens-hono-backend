@@ -8,28 +8,13 @@ A modern RESTful API built with Hono.js, Drizzle ORM, and PostgreSQL, featuring 
 
 ## 📋 Table of Contents
 
-- [Features](#features)
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
+- [Docker Setup](#docker-setup)
 - [Usage](#usage)
 - [API Documentation](#api-documentation)
 - [Database](#database)
 - [Project Structure](#project-structure)
-
-<br>
-
-# Features
-
-- RESTful API with CRUD operations
-- PostgreSQL database integration using Drizzle ORM
-- Token-based authentication
-- TypeScript support
-- Docker containerization
-- Environment-based configuration
-- Database migrations with Drizzle Kit
-- Input validation using Zod
-- Soft delete functionality
-- User type management (admin, civilian, collector)
 
 <br>
 
@@ -43,7 +28,7 @@ A modern RESTful API built with Hono.js, Drizzle ORM, and PostgreSQL, featuring 
 
 <br>
 
-# Installation
+# Docker Setup
 
 1. Clone the repository:
    ```bash
@@ -51,36 +36,33 @@ A modern RESTful API built with Hono.js, Drizzle ORM, and PostgreSQL, featuring 
    cd clens-hono-kit
    ```
 
-2. Install dependencies:
-   ```bash
-   pnpm install
-   ```
-
-3. Create environment configuration:
-   ```bash
-   cp .env.example .env
-   ```
-
-4. Update the `.env` file with your configuration:
-   ```env
-   NODE_ENV=development
-   PORT=3000
-   DATABASE_URL=postgres://postgres:postgres@localhost:5432/hono_db
-   ACCESS_TOKEN=your-secret-token-123
-   SALT_ROUNDS=10
-   RATE_LIMIT_WINDOW=900000
-   RATE_LIMIT_MAX=100
-   HEALTH_CHECK_PATH=/health
-   ```
-
-5. Start the database:
+2. Build and start all services with Docker Compose:
    ```bash
    docker-compose up -d
    ```
 
-6. Run migrations:
+   This will start three containers:
+   - **hono-api**: The main application on port 5000
+   - **drizzle-studio**: Database management UI on port 4000
+   - **hono-drizzle-db**: PostgreSQL database on port 5432
+
+3. Check if containers are running properly:
    ```bash
-   pnpm run migrate
+   docker ps
+   ```
+
+4. Once running, you can access:
+   - API at `http://localhost:5000`
+   - Drizzle Studio at `http://localhost:4000`
+
+5. To view application logs:
+   ```bash
+   docker logs hono-api
+   ```
+
+6. To stop all containers:
+   ```bash
+   docker-compose down
    ```
 
 <br>
