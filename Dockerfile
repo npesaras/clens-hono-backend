@@ -17,10 +17,11 @@ RUN pnpm install --frozen-lockfile
 COPY . .
 
 # Create a .env file if it doesn't exist
+# Note: We set DATABASE_URL to postgres:5432 which is the docker-compose service name
 RUN if [ ! -f .env ]; then \
     echo "NODE_ENV=production" > .env && \
     echo "PORT=5000" >> .env && \  
-    echo "DATABASE_URL=postgres://postgres:postgres@postgres:5432/hono_db" >> .env && \
+    echo "DATABASE_URL=postgres://postgres:postgres@postgres:5432/hono_db?sslmode=disable" >> .env && \
     echo "ACCESS_TOKEN=your-secret-token-123" >> .env && \
     echo "SALT_ROUNDS=10" >> .env && \
     echo "RATE_LIMIT_WINDOW=900000" >> .env && \
