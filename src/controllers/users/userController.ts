@@ -1,7 +1,7 @@
 import { Context } from 'hono';
 import { StatusCodes } from 'http-status-codes';
-import { createUser, deleteUser, getUserById, getUsers, updateUser } from '@/services/user';
-import { validateCreateUser, validateUpdateUser, parseUserId } from '@/utils/users/user';
+import { createUser, deleteUser, getUserById, getUsers, updateUser } from '@/services/userService';
+import { validateCreateUser, validateUpdateUser, parseUserId } from '@/utils/users/userUtil';
 
 /**
  * Get all active users (non-deleted users)
