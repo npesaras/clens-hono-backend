@@ -1,0 +1,24 @@
+{
+  "workbench.colorTheme": "Gruvbox Dark Medium",
+  "workbench.iconTheme": "material-icon-theme",
+  "workbench.sideBar.location": "right",
+  "breadcrumbs.enabled": false,
+  "workbench.tree.renderIndentGuides": "none",
+  "workbench.tree.enableStickyScroll": false,
+  //editor
+  "editor.fontFamily": "Dank Mono, monospace",
+  "editor.fontLigatures": true,
+  "editor.lineHeight": 1.7,
+  "editor.guides.bracketPairs": true,
+  "editor.fontSize": 16,
+  "editor.codeActions.triggerOnFocusChange": true,
+  "editor.mouseWheelZoom": true,
+  "editor.minimap.enabled": false,
+  //files
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 1000,
+  //explorer
+  "explorer.compactFolders": false,
+  //custom ui
+  "custom-ui-style.font.sansSerif": "Dank Mono"
+}
