@@ -11,7 +11,7 @@
         "oderwat.indent-rainbow", //indent rainbow
 
         //web development
-        "humaoid.rest-client",
+        "humaoid.rest-client", //rest client
         "christian-kohler.npm-intellisense", //npm intelligence
     ]
 }
