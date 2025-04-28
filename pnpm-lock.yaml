@@ -11,6 +11,9 @@ importers:
       '@hono/node-server':
         specifier: ^1.14.0
         version: 1.14.0(hono@4.7.6)
+      '@hono/swagger-ui':
+        specifier: ^0.5.1
+        version: 0.5.1(hono@4.7.6)
       bcryptjs:
         specifier: ^2.4.3
         version: 2.4.3
@@ -503,6 +506,11 @@ packages:
     engines: {node: '>=18.14.1'}
     peerDependencies:
       hono: ^4
+
+  '@hono/swagger-ui@0.5.1':
+    resolution: {integrity: sha512-XpUCfszLJ9b1rtFdzqOSHfdg9pfBiC2J5piEjuSanYpDDTIwpMz0ciiv5N3WWUaQpz9fEgH8lttQqL41vIFuDA==}
+    peerDependencies:
+      hono: '*'
 
   '@jridgewell/resolve-uri@3.1.2':
     resolution: {integrity: sha512-bRISgCIjP20/tbWSPWMEi54QVPRZExkuD9lJL+UIxUKtwVJA8wW1Trb1jMs1RFXo1CBTNZ/5hpC9QvmKWdopKw==}
@@ -1130,6 +1138,10 @@ snapshots:
     optional: true
 
   '@hono/node-server@1.14.0(hono@4.7.6)':
+    dependencies:
+      hono: 4.7.6
+
+  '@hono/swagger-ui@0.5.1(hono@4.7.6)':
     dependencies:
       hono: 4.7.6
 
