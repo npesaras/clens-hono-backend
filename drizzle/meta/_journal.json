@@ -5,36 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1744203444994,
-      "tag": "0000_boring_venom",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1749981585207,
-      "tag": "0001_brave_cable",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1749981876335,
-      "tag": "0002_yummy_dragon_man",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1749982194140,
-      "tag": "0003_worthless_speed",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1749982959810,
-      "tag": "0004_amazing_fixer",
+      "when": 1749988400999,
+      "tag": "0000_tranquil_wither",
       "breakpoints": true
     }
   ]
