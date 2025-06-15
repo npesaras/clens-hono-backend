@@ -3,21 +3,22 @@
  * This module contains all admin-related request handlers
  */
 
-import type { Context } from "hono";
-import { 
-  createAdmin, 
-  getAdmins, 
-  getAdminById, 
+import type { Context } from 'hono';
+
+import {
+  createAdmin,
+  getAdmins,
+  getAdminById,
   getAdminByUserId,
-  updateAdmin, 
-  deleteAdmin 
-} from "@/services/adminService.js";
-import { 
-  validateCreateAdmin, 
-  validateUpdateAdmin, 
-  parseAdminId 
-} from "@/utils/admin/adminUtil.js";
-import { BadRequestError } from "@/utils/error.js";
+  updateAdmin,
+  deleteAdmin,
+} from '@/services/adminService.js';
+import {
+  validateCreateAdmin,
+  validateUpdateAdmin,
+  parseAdminId,
+} from '@/utils/admin/adminUtil.js';
+import { BadRequestError } from '@/utils/error.js';
 
 /**
  * Get all admins with their associated user information
