@@ -1,8 +1,8 @@
-import { eq, and } from 'drizzle-orm';
+import { and, eq } from 'drizzle-orm';
 
 import { db } from '@/db/dbConfig';
 import { waterQualityStatistics } from '@/db/schema';
-import { NotFoundError } from '@/utils/error';
+import { assertFound } from '@/middlewares/error-handler';
 
 export type CreateWaterQualityStatisticsInput = {
   interval: 'day' | 'week' | 'month' | 'year';
@@ -49,9 +49,11 @@ export async function getWaterQualityStatisticsById(
     );
 
   const foundWaterQualityStatistics = result[0];
-  if (!foundWaterQualityStatistics) {
-    throw new NotFoundError('Water quality statistics not found');
-  }
+  assertFound(
+    foundWaterQualityStatistics,
+    'Water quality statistics',
+    `${interval}/${startDate}`
+  );
 
   return foundWaterQualityStatistics;
 }
@@ -72,9 +74,11 @@ export async function updateWaterQualityStatistics(
     )
     .returning();
 
-  if (!updatedWaterQualityStatistics) {
-    throw new NotFoundError('Water quality statistics not found');
-  }
+  assertFound(
+    updatedWaterQualityStatistics,
+    'Water quality statistics',
+    `${interval}/${startDate}`
+  );
 
   return updatedWaterQualityStatistics;
 }
@@ -93,9 +97,11 @@ export async function deleteWaterQualityStatistics(
     )
     .returning();
 
-  if (!deletedWaterQualityStatistics) {
-    throw new NotFoundError('Water quality statistics not found');
-  }
+  assertFound(
+    deletedWaterQualityStatistics,
+    'Water quality statistics',
+    `${interval}/${startDate}`
+  );
 
   return deletedWaterQualityStatistics;
 }

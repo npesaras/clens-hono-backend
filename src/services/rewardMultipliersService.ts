@@ -2,7 +2,7 @@ import { eq, isNull, and } from 'drizzle-orm';
 
 import { db } from '@/db/dbConfig';
 import { rewardMultipliers } from '@/db/schema';
-import { NotFoundError } from '@/utils/error';
+import { assertFound } from '@/middlewares/error-handler';
 
 export type CreateRewardMultipliersInput = {
   barangayId: number;
@@ -37,9 +37,7 @@ export async function getRewardMultipliersById(id: number) {
     .where(eq(rewardMultipliers.id, id));
 
   const foundRewardMultipliers = result[0];
-  if (!foundRewardMultipliers) {
-    throw new NotFoundError('Reward multipliers not found');
-  }
+  assertFound(foundRewardMultipliers, ' reward multipliers', id);
 
   return foundRewardMultipliers;
 }
@@ -54,9 +52,7 @@ export async function updateRewardMultipliers(
     .where(eq(rewardMultipliers.id, id))
     .returning();
 
-  if (!updatedRewardMultipliers) {
-    throw new NotFoundError('Reward multipliers not found');
-  }
+  assertFound(updatedRewardMultipliers, ' reward multipliers', id);
 
   return updatedRewardMultipliers;
 }
@@ -67,9 +63,7 @@ export async function deleteRewardMultipliers(id: number) {
     .where(eq(rewardMultipliers.id, id))
     .returning();
 
-  if (!deletedRewardMultipliers) {
-    throw new NotFoundError('Reward multipliers not found');
-  }
+  assertFound(deletedRewardMultipliers, ' reward multipliers', id);
 
   return deletedRewardMultipliers;
 }

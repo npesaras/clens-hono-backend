@@ -2,7 +2,7 @@ import { eq, isNull, and } from 'drizzle-orm';
 
 import { db } from '@/db/dbConfig';
 import { location } from '@/db/schema';
-import { NotFoundError } from '@/utils/error';
+import { assertFound } from '@/middlewares/error-handler';
 
 export type CreateLocationInput = {
   latitude: string;
@@ -28,9 +28,7 @@ export async function getLocationById(id: number) {
     .where(and(eq(location.id, id), isNull(location.deletedAt)));
 
   const foundLocation = result[0];
-  if (!foundLocation) {
-    throw new NotFoundError('Location not found');
-  }
+  assertFound(foundLocation, ' location', id);
 
   return foundLocation;
 }
@@ -42,9 +40,7 @@ export async function updateLocation(id: number, data: UpdateLocationInput) {
     .where(and(eq(location.id, id), isNull(location.deletedAt)))
     .returning();
 
-  if (!updatedLocation) {
-    throw new NotFoundError('Location not found');
-  }
+  assertFound(updatedLocation, ' location', id);
 
   return updatedLocation;
 }
@@ -56,9 +52,7 @@ export async function deleteLocation(id: number) {
     .where(and(eq(location.id, id), isNull(location.deletedAt)))
     .returning();
 
-  if (!deletedLocation) {
-    throw new NotFoundError('Location not found');
-  }
+  assertFound(deletedLocation, ' location', id);
 
   return deletedLocation;
 }

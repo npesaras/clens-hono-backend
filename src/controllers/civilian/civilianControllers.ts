@@ -5,6 +5,7 @@
 
 import type { Context } from 'hono';
 
+import { throwBadRequest } from '@/middlewares/error-handler';
 import {
   createCivilian,
   deleteCivilian,
@@ -19,7 +20,6 @@ import {
   validateCreateCivilian,
   validateUpdateCivilian,
 } from '@/utils/civilian/civilianUtil.js';
-import { BadRequestError } from '@/utils/error.js';
 
 /**
  * Get all civilians with their associated user information
@@ -106,7 +106,7 @@ export async function getCivilianLeaderboardController(c: Context) {
   const limit = limitParam ? parseInt(limitParam, 10) : 10;
 
   if (isNaN(limit) || limit < 1 || limit > 100) {
-    throw new BadRequestError('Limit must be a number between 1 and 100');
+    throwBadRequest('Limit must be a number between 1 and 100');
   }
 
   const leaderboard = await getCivilianLeaderboard(limit);

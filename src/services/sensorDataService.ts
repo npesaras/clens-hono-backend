@@ -1,8 +1,8 @@
-import { eq, isNull, and } from 'drizzle-orm';
+import { and, eq, isNull } from 'drizzle-orm';
 
 import { db } from '@/db/dbConfig';
 import { sensorData } from '@/db/schema';
-import { NotFoundError } from '@/utils/error';
+import { assertFound } from '@/middlewares/error-handler';
 
 export type CreateSensorDataInput = {
   sensorId: number;
@@ -33,9 +33,7 @@ export async function getSensorDataById(id: number) {
     .where(and(eq(sensorData.id, id), isNull(sensorData.deletedAt)));
 
   const foundSensorData = result[0];
-  if (!foundSensorData) {
-    throw new NotFoundError('Sensor data not found');
-  }
+  assertFound(foundSensorData, 'Sensor data', id);
 
   return foundSensorData;
 }
@@ -50,9 +48,7 @@ export async function updateSensorData(
     .where(and(eq(sensorData.id, id), isNull(sensorData.deletedAt)))
     .returning();
 
-  if (!updatedSensorData) {
-    throw new NotFoundError('Sensor data not found');
-  }
+  assertFound(updatedSensorData, 'Sensor data', id);
 
   return updatedSensorData;
 }
@@ -64,9 +60,7 @@ export async function deleteSensorData(id: number) {
     .where(and(eq(sensorData.id, id), isNull(sensorData.deletedAt)))
     .returning();
 
-  if (!deletedSensorData) {
-    throw new NotFoundError('Sensor data not found');
-  }
+  assertFound(deletedSensorData, 'Sensor data', id);
 
   return deletedSensorData;
 }
