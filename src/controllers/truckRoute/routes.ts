@@ -3,20 +3,22 @@
  * This module defines all truck route-related API endpoints
  */
 
-import { authenticationMiddleware } from "@/middlewares/authentication.js";
-import { Hono } from "hono";
+import { Hono } from 'hono';
+
 import {
   createTruckRouteController,
   deleteTruckRouteController,
   getTruckRouteController,
   getTruckRoutesController,
   updateTruckRouteController,
-} from "./truckRouteControllers.js";
+} from './truckRouteControllers.js';
+
+import { authenticationMiddleware } from '@/middlewares/authentication.js';
 
 /**
  * Truck Route Router Configuration
  * All routes require authentication
- * 
+ *
  * Available endpoints:
  * - GET    /truck-routes      - Retrieve all truck routes
  * - POST   /truck-routes      - Create a new truck route
@@ -26,18 +28,26 @@ import {
  */
 const router = new Hono()
   // Get all truck routes (requires authentication)
-  .get("/truck-routes", authenticationMiddleware, getTruckRoutesController)
-  
+  .get('/truck-routes', authenticationMiddleware, getTruckRoutesController)
+
   // Create a new truck route (requires authentication)
-  .post("/truck-routes", authenticationMiddleware, createTruckRouteController)
-  
+  .post('/truck-routes', authenticationMiddleware, createTruckRouteController)
+
   // Get a specific truck route by ID (requires authentication)
-  .get("/truck-routes/:id", authenticationMiddleware, getTruckRouteController)
-  
+  .get('/truck-routes/:id', authenticationMiddleware, getTruckRouteController)
+
   // Delete a truck route (requires authentication)
-  .delete("/truck-routes/:id", authenticationMiddleware, deleteTruckRouteController)
-  
+  .delete(
+    '/truck-routes/:id',
+    authenticationMiddleware,
+    deleteTruckRouteController
+  )
+
   // Update a truck route's information (requires authentication)
-  .put("/truck-routes/:id", authenticationMiddleware, updateTruckRouteController);
+  .put(
+    '/truck-routes/:id',
+    authenticationMiddleware,
+    updateTruckRouteController
+  );
 
 export default router;

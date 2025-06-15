@@ -3,20 +3,22 @@
  * This module defines all water quality statistics-related API endpoints
  */
 
-import { authenticationMiddleware } from "@/middlewares/authentication.js";
-import { Hono } from "hono";
+import { Hono } from 'hono';
+
 import {
   createWaterQualityStatisticsController,
   deleteWaterQualityStatisticsController,
   getWaterQualityStatisticsByKeyController,
   getWaterQualityStatisticsController,
   updateWaterQualityStatisticsController,
-} from "./waterQualityStatisticsControllers.js";
+} from './waterQualityStatisticsControllers.js';
+
+import { authenticationMiddleware } from '@/middlewares/authentication.js';
 
 /**
  * Water Quality Statistics Router Configuration
  * All routes require authentication
- * 
+ *
  * Available endpoints:
  * - GET    /water-quality-statistics                        - Retrieve all water quality statistics
  * - POST   /water-quality-statistics                        - Create a new water quality statistics
@@ -26,18 +28,38 @@ import {
  */
 const router = new Hono()
   // Get all water quality statistics (requires authentication)
-  .get("/water-quality-statistics", authenticationMiddleware, getWaterQualityStatisticsController)
-  
+  .get(
+    '/water-quality-statistics',
+    authenticationMiddleware,
+    getWaterQualityStatisticsController
+  )
+
   // Create a new water quality statistics (requires authentication)
-  .post("/water-quality-statistics", authenticationMiddleware, createWaterQualityStatisticsController)
-  
+  .post(
+    '/water-quality-statistics',
+    authenticationMiddleware,
+    createWaterQualityStatisticsController
+  )
+
   // Get a specific water quality statistics by composite key (requires authentication)
-  .get("/water-quality-statistics/:interval/:startDate", authenticationMiddleware, getWaterQualityStatisticsByKeyController)
-  
+  .get(
+    '/water-quality-statistics/:interval/:startDate',
+    authenticationMiddleware,
+    getWaterQualityStatisticsByKeyController
+  )
+
   // Delete a water quality statistics (requires authentication)
-  .delete("/water-quality-statistics/:interval/:startDate", authenticationMiddleware, deleteWaterQualityStatisticsController)
-  
+  .delete(
+    '/water-quality-statistics/:interval/:startDate',
+    authenticationMiddleware,
+    deleteWaterQualityStatisticsController
+  )
+
   // Update a water quality statistics' information (requires authentication)
-  .put("/water-quality-statistics/:interval/:startDate", authenticationMiddleware, updateWaterQualityStatisticsController);
+  .put(
+    '/water-quality-statistics/:interval/:startDate',
+    authenticationMiddleware,
+    updateWaterQualityStatisticsController
+  );
 
 export default router;

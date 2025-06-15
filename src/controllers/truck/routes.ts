@@ -3,20 +3,22 @@
  * This module defines all truck-related API endpoints
  */
 
-import { authenticationMiddleware } from "@/middlewares/authentication.js";
-import { Hono } from "hono";
+import { Hono } from 'hono';
+
 import {
   createTruckController,
   deleteTruckController,
   getTruckController,
   getTrucksController,
   updateTruckController,
-} from "./truckControllers.js";
+} from './truckControllers.js';
+
+import { authenticationMiddleware } from '@/middlewares/authentication.js';
 
 /**
  * Truck Router Configuration
  * All routes require authentication
- * 
+ *
  * Available endpoints:
  * - GET    /trucks      - Retrieve all trucks
  * - POST   /trucks      - Create a new truck
@@ -26,18 +28,18 @@ import {
  */
 const router = new Hono()
   // Get all trucks (requires authentication)
-  .get("/trucks", authenticationMiddleware, getTrucksController)
-  
+  .get('/trucks', authenticationMiddleware, getTrucksController)
+
   // Create a new truck (requires authentication)
-  .post("/trucks", authenticationMiddleware, createTruckController)
-  
+  .post('/trucks', authenticationMiddleware, createTruckController)
+
   // Get a specific truck by ID (requires authentication)
-  .get("/trucks/:id", authenticationMiddleware, getTruckController)
-  
+  .get('/trucks/:id', authenticationMiddleware, getTruckController)
+
   // Delete a truck (soft-delete) (requires authentication)
-  .delete("/trucks/:id", authenticationMiddleware, deleteTruckController)
-  
+  .delete('/trucks/:id', authenticationMiddleware, deleteTruckController)
+
   // Update a truck's information (requires authentication)
-  .put("/trucks/:id", authenticationMiddleware, updateTruckController);
+  .put('/trucks/:id', authenticationMiddleware, updateTruckController);
 
 export default router;

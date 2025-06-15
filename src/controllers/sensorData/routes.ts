@@ -3,20 +3,22 @@
  * This module defines all sensor data-related API endpoints
  */
 
-import { authenticationMiddleware } from "@/middlewares/authentication.js";
-import { Hono } from "hono";
+import { Hono } from 'hono';
+
 import {
   createSensorDataController,
   deleteSensorDataController,
   getSensorDataByIdController,
   getSensorDataController,
   updateSensorDataController,
-} from "./sensorDataControllers.js";
+} from './sensorDataControllers.js';
+
+import { authenticationMiddleware } from '@/middlewares/authentication.js';
 
 /**
  * Sensor Data Router Configuration
  * All routes require authentication
- * 
+ *
  * Available endpoints:
  * - GET    /sensor-data      - Retrieve all sensor data
  * - POST   /sensor-data      - Create a new sensor data
@@ -26,18 +28,30 @@ import {
  */
 const router = new Hono()
   // Get all sensor data (requires authentication)
-  .get("/sensor-data", authenticationMiddleware, getSensorDataController)
-  
+  .get('/sensor-data', authenticationMiddleware, getSensorDataController)
+
   // Create a new sensor data (requires authentication)
-  .post("/sensor-data", authenticationMiddleware, createSensorDataController)
-  
+  .post('/sensor-data', authenticationMiddleware, createSensorDataController)
+
   // Get a specific sensor data by ID (requires authentication)
-  .get("/sensor-data/:id", authenticationMiddleware, getSensorDataByIdController)
-  
+  .get(
+    '/sensor-data/:id',
+    authenticationMiddleware,
+    getSensorDataByIdController
+  )
+
   // Delete a sensor data (soft-delete) (requires authentication)
-  .delete("/sensor-data/:id", authenticationMiddleware, deleteSensorDataController)
-  
+  .delete(
+    '/sensor-data/:id',
+    authenticationMiddleware,
+    deleteSensorDataController
+  )
+
   // Update a sensor data's information (requires authentication)
-  .put("/sensor-data/:id", authenticationMiddleware, updateSensorDataController);
+  .put(
+    '/sensor-data/:id',
+    authenticationMiddleware,
+    updateSensorDataController
+  );
 
 export default router;

@@ -1,7 +1,18 @@
 import { Context } from 'hono';
 import { StatusCodes } from 'http-status-codes';
-import { createWaterQualityStatistics, deleteWaterQualityStatistics, getWaterQualityStatisticsById, getWaterQualityStatistics, updateWaterQualityStatistics } from '@/services/waterQualityStatisticsService';
-import { validateCreateWaterQualityStatistics, validateUpdateWaterQualityStatistics, parseWaterQualityStatisticsKey } from '@/utils/waterQualityStatistics/waterQualityStatisticsUtil';
+
+import {
+  createWaterQualityStatistics,
+  deleteWaterQualityStatistics,
+  getWaterQualityStatisticsById,
+  getWaterQualityStatistics,
+  updateWaterQualityStatistics,
+} from '@/services/waterQualityStatisticsService';
+import {
+  validateCreateWaterQualityStatistics,
+  validateUpdateWaterQualityStatistics,
+  parseWaterQualityStatisticsKey,
+} from '@/utils/waterQualityStatistics/waterQualityStatisticsUtil';
 
 /**
  * Get all water quality statistics
@@ -20,8 +31,14 @@ export async function getWaterQualityStatisticsController(c: Context) {
  * @throws NotFoundError if water quality statistics doesn't exist
  */
 export async function getWaterQualityStatisticsByKeyController(c: Context) {
-  const { interval, startDate } = parseWaterQualityStatisticsKey(c.req.param('interval'), c.req.param('startDate'));
-  const waterQualityStatisticsData = await getWaterQualityStatisticsById(interval, startDate);
+  const { interval, startDate } = parseWaterQualityStatisticsKey(
+    c.req.param('interval'),
+    c.req.param('startDate')
+  );
+  const waterQualityStatisticsData = await getWaterQualityStatisticsById(
+    interval,
+    startDate
+  );
   return c.json(waterQualityStatisticsData);
 }
 
@@ -34,7 +51,8 @@ export async function getWaterQualityStatisticsByKeyController(c: Context) {
 export async function createWaterQualityStatisticsController(c: Context) {
   const body = await c.req.json();
   const validatedData = validateCreateWaterQualityStatistics(body);
-  const createdWaterQualityStatistics = await createWaterQualityStatistics(validatedData);
+  const createdWaterQualityStatistics =
+    await createWaterQualityStatistics(validatedData);
   return c.json(createdWaterQualityStatistics, StatusCodes.CREATED);
 }
 
@@ -46,10 +64,17 @@ export async function createWaterQualityStatisticsController(c: Context) {
  * @throws ValidationError if update data is invalid
  */
 export async function updateWaterQualityStatisticsController(c: Context) {
-  const { interval, startDate } = parseWaterQualityStatisticsKey(c.req.param('interval'), c.req.param('startDate'));
+  const { interval, startDate } = parseWaterQualityStatisticsKey(
+    c.req.param('interval'),
+    c.req.param('startDate')
+  );
   const body = await c.req.json();
   const validatedData = validateUpdateWaterQualityStatistics(body);
-  const updatedWaterQualityStatistics = await updateWaterQualityStatistics(interval, startDate, validatedData);
+  const updatedWaterQualityStatistics = await updateWaterQualityStatistics(
+    interval,
+    startDate,
+    validatedData
+  );
   return c.json(updatedWaterQualityStatistics);
 }
 
@@ -60,7 +85,13 @@ export async function updateWaterQualityStatisticsController(c: Context) {
  * @throws NotFoundError if water quality statistics doesn't exist
  */
 export async function deleteWaterQualityStatisticsController(c: Context) {
-  const { interval, startDate } = parseWaterQualityStatisticsKey(c.req.param('interval'), c.req.param('startDate'));
-  const deletedWaterQualityStatistics = await deleteWaterQualityStatistics(interval, startDate);
+  const { interval, startDate } = parseWaterQualityStatisticsKey(
+    c.req.param('interval'),
+    c.req.param('startDate')
+  );
+  const deletedWaterQualityStatistics = await deleteWaterQualityStatistics(
+    interval,
+    startDate
+  );
   return c.json(deletedWaterQualityStatistics);
 }

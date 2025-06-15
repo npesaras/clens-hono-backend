@@ -3,21 +3,7 @@
  * This module contains all address-related request handlers
  */
 
-import type { Context } from 'hono';
-
-import {
-  createAddress,
-  getAddresses,
-  getAddressById,
-  updateAddress,
-  deleteAddress,
-} from '@/services/addressService.js';
-import {
-  validateCreateAddress,
-  validateUpdateAddress,
-  parseAddressId,
-} from '@/utils/address/addressUtil.js';
-import { BadRequestError } from '@/utils/error.js';
+// ...existing imports...
 
 /**
  * Get all addresses
@@ -93,16 +79,4 @@ export async function deleteAddressController(c: Context) {
   const addressId = parseAddressId(c.req.param('id'));
   const address = await deleteAddress(addressId);
   return c.json(address);
-}
- * @returns JSON response with deleted address data
- * @throws NotFoundError if address doesn't exist or is already deleted
- */
-export async function deleteAddressController(c: Context) {
-  try {
-    const addressId = parseAddressId(c.req.param('id'));
-    const address = await deleteAddress(addressId);
-    return c.json(address);
-  } catch (error) {
-    throw error;
-  }
 }

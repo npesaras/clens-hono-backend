@@ -6,15 +6,22 @@ export type SensorType = z.infer<typeof sensorTypeEnum>;
 
 // Validation schemas
 export const createSensorSchema = z.object({
-    activeStatus: z.boolean(),
-    barangayId: z.number().int().positive('Barangay ID must be a positive integer'),
-    sensorType: sensorTypeEnum
+  activeStatus: z.boolean(),
+  barangayId: z
+    .number()
+    .int()
+    .positive('Barangay ID must be a positive integer'),
+  sensorType: sensorTypeEnum,
 });
 
 export const updateSensorSchema = z.object({
-    activeStatus: z.boolean().optional(),
-    barangayId: z.number().int().positive('Barangay ID must be a positive integer').optional(),
-    sensorType: sensorTypeEnum.optional()
+  activeStatus: z.boolean().optional(),
+  barangayId: z
+    .number()
+    .int()
+    .positive('Barangay ID must be a positive integer')
+    .optional(),
+  sensorType: sensorTypeEnum.optional(),
 });
 
 // Types based on schemas
@@ -23,16 +30,16 @@ export type UpdateSensorInput = z.infer<typeof updateSensorSchema>;
 
 // Helper functions
 export function validateCreateSensor(data: unknown) {
-    return createSensorSchema.parse(data);
+  return createSensorSchema.parse(data);
 }
 
 export function validateUpdateSensor(data: unknown) {
-    return updateSensorSchema.parse(data);
+  return updateSensorSchema.parse(data);
 }
 
 export function parseSensorId(id: string | undefined): number {
-    if (!id) throw new Error('Sensor ID is required');
-    const parsedId = Number(id);
-    if (isNaN(parsedId)) throw new Error('Invalid sensor ID');
-    return parsedId;
+  if (!id) throw new Error('Sensor ID is required');
+  const parsedId = Number(id);
+  if (isNaN(parsedId)) throw new Error('Invalid sensor ID');
+  return parsedId;
 }

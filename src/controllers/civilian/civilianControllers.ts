@@ -3,22 +3,23 @@
  * This module contains all civilian-related request handlers
  */
 
-import type { Context } from "hono";
-import { 
-  createCivilian, 
-  getCivilians, 
-  getCivilianById, 
+import type { Context } from 'hono';
+
+import {
+  createCivilian,
+  getCivilians,
+  getCivilianById,
   getCivilianByUserId,
-  updateCivilian, 
+  updateCivilian,
   deleteCivilian,
-  getCivilianLeaderboard
-} from "@/services/civilianService.js";
-import { 
-  validateCreateCivilian, 
-  validateUpdateCivilian, 
-  parseCivilianId 
-} from "@/utils/civilian/civilianUtil.js";
-import { BadRequestError } from "@/utils/error.js";
+  getCivilianLeaderboard,
+} from '@/services/civilianService.js';
+import {
+  validateCreateCivilian,
+  validateUpdateCivilian,
+  parseCivilianId,
+} from '@/utils/civilian/civilianUtil.js';
+import { BadRequestError } from '@/utils/error.js';
 
 /**
  * Get all civilians with their associated user information
@@ -134,11 +135,11 @@ export async function getCivilianLeaderboardController(c: Context) {
   try {
     const limitParam = c.req.query('limit');
     const limit = limitParam ? parseInt(limitParam, 10) : 10;
-    
+
     if (isNaN(limit) || limit < 1 || limit > 100) {
       throw new BadRequestError('Limit must be a number between 1 and 100');
     }
-    
+
     const leaderboard = await getCivilianLeaderboard(limit);
     return c.json(leaderboard);
   } catch (error) {

@@ -1,7 +1,18 @@
 import { Context } from 'hono';
 import { StatusCodes } from 'http-status-codes';
-import { createTruckRoute, deleteTruckRoute, getTruckRouteById, getTruckRoutes, updateTruckRoute } from '@/services/truckRouteService';
-import { validateCreateTruckRoute, validateUpdateTruckRoute, parseTruckRouteId } from '@/utils/truckRoute/truckRouteUtil';
+
+import {
+  createTruckRoute,
+  deleteTruckRoute,
+  getTruckRouteById,
+  getTruckRoutes,
+  updateTruckRoute,
+} from '@/services/truckRouteService';
+import {
+  validateCreateTruckRoute,
+  validateUpdateTruckRoute,
+  parseTruckRouteId,
+} from '@/utils/truckRoute/truckRouteUtil';
 
 /**
  * Get all truck routes
