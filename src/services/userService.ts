@@ -11,9 +11,9 @@ export type CreateUserInput = {
   usertype: UserType;
   username: string;
   email: string;
-  firstname: string;
-  middlename: string;
-  lastname: string;
+  firstName: string;
+  middleName: string;
+  lastName: string;
   password: string;
 };
 

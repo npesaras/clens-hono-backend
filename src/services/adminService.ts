@@ -43,8 +43,7 @@ export async function createAdmin(data: CreateAdminInput) {
   return newAdmin;
 }
 
-export async function getAdmins() {
-  return await db
+export async function getAdmins() {  return await db
     .select({
       id: admin.id,
       userId: admin.userId,
@@ -56,9 +55,9 @@ export async function getAdmins() {
         id: users.id,
         username: users.username,
         email: users.email,
-        firstname: users.firstname,
-        middlename: users.middlename,
-        lastname: users.lastname,
+        firstName: users.firstName,
+        middleName: users.middleName,
+        lastName: users.lastName,
         usertype: users.usertype
       }
     })
@@ -70,8 +69,7 @@ export async function getAdmins() {
     ));
 }
 
-export async function getAdminById(id: number) {
-  const result = await db
+export async function getAdminById(id: number) {  const result = await db
     .select({
       id: admin.id,
       userId: admin.userId,
@@ -83,9 +81,9 @@ export async function getAdminById(id: number) {
         id: users.id,
         username: users.username,
         email: users.email,
-        firstname: users.firstname,
-        middlename: users.middlename,
-        lastname: users.lastname,
+        firstName: users.firstName,
+        middleName: users.middleName,
+        lastName: users.lastName,
         usertype: users.usertype
       }
     })
@@ -105,8 +103,7 @@ export async function getAdminById(id: number) {
   return adminRecord;
 }
 
-export async function getAdminByUserId(userId: number) {
-  const result = await db
+export async function getAdminByUserId(userId: number) {  const result = await db
     .select({
       id: admin.id,
       userId: admin.userId,
@@ -118,9 +115,9 @@ export async function getAdminByUserId(userId: number) {
         id: users.id,
         username: users.username,
         email: users.email,
-        firstname: users.firstname,
-        middlename: users.middlename,
-        lastname: users.lastname,
+        firstName: users.firstName,
+        middleName: users.middleName,
+        lastName: users.lastName,
         usertype: users.usertype
       }
     })
