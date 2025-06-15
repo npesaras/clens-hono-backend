@@ -11,13 +11,27 @@ import usersRoutes from '@/controllers/users/routes';
 import adminRoutes from '@/controllers/admin/routes';
 
 /**
+ * Import civilian-related routes from the civilian module
+ * This includes all CRUD operations for civilian management
+ */
+import civilianRoutes from '@/controllers/civilian/routes';
+
+/**
+ * Import address-related routes from the address module
+ * This includes all CRUD operations for address management
+ */
+import addressRoutes from '@/controllers/address/routes';
+
+/**
  * Combine all route modules into a single array
  * Using 'as const' to ensure type safety and prevent modification
  * Currently includes:
  * - usersRoutes: Handles all user-related endpoints (/users/*)
  * - adminRoutes: Handles all admin-related endpoints (/admin/*)
+ * - civilianRoutes: Handles all civilian-related endpoints (/civilian/*)
+ * - addressRoutes: Handles all address-related endpoints (/address/*)
  */
-export const routes = [usersRoutes, adminRoutes] as const;
+export const routes = [usersRoutes, adminRoutes, civilianRoutes, addressRoutes] as const;
 
 /**
  * Type definition for application routes
