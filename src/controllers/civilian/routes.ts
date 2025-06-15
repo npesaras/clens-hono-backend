@@ -3,8 +3,8 @@
  * This module defines all civilian-related API endpoints
  */
 
-import { authenticationMiddleware } from "@/middlewares/authentication.js";
-import { Hono } from "hono";
+import { Hono } from 'hono';
+
 import {
   createCivilianController,
   deleteCivilianController,
@@ -13,12 +13,14 @@ import {
   getCivilianByUserController,
   updateCivilianController,
   getCivilianLeaderboardController,
-} from "./civilianControllers.js";
+} from './civilianControllers.js';
+
+import { authenticationMiddleware } from '@/middlewares/authentication.js';
 
 /**
  * Civilian Router Configuration
  * All routes require authentication
- * 
+ *
  * Available endpoints:
  * - GET    /civilian               - Retrieve all civilian records
  * - POST   /civilian               - Create a new civilian record
@@ -30,24 +32,32 @@ import {
  */
 const router = new Hono()
   // Get all civilian records (requires authentication)
-  .get("/civilian", authenticationMiddleware, getCiviliansController)
-  
+  .get('/civilian', authenticationMiddleware, getCiviliansController)
+
   // Create a new civilian record (requires authentication)
-  .post("/civilian", authenticationMiddleware, createCivilianController)
-  
+  .post('/civilian', authenticationMiddleware, createCivilianController)
+
   // Get civilian leaderboard (requires authentication)
-  .get("/civilian/leaderboard", authenticationMiddleware, getCivilianLeaderboardController)
-  
+  .get(
+    '/civilian/leaderboard',
+    authenticationMiddleware,
+    getCivilianLeaderboardController
+  )
+
   // Get a specific civilian by ID (requires authentication)
-  .get("/civilian/:id", authenticationMiddleware, getCivilianController)
-  
+  .get('/civilian/:id', authenticationMiddleware, getCivilianController)
+
   // Delete a civilian record (soft-delete) (requires authentication)
-  .delete("/civilian/:id", authenticationMiddleware, deleteCivilianController)
-  
+  .delete('/civilian/:id', authenticationMiddleware, deleteCivilianController)
+
   // Update a civilian record (requires authentication)
-  .put("/civilian/:id", authenticationMiddleware, updateCivilianController)
-  
+  .put('/civilian/:id', authenticationMiddleware, updateCivilianController)
+
   // Get civilian record by user ID (requires authentication)
-  .get("/civilian/user/:userId", authenticationMiddleware, getCivilianByUserController);
+  .get(
+    '/civilian/user/:userId',
+    authenticationMiddleware,
+    getCivilianByUserController
+  );
 
 export default router;

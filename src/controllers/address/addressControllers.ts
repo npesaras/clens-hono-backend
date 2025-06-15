@@ -3,22 +3,20 @@
  * This module contains all address-related request handlers
  */
 
-import type { Context } from "hono";
+import type { Context } from 'hono';
 
-import { 
-  createAddress, 
-  getAddresses, 
-  getAddressById, 
-  updateAddress, 
-  deleteAddress 
-} from "@/services/addressService.js";
-
-import { 
-  validateCreateAddress, 
-  validateUpdateAddress, 
-  parseAddressId 
-} from "@/utils/address/addressUtil.js";
-import { BadRequestError } from "@/utils/error.js";
+import {
+  createAddress,
+  deleteAddress,
+  getAddressById,
+  getAddresses,
+  updateAddress,
+} from '@/services/addressService.js';
+import {
+  parseAddressId,
+  validateCreateAddress,
+  validateUpdateAddress,
+} from '@/utils/address/addressUtil.js';
 
 /**
  * Get all addresses
@@ -26,12 +24,8 @@ import { BadRequestError } from "@/utils/error.js";
  * @returns JSON response with array of address records
  */
 export async function getAddressesController(c: Context) {
-  try {
-    const addresses = await getAddresses();
-    return c.json(addresses);
-  } catch (error) {
-    throw error;
-  }
+  const addresses = await getAddresses();
+  return c.json(addresses);
 }
 
 /**
@@ -41,13 +35,9 @@ export async function getAddressesController(c: Context) {
  * @throws NotFoundError if address doesn't exist or is deleted
  */
 export async function getAddressController(c: Context) {
-  try {
-    const addressId = parseAddressId(c.req.param('id'));
-    const address = await getAddressById(addressId);
-    return c.json(address);
-  } catch (error) {
-    throw error;
-  }
+  const addressId = parseAddressId(c.req.param('id'));
+  const address = await getAddressById(addressId);
+  return c.json(address);
 }
 
 /**
@@ -57,18 +47,10 @@ export async function getAddressController(c: Context) {
  * @throws BadRequestError if request data is invalid
  */
 export async function createAddressController(c: Context) {
-  try {
-    const body = await c.req.json();
-    const validatedData = validateCreateAddress(body);
-    const address = await createAddress(validatedData);
-    return c.json(address, 201);
-  } 
-  catch (error) {
-    if (error instanceof SyntaxError) {
-      throw new BadRequestError('Invalid JSON in request body');
-    }
-    throw error;
-  }
+  const body = await c.req.json();
+  const validatedData = validateCreateAddress(body);
+  const address = await createAddress(validatedData);
+  return c.json(address, 201);
 }
 
 /**
@@ -79,19 +61,11 @@ export async function createAddressController(c: Context) {
  * @throws BadRequestError if update data is invalid
  */
 export async function updateAddressController(c: Context) {
-  try {
-    const addressId = parseAddressId(c.req.param('id'));
-    const body = await c.req.json();
-    const validatedData = validateUpdateAddress(body);
-    const address = await updateAddress(addressId, validatedData);
-    return c.json(address);
-  } 
-  catch (error) {
-    if (error instanceof SyntaxError) {
-      throw new BadRequestError('Invalid JSON in request body');
-    }
-    throw error;
-  }
+  const addressId = parseAddressId(c.req.param('id'));
+  const body = await c.req.json();
+  const validatedData = validateUpdateAddress(body);
+  const address = await updateAddress(addressId, validatedData);
+  return c.json(address);
 }
 
 /**
@@ -101,12 +75,7 @@ export async function updateAddressController(c: Context) {
  * @throws NotFoundError if address doesn't exist or is already deleted
  */
 export async function deleteAddressController(c: Context) {
-  try {
-    const addressId = parseAddressId(c.req.param('id'));
-    const address = await deleteAddress(addressId);
-    return c.json(address);
-  } 
-  catch (error) {
-    throw error;
-  }
+  const addressId = parseAddressId(c.req.param('id'));
+  const address = await deleteAddress(addressId);
+  return c.json(address);
 }

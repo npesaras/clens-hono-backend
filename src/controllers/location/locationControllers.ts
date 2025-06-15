@@ -1,7 +1,18 @@
 import { Context } from 'hono';
 import { StatusCodes } from 'http-status-codes';
-import { createLocation, deleteLocation, getLocationById, getLocations, updateLocation } from '@/services/locationService';
-import { validateCreateLocation, validateUpdateLocation, parseLocationId } from '@/utils/location/locationUtil';
+
+import {
+  createLocation,
+  deleteLocation,
+  getLocationById,
+  getLocations,
+  updateLocation,
+} from '@/services/locationService';
+import {
+  validateCreateLocation,
+  validateUpdateLocation,
+  parseLocationId,
+} from '@/utils/location/locationUtil';
 
 /**
  * Get all active locations (non-deleted locations)

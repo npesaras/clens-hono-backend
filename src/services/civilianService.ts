@@ -1,6 +1,14 @@
 import { eq, isNull, and, desc } from 'drizzle-orm';
+
 import { db } from '@/db/dbConfig';
-import { civilian, users, address, province, city, barangay } from '@/db/schema';
+import {
+  civilian,
+  users,
+  address,
+  province,
+  city,
+  barangay,
+} from '@/db/schema';
 import { NotFoundError } from '@/utils/error';
 
 export type CreateCivilianInput = {
@@ -21,10 +29,7 @@ export async function createCivilian(data: CreateCivilianInput) {
   const user = await db
     .select()
     .from(users)
-    .where(and(
-      eq(users.id, data.userId),
-      isNull(users.deletedAt)
-    ));
+    .where(and(eq(users.id, data.userId), isNull(users.deletedAt)));
   if (!user[0]) {
     throw new NotFoundError('User not found or has been deleted');
   }
@@ -33,10 +38,7 @@ export async function createCivilian(data: CreateCivilianInput) {
   const addressRecord = await db
     .select()
     .from(address)
-    .where(and(
-      eq(address.id, data.addressId),
-      isNull(address.deletedAt)
-    ));
+    .where(and(eq(address.id, data.addressId), isNull(address.deletedAt)));
 
   if (!addressRecord[0]) {
     throw new NotFoundError('Address not found or has been deleted');
@@ -46,10 +48,7 @@ export async function createCivilian(data: CreateCivilianInput) {
   const existingCivilian = await db
     .select()
     .from(civilian)
-    .where(and(
-      eq(civilian.userId, data.userId),
-      isNull(civilian.deletedAt)
-    ));
+    .where(and(eq(civilian.userId, data.userId), isNull(civilian.deletedAt)));
   if (existingCivilian[0]) {
     throw new Error('Civilian record already exists for this user');
   }
@@ -80,7 +79,7 @@ export async function getCivilians() {
         firstName: users.firstName,
         middleName: users.middleName,
         lastName: users.lastName,
-        usertype: users.usertype
+        usertype: users.usertype,
       },
       address: {
         id: address.id,
@@ -90,8 +89,8 @@ export async function getCivilians() {
         cityId: address.cityId,
         cityName: city.name,
         barangayId: address.barangayId,
-        barangayName: barangay.name
-      }
+        barangayName: barangay.name,
+      },
     })
     .from(civilian)
     .leftJoin(users, eq(civilian.userId, users.id))
@@ -99,11 +98,13 @@ export async function getCivilians() {
     .leftJoin(province, eq(address.provinceId, province.id))
     .leftJoin(city, eq(address.cityId, city.id))
     .leftJoin(barangay, eq(address.barangayId, barangay.id))
-    .where(and(
-      isNull(civilian.deletedAt),
-      isNull(users.deletedAt),
-      isNull(address.deletedAt)
-    ));
+    .where(
+      and(
+        isNull(civilian.deletedAt),
+        isNull(users.deletedAt),
+        isNull(address.deletedAt)
+      )
+    );
 }
 
 export async function getCivilianById(id: number) {
@@ -120,15 +121,16 @@ export async function getCivilianById(id: number) {
       points: civilian.points,
       createdAt: civilian.createdAt,
       updatedAt: civilian.updatedAt,
-      deletedAt: civilian.deletedAt,      user: {
+      deletedAt: civilian.deletedAt,
+      user: {
         id: users.id,
         username: users.username,
         email: users.email,
         firstName: users.firstName,
         middleName: users.middleName,
         lastName: users.lastName,
-        usertype: users.usertype      
-    },
+        usertype: users.usertype,
+      },
       address: {
         id: address.id,
         street: address.street,
@@ -137,8 +139,8 @@ export async function getCivilianById(id: number) {
         cityId: address.cityId,
         cityName: city.name,
         barangayId: address.barangayId,
-        barangayName: barangay.name
-      }
+        barangayName: barangay.name,
+      },
     })
     .from(civilian)
     .leftJoin(users, eq(civilian.userId, users.id))
@@ -146,18 +148,20 @@ export async function getCivilianById(id: number) {
     .leftJoin(province, eq(address.provinceId, province.id))
     .leftJoin(city, eq(address.cityId, city.id))
     .leftJoin(barangay, eq(address.barangayId, barangay.id))
-    .where(and(
-      eq(civilian.id, id),
-      isNull(civilian.deletedAt),
-      isNull(users.deletedAt),
-      isNull(address.deletedAt)
-    ));
-  
+    .where(
+      and(
+        eq(civilian.id, id),
+        isNull(civilian.deletedAt),
+        isNull(users.deletedAt),
+        isNull(address.deletedAt)
+      )
+    );
+
   const civilianRecord = result[0];
   if (!civilianRecord) {
     throw new NotFoundError('Civilian not found');
   }
-  
+
   return civilianRecord;
 }
 
@@ -175,15 +179,17 @@ export async function getCivilianByUserId(userId: number) {
       points: civilian.points,
       createdAt: civilian.createdAt,
       updatedAt: civilian.updatedAt,
-      deletedAt: civilian.deletedAt,      user: {
+      deletedAt: civilian.deletedAt,
+      user: {
         id: users.id,
         username: users.username,
         email: users.email,
         firstName: users.firstName,
         middleName: users.middleName,
         lastName: users.lastName,
-        usertype: users.usertype
-      },      address: {
+        usertype: users.usertype,
+      },
+      address: {
         id: address.id,
         street: address.street,
         provinceId: address.provinceId,
@@ -191,8 +197,8 @@ export async function getCivilianByUserId(userId: number) {
         cityId: address.cityId,
         cityName: city.name,
         barangayId: address.barangayId,
-        barangayName: barangay.name
-      }
+        barangayName: barangay.name,
+      },
     })
     .from(civilian)
     .leftJoin(users, eq(civilian.userId, users.id))
@@ -200,25 +206,27 @@ export async function getCivilianByUserId(userId: number) {
     .leftJoin(province, eq(address.provinceId, province.id))
     .leftJoin(city, eq(address.cityId, city.id))
     .leftJoin(barangay, eq(address.barangayId, barangay.id))
-    .where(and(
-      eq(civilian.userId, userId),
-      isNull(civilian.deletedAt),
-      isNull(users.deletedAt),
-      isNull(address.deletedAt)
-    ));
-  
+    .where(
+      and(
+        eq(civilian.userId, userId),
+        isNull(civilian.deletedAt),
+        isNull(users.deletedAt),
+        isNull(address.deletedAt)
+      )
+    );
+
   const civilianRecord = result[0];
   if (!civilianRecord) {
     throw new NotFoundError('Civilian not found for this user');
   }
-  
+
   return civilianRecord;
 }
 
 export async function updateCivilian(id: number, data: UpdateCivilianInput) {
   // First check if civilian exists and is not deleted
   const existingCivilian = await getCivilianById(id);
-  
+
   if (!existingCivilian) {
     throw new NotFoundError('Civilian not found');
   }
@@ -228,11 +236,8 @@ export async function updateCivilian(id: number, data: UpdateCivilianInput) {
     const user = await db
       .select()
       .from(users)
-      .where(and(
-        eq(users.id, data.userId),
-        isNull(users.deletedAt)
-      ));
-    
+      .where(and(eq(users.id, data.userId), isNull(users.deletedAt)));
+
     if (!user[0]) {
       throw new NotFoundError('User not found or has been deleted');
     }
@@ -240,10 +245,7 @@ export async function updateCivilian(id: number, data: UpdateCivilianInput) {
     const existingCivilianForUser = await db
       .select()
       .from(civilian)
-      .where(and(
-        eq(civilian.userId, data.userId),
-        isNull(civilian.deletedAt)
-      ));
+      .where(and(eq(civilian.userId, data.userId), isNull(civilian.deletedAt)));
 
     if (existingCivilianForUser[0]) {
       throw new Error('Civilian record already exists for this user');
@@ -255,10 +257,7 @@ export async function updateCivilian(id: number, data: UpdateCivilianInput) {
     const addressRecord = await db
       .select()
       .from(address)
-      .where(and(
-        eq(address.id, data.addressId),
-        isNull(address.deletedAt)
-      ));
+      .where(and(eq(address.id, data.addressId), isNull(address.deletedAt)));
 
     if (!addressRecord[0]) {
       throw new NotFoundError('Address not found or has been deleted');
@@ -269,18 +268,18 @@ export async function updateCivilian(id: number, data: UpdateCivilianInput) {
     .update(civilian)
     .set({
       ...data,
-      updatedAt: new Date()
+      updatedAt: new Date(),
     })
     .where(eq(civilian.id, id))
     .returning();
-  
+
   return updatedCivilian;
 }
 
 export async function deleteCivilian(id: number) {
   // Check if civilian exists and is not already deleted
   const existingCivilian = await getCivilianById(id);
-  
+
   if (!existingCivilian) {
     throw new NotFoundError('Civilian not found');
   }
@@ -289,15 +288,15 @@ export async function deleteCivilian(id: number) {
     .update(civilian)
     .set({
       deletedAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
     })
     .where(eq(civilian.id, id))
     .returning();
-  
+
   return deletedCivilian;
 }
 
-export async function getCivilianLeaderboard(limit: number = 10) {
+export async function getCivilianLeaderboard(limit = 10) {
   return await db
     .select({
       id: civilian.id,
@@ -307,19 +306,17 @@ export async function getCivilianLeaderboard(limit: number = 10) {
       streak: civilian.streak,
       leaderboardRank: civilian.leaderboardRank,
       totalVolumeDisposed: civilian.totalVolumeDisposed,
-      points: civilian.points,      user: {
+      points: civilian.points,
+      user: {
         id: users.id,
         username: users.username,
         firstName: users.firstName,
-        lastName: users.lastName
-      }
+        lastName: users.lastName,
+      },
     })
     .from(civilian)
-    .leftJoin(users, eq(civilian.userId, users.id))    
-    .where(and(
-      isNull(civilian.deletedAt),
-      isNull(users.deletedAt)
-    ))
+    .leftJoin(users, eq(civilian.userId, users.id))
+    .where(and(isNull(civilian.deletedAt), isNull(users.deletedAt)))
     .orderBy(desc(civilian.points))
     .limit(limit);
 }

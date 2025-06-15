@@ -3,20 +3,21 @@
  * This module contains all reward multipliers-related request handlers
  */
 
-import type { Context } from "hono";
+import type { Context } from 'hono';
 import { StatusCodes } from 'http-status-codes';
-import { 
-  createRewardMultipliers, 
-  getRewardMultipliers, 
-  getRewardMultipliersById, 
-  updateRewardMultipliers, 
-  deleteRewardMultipliers 
-} from "@/services/rewardMultipliersService.js";
-import { 
-  validateCreateRewardMultipliers, 
-  validateUpdateRewardMultipliers, 
-  parseRewardMultipliersId 
-} from "@/utils/rewardMultipliers/rewardMultipliersUtil.js";
+
+import {
+  createRewardMultipliers,
+  getRewardMultipliers,
+  getRewardMultipliersById,
+  updateRewardMultipliers,
+  deleteRewardMultipliers,
+} from '@/services/rewardMultipliersService.js';
+import {
+  validateCreateRewardMultipliers,
+  validateUpdateRewardMultipliers,
+  parseRewardMultipliersId,
+} from '@/utils/rewardMultipliers/rewardMultipliersUtil.js';
 
 /**
  * Get all reward multipliers
@@ -64,7 +65,10 @@ export async function updateRewardMultipliersController(c: Context) {
   const id = parseRewardMultipliersId(c.req.param('id'));
   const body = await c.req.json();
   const validatedData = validateUpdateRewardMultipliers(body);
-  const updatedRewardMultipliers = await updateRewardMultipliers(id, validatedData);
+  const updatedRewardMultipliers = await updateRewardMultipliers(
+    id,
+    validatedData
+  );
   return c.json(updatedRewardMultipliers);
 }
 

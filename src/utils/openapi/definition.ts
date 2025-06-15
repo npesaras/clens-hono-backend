@@ -6,7 +6,7 @@ export const openApiDocument = {
     description: 'RESTful API built with Hono, Drizzle, and PostgreSQL',
     version: '1.0.0',
     contact: {
-      name: 'API Support'
+      name: 'API Support',
     },
   },
   servers: [
@@ -14,7 +14,8 @@ export const openApiDocument = {
       url: '/',
       description: 'Local development server',
     },
-  ],  tags: [
+  ],
+  tags: [
     {
       name: 'Users',
       description: 'API endpoints for managing users',
@@ -75,7 +76,8 @@ export const openApiDocument = {
       name: 'Health',
       description: 'API health check endpoint',
     },
-  ],  paths: {
+  ],
+  paths: {
     '/users': {
       get: {
         tags: ['Users'],
@@ -218,7 +220,8 @@ export const openApiDocument = {
       get: {
         tags: ['Admin'],
         summary: 'Get all admins',
-        description: 'Retrieves a list of all active admins with their user information',
+        description:
+          'Retrieves a list of all active admins with their user information',
         security: [{ bearerAuth: [] }],
         responses: {
           '200': {
@@ -356,7 +359,8 @@ export const openApiDocument = {
       get: {
         tags: ['Civilian'],
         summary: 'Get all civilians',
-        description: 'Retrieves a list of all active civilians with their user and address information',
+        description:
+          'Retrieves a list of all active civilians with their user and address information',
         security: [{ bearerAuth: [] }],
         responses: {
           '200': {
@@ -441,7 +445,8 @@ export const openApiDocument = {
       put: {
         tags: ['Civilian'],
         summary: 'Update a civilian',
-        description: 'Updates a specific civilian with the provided information',
+        description:
+          'Updates a specific civilian with the provided information',
         security: [{ bearerAuth: [] }],
         requestBody: {
           required: true,
@@ -472,7 +477,8 @@ export const openApiDocument = {
       delete: {
         tags: ['Civilian'],
         summary: 'Delete a civilian',
-        description: 'Soft-deletes a civilian by setting the deletedAt timestamp',
+        description:
+          'Soft-deletes a civilian by setting the deletedAt timestamp',
         security: [{ bearerAuth: [] }],
         responses: {
           '200': {
@@ -494,7 +500,8 @@ export const openApiDocument = {
       get: {
         tags: ['Address'],
         summary: 'Get all addresses',
-        description: 'Retrieves a list of all active addresses with province, city, and barangay information',
+        description:
+          'Retrieves a list of all active addresses with province, city, and barangay information',
         security: [{ bearerAuth: [] }],
         responses: {
           '200': {
@@ -610,7 +617,8 @@ export const openApiDocument = {
       delete: {
         tags: ['Address'],
         summary: 'Delete an address',
-        description: 'Soft-deletes an address by setting the deletedAt timestamp',
+        description:
+          'Soft-deletes an address by setting the deletedAt timestamp',
         security: [{ bearerAuth: [] }],
         responses: {
           '200': {
@@ -855,7 +863,8 @@ export const openApiDocument = {
       put: {
         tags: ['Location'],
         summary: 'Update a location',
-        description: 'Updates a specific location with the provided information',
+        description:
+          'Updates a specific location with the provided information',
         security: [{ bearerAuth: [] }],
         requestBody: {
           required: true,
@@ -886,7 +895,8 @@ export const openApiDocument = {
       delete: {
         tags: ['Location'],
         summary: 'Delete a location',
-        description: 'Soft-deletes a location by setting the deletedAt timestamp',
+        description:
+          'Soft-deletes a location by setting the deletedAt timestamp',
         security: [{ bearerAuth: [] }],
         responses: {
           '200': {
@@ -902,7 +912,8 @@ export const openApiDocument = {
           '401': { $ref: '#/components/responses/Unauthorized' },
           '404': { $ref: '#/components/responses/NotFound' },
         },
-      },    },
+      },
+    },
     '/truck': {
       get: {
         tags: ['Truck'],
@@ -1130,7 +1141,8 @@ export const openApiDocument = {
       put: {
         tags: ['Truck Route'],
         summary: 'Update a truck route',
-        description: 'Updates a specific truck route with the provided information',
+        description:
+          'Updates a specific truck route with the provided information',
         security: [{ bearerAuth: [] }],
         requestBody: {
           required: true,
@@ -1261,7 +1273,8 @@ export const openApiDocument = {
       put: {
         tags: ['Trash Record'],
         summary: 'Update a trash record',
-        description: 'Updates a specific trash record with the provided information',
+        description:
+          'Updates a specific trash record with the provided information',
         security: [{ bearerAuth: [] }],
         requestBody: {
           required: true,
@@ -1292,7 +1305,8 @@ export const openApiDocument = {
       delete: {
         tags: ['Trash Record'],
         summary: 'Delete a trash record',
-        description: 'Soft-deletes a trash record by setting the deletedAt timestamp',
+        description:
+          'Soft-deletes a trash record by setting the deletedAt timestamp',
         security: [{ bearerAuth: [] }],
         responses: {
           '200': {
@@ -1530,7 +1544,8 @@ export const openApiDocument = {
       put: {
         tags: ['Sensor Data'],
         summary: 'Update sensor data',
-        description: 'Updates a specific sensor data record with the provided information',
+        description:
+          'Updates a specific sensor data record with the provided information',
         security: [{ bearerAuth: [] }],
         requestBody: {
           required: true,
@@ -1561,7 +1576,8 @@ export const openApiDocument = {
       delete: {
         tags: ['Sensor Data'],
         summary: 'Delete sensor data',
-        description: 'Soft-deletes a sensor data record by setting the deletedAt timestamp',
+        description:
+          'Soft-deletes a sensor data record by setting the deletedAt timestamp',
         security: [{ bearerAuth: [] }],
         responses: {
           '200': {
@@ -1668,7 +1684,8 @@ export const openApiDocument = {
       put: {
         tags: ['Trash Statistics'],
         summary: 'Update trash statistics',
-        description: 'Updates a specific trash statistics record with the provided information',
+        description:
+          'Updates a specific trash statistics record with the provided information',
         security: [{ bearerAuth: [] }],
         requestBody: {
           required: true,
@@ -1699,7 +1716,8 @@ export const openApiDocument = {
       delete: {
         tags: ['Trash Statistics'],
         summary: 'Delete trash statistics',
-        description: 'Soft-deletes a trash statistics record by setting the deletedAt timestamp',
+        description:
+          'Soft-deletes a trash statistics record by setting the deletedAt timestamp',
         security: [{ bearerAuth: [] }],
         responses: {
           '200': {
@@ -1805,7 +1823,8 @@ export const openApiDocument = {
       get: {
         tags: ['Water Quality Statistics'],
         summary: 'Get water quality statistics by composite key',
-        description: 'Retrieves a specific water quality statistics record by its composite key',
+        description:
+          'Retrieves a specific water quality statistics record by its composite key',
         security: [{ bearerAuth: [] }],
         responses: {
           '200': {
@@ -1825,7 +1844,8 @@ export const openApiDocument = {
       put: {
         tags: ['Water Quality Statistics'],
         summary: 'Update water quality statistics',
-        description: 'Updates a specific water quality statistics record with the provided information',
+        description:
+          'Updates a specific water quality statistics record with the provided information',
         security: [{ bearerAuth: [] }],
         requestBody: {
           required: true,
@@ -1956,7 +1976,8 @@ export const openApiDocument = {
       put: {
         tags: ['Collection Schedule'],
         summary: 'Update a collection schedule',
-        description: 'Updates a specific collection schedule with the provided information',
+        description:
+          'Updates a specific collection schedule with the provided information',
         security: [{ bearerAuth: [] }],
         requestBody: {
           required: true,
@@ -2087,7 +2108,8 @@ export const openApiDocument = {
       put: {
         tags: ['Reward Multipliers'],
         summary: 'Update reward multipliers',
-        description: 'Updates a specific reward multipliers record with the provided information',
+        description:
+          'Updates a specific reward multipliers record with the provided information',
         security: [{ bearerAuth: [] }],
         requestBody: {
           required: true,
@@ -2173,7 +2195,8 @@ export const openApiDocument = {
         bearerFormat: 'token',
         description: 'Enter your API token',
       },
-    },    schemas: {
+    },
+    schemas: {
       // ENUMS
       UserType: {
         type: 'string',
@@ -2218,11 +2241,18 @@ export const openApiDocument = {
           id: { type: 'number', example: 1 },
           usertype: { $ref: '#/components/schemas/UserType' },
           username: { type: 'string', example: 'johndoe' },
-          email: { type: 'string', format: 'email', example: 'john.doe@example.com' },
+          email: {
+            type: 'string',
+            format: 'email',
+            example: 'john.doe@example.com',
+          },
           firstName: { type: 'string', example: 'John' },
           middleName: { type: 'string', example: 'Robert' },
           lastName: { type: 'string', example: 'Doe' },
-          password: { type: 'string', description: 'Hashed password - never exposed to clients' },
+          password: {
+            type: 'string',
+            description: 'Hashed password - never exposed to clients',
+          },
           createdAt: { type: 'string', format: 'date-time' },
           updatedAt: { type: 'string', format: 'date-time' },
           deletedAt: { type: 'string', format: 'date-time', nullable: true },
@@ -2230,15 +2260,31 @@ export const openApiDocument = {
       },
       CreateUserInput: {
         type: 'object',
-        required: ['usertype', 'username', 'email', 'firstName', 'middleName', 'lastName', 'password'],
+        required: [
+          'usertype',
+          'username',
+          'email',
+          'firstName',
+          'middleName',
+          'lastName',
+          'password',
+        ],
         properties: {
           usertype: { $ref: '#/components/schemas/UserType' },
           username: { type: 'string', example: 'johndoe' },
-          email: { type: 'string', format: 'email', example: 'john.doe@example.com' },
+          email: {
+            type: 'string',
+            format: 'email',
+            example: 'john.doe@example.com',
+          },
           firstName: { type: 'string', example: 'John' },
           middleName: { type: 'string', example: 'Robert' },
           lastName: { type: 'string', example: 'Doe' },
-          password: { type: 'string', format: 'password', example: 'SecurePassword123!' },
+          password: {
+            type: 'string',
+            format: 'password',
+            example: 'SecurePassword123!',
+          },
         },
       },
       UpdateUserInput: {
@@ -2246,7 +2292,11 @@ export const openApiDocument = {
         properties: {
           usertype: { $ref: '#/components/schemas/UserType' },
           username: { type: 'string', example: 'johndoe' },
-          email: { type: 'string', format: 'email', example: 'john.doe@example.com' },
+          email: {
+            type: 'string',
+            format: 'email',
+            example: 'john.doe@example.com',
+          },
           firstName: { type: 'string', example: 'John' },
           middleName: { type: 'string', example: 'Robert' },
           lastName: { type: 'string', example: 'Doe' },
@@ -2359,7 +2409,11 @@ export const openApiDocument = {
           exp: { type: 'number', example: 250 },
           streak: { type: 'number', example: 7 },
           leaderboardRank: { type: 'number', example: 10, nullable: true },
-          totalVolumeDisposed: { type: 'number', format: 'double', example: 25.5 },
+          totalVolumeDisposed: {
+            type: 'number',
+            format: 'double',
+            example: 25.5,
+          },
           points: { type: 'number', format: 'double', example: 150.0 },
           createdAt: { type: 'string', format: 'date-time' },
           updatedAt: { type: 'string', format: 'date-time' },
@@ -2370,7 +2424,15 @@ export const openApiDocument = {
       },
       CreateCivilianInput: {
         type: 'object',
-        required: ['userId', 'addressId', 'level', 'exp', 'streak', 'totalVolumeDisposed', 'points'],
+        required: [
+          'userId',
+          'addressId',
+          'level',
+          'exp',
+          'streak',
+          'totalVolumeDisposed',
+          'points',
+        ],
         properties: {
           userId: { type: 'number', example: 1 },
           addressId: { type: 'number', example: 1 },
@@ -2378,7 +2440,11 @@ export const openApiDocument = {
           exp: { type: 'number', example: 0 },
           streak: { type: 'number', example: 0 },
           leaderboardRank: { type: 'number', example: null, nullable: true },
-          totalVolumeDisposed: { type: 'number', format: 'double', example: 0.0 },
+          totalVolumeDisposed: {
+            type: 'number',
+            format: 'double',
+            example: 0.0,
+          },
           points: { type: 'number', format: 'double', example: 0.0 },
         },
       },
@@ -2391,7 +2457,11 @@ export const openApiDocument = {
           exp: { type: 'number', example: 250 },
           streak: { type: 'number', example: 7 },
           leaderboardRank: { type: 'number', example: 10, nullable: true },
-          totalVolumeDisposed: { type: 'number', format: 'double', example: 25.5 },
+          totalVolumeDisposed: {
+            type: 'number',
+            format: 'double',
+            example: 25.5,
+          },
           points: { type: 'number', format: 'double', example: 150.0 },
         },
       },
@@ -2404,7 +2474,11 @@ export const openApiDocument = {
           plateNumber: { type: 'string', example: 'ABC-123' },
           active: { type: 'boolean', example: true },
           userId: { type: 'number', example: 1 },
-          totalCollectedVolume: { type: 'number', format: 'double', example: 500.75 },
+          totalCollectedVolume: {
+            type: 'number',
+            format: 'double',
+            example: 500.75,
+          },
           createdAt: { type: 'string', format: 'date-time' },
           updatedAt: { type: 'string', format: 'date-time' },
           deletedAt: { type: 'string', format: 'date-time', nullable: true },
@@ -2417,7 +2491,11 @@ export const openApiDocument = {
           plateNumber: { type: 'string', example: 'ABC-123' },
           active: { type: 'boolean', example: true },
           userId: { type: 'number', example: 1 },
-          totalCollectedVolume: { type: 'number', format: 'double', example: 0.0 },
+          totalCollectedVolume: {
+            type: 'number',
+            format: 'double',
+            example: 0.0,
+          },
         },
       },
       UpdateTruckInput: {
@@ -2426,7 +2504,11 @@ export const openApiDocument = {
           plateNumber: { type: 'string', example: 'ABC-123' },
           active: { type: 'boolean', example: true },
           userId: { type: 'number', example: 1 },
-          totalCollectedVolume: { type: 'number', format: 'double', example: 500.75 },
+          totalCollectedVolume: {
+            type: 'number',
+            format: 'double',
+            example: 500.75,
+          },
         },
       },
 
@@ -2467,7 +2549,10 @@ export const openApiDocument = {
         properties: {
           id: { type: 'number', example: 1 },
           truckId: { type: 'number', example: 1 },
-          route: { type: 'string', example: 'LINESTRING(121.1029 14.6507, 121.1030 14.6508)' },
+          route: {
+            type: 'string',
+            example: 'LINESTRING(121.1029 14.6507, 121.1030 14.6508)',
+          },
           validFrom: { type: 'string', format: 'date-time' },
           validTo: { type: 'string', format: 'date-time' },
         },
@@ -2477,7 +2562,10 @@ export const openApiDocument = {
         required: ['truckId', 'route', 'validFrom', 'validTo'],
         properties: {
           truckId: { type: 'number', example: 1 },
-          route: { type: 'string', example: 'LINESTRING(121.1029 14.6507, 121.1030 14.6508)' },
+          route: {
+            type: 'string',
+            example: 'LINESTRING(121.1029 14.6507, 121.1030 14.6508)',
+          },
           validFrom: { type: 'string', format: 'date-time' },
           validTo: { type: 'string', format: 'date-time' },
         },
@@ -2486,7 +2574,10 @@ export const openApiDocument = {
         type: 'object',
         properties: {
           truckId: { type: 'number', example: 1 },
-          route: { type: 'string', example: 'LINESTRING(121.1029 14.6507, 121.1030 14.6508)' },
+          route: {
+            type: 'string',
+            example: 'LINESTRING(121.1029 14.6507, 121.1030 14.6508)',
+          },
           validFrom: { type: 'string', format: 'date-time' },
           validTo: { type: 'string', format: 'date-time' },
         },
@@ -2504,7 +2595,11 @@ export const openApiDocument = {
           wasteType: { $ref: '#/components/schemas/WasteType' },
           collected: { type: 'boolean', example: false },
           dateDisposed: { type: 'string', format: 'date-time' },
-          dateCollected: { type: 'string', format: 'date-time', nullable: true },
+          dateCollected: {
+            type: 'string',
+            format: 'date-time',
+            nullable: true,
+          },
           collectorId: { type: 'number', example: 1, nullable: true },
           createdAt: { type: 'string', format: 'date-time' },
           updatedAt: { type: 'string', format: 'date-time' },
@@ -2513,7 +2608,15 @@ export const openApiDocument = {
       },
       CreateTrashRecordInput: {
         type: 'object',
-        required: ['civilianId', 'volume', 'segregationScore', 'recyclingScore', 'wasteType', 'collected', 'dateDisposed'],
+        required: [
+          'civilianId',
+          'volume',
+          'segregationScore',
+          'recyclingScore',
+          'wasteType',
+          'collected',
+          'dateDisposed',
+        ],
         properties: {
           civilianId: { type: 'number', example: 1 },
           volume: { type: 'number', format: 'double', example: 2.5 },
@@ -2522,7 +2625,11 @@ export const openApiDocument = {
           wasteType: { $ref: '#/components/schemas/WasteType' },
           collected: { type: 'boolean', example: false },
           dateDisposed: { type: 'string', format: 'date-time' },
-          dateCollected: { type: 'string', format: 'date-time', nullable: true },
+          dateCollected: {
+            type: 'string',
+            format: 'date-time',
+            nullable: true,
+          },
           collectorId: { type: 'number', example: 1, nullable: true },
         },
       },
@@ -2536,7 +2643,11 @@ export const openApiDocument = {
           wasteType: { $ref: '#/components/schemas/WasteType' },
           collected: { type: 'boolean', example: true },
           dateDisposed: { type: 'string', format: 'date-time' },
-          dateCollected: { type: 'string', format: 'date-time', nullable: true },
+          dateCollected: {
+            type: 'string',
+            format: 'date-time',
+            nullable: true,
+          },
           collectorId: { type: 'number', example: 1, nullable: true },
         },
       },
@@ -2580,7 +2691,11 @@ export const openApiDocument = {
           dissolvedOxygen: { type: 'number', format: 'double', example: 8.5 },
           turbidity: { type: 'number', format: 'double', example: 2.1 },
           orp: { type: 'number', format: 'double', example: 200.0 },
-          electricalConductivity: { type: 'number', format: 'double', example: 300.0 },
+          electricalConductivity: {
+            type: 'number',
+            format: 'double',
+            example: 300.0,
+          },
           connectionMode: { $ref: '#/components/schemas/ConnectionMode' },
           createdAt: { type: 'string', format: 'date-time' },
           deletedAt: { type: 'string', format: 'date-time', nullable: true },
@@ -2588,7 +2703,16 @@ export const openApiDocument = {
       },
       CreateSensorDataInput: {
         type: 'object',
-        required: ['sensorId', 'ph', 'tds', 'dissolvedOxygen', 'turbidity', 'orp', 'electricalConductivity', 'connectionMode'],
+        required: [
+          'sensorId',
+          'ph',
+          'tds',
+          'dissolvedOxygen',
+          'turbidity',
+          'orp',
+          'electricalConductivity',
+          'connectionMode',
+        ],
         properties: {
           sensorId: { type: 'number', example: 1 },
           ph: { type: 'number', format: 'double', example: 7.2 },
@@ -2596,7 +2720,11 @@ export const openApiDocument = {
           dissolvedOxygen: { type: 'number', format: 'double', example: 8.5 },
           turbidity: { type: 'number', format: 'double', example: 2.1 },
           orp: { type: 'number', format: 'double', example: 200.0 },
-          electricalConductivity: { type: 'number', format: 'double', example: 300.0 },
+          electricalConductivity: {
+            type: 'number',
+            format: 'double',
+            example: 300.0,
+          },
           connectionMode: { $ref: '#/components/schemas/ConnectionMode' },
         },
       },
@@ -2609,7 +2737,11 @@ export const openApiDocument = {
           dissolvedOxygen: { type: 'number', format: 'double', example: 8.5 },
           turbidity: { type: 'number', format: 'double', example: 2.1 },
           orp: { type: 'number', format: 'double', example: 200.0 },
-          electricalConductivity: { type: 'number', format: 'double', example: 300.0 },
+          electricalConductivity: {
+            type: 'number',
+            format: 'double',
+            example: 300.0,
+          },
           connectionMode: { $ref: '#/components/schemas/ConnectionMode' },
         },
       },
@@ -2657,26 +2789,52 @@ export const openApiDocument = {
           sensorId: { type: 'number', example: 1 },
           avePh: { type: 'number', format: 'double', example: 7.2 },
           aveTds: { type: 'number', format: 'double', example: 150.0 },
-          aveDissolvedOxygen: { type: 'number', format: 'double', example: 8.5 },
+          aveDissolvedOxygen: {
+            type: 'number',
+            format: 'double',
+            example: 8.5,
+          },
           aveTurbidity: { type: 'number', format: 'double', example: 2.1 },
           aveOrp: { type: 'number', format: 'double', example: 200.0 },
-          aveElectricalConductivity: { type: 'number', format: 'double', example: 300.0 },
+          aveElectricalConductivity: {
+            type: 'number',
+            format: 'double',
+            example: 300.0,
+          },
           updatedAt: { type: 'string', format: 'date-time' },
         },
       },
       CreateWaterQualityStatisticsInput: {
         type: 'object',
-        required: ['interval', 'startDate', 'sensorId', 'avePh', 'aveTds', 'aveDissolvedOxygen', 'aveTurbidity', 'aveOrp', 'aveElectricalConductivity'],
+        required: [
+          'interval',
+          'startDate',
+          'sensorId',
+          'avePh',
+          'aveTds',
+          'aveDissolvedOxygen',
+          'aveTurbidity',
+          'aveOrp',
+          'aveElectricalConductivity',
+        ],
         properties: {
           interval: { $ref: '#/components/schemas/IntervalType' },
           startDate: { type: 'string', format: 'date' },
           sensorId: { type: 'number', example: 1 },
           avePh: { type: 'number', format: 'double', example: 7.2 },
           aveTds: { type: 'number', format: 'double', example: 150.0 },
-          aveDissolvedOxygen: { type: 'number', format: 'double', example: 8.5 },
+          aveDissolvedOxygen: {
+            type: 'number',
+            format: 'double',
+            example: 8.5,
+          },
           aveTurbidity: { type: 'number', format: 'double', example: 2.1 },
           aveOrp: { type: 'number', format: 'double', example: 200.0 },
-          aveElectricalConductivity: { type: 'number', format: 'double', example: 300.0 },
+          aveElectricalConductivity: {
+            type: 'number',
+            format: 'double',
+            example: 300.0,
+          },
         },
       },
       UpdateWaterQualityStatisticsInput: {
@@ -2685,10 +2843,18 @@ export const openApiDocument = {
           sensorId: { type: 'number', example: 1 },
           avePh: { type: 'number', format: 'double', example: 7.2 },
           aveTds: { type: 'number', format: 'double', example: 150.0 },
-          aveDissolvedOxygen: { type: 'number', format: 'double', example: 8.5 },
+          aveDissolvedOxygen: {
+            type: 'number',
+            format: 'double',
+            example: 8.5,
+          },
           aveTurbidity: { type: 'number', format: 'double', example: 2.1 },
           aveOrp: { type: 'number', format: 'double', example: 200.0 },
-          aveElectricalConductivity: { type: 'number', format: 'double', example: 300.0 },
+          aveElectricalConductivity: {
+            type: 'number',
+            format: 'double',
+            example: 300.0,
+          },
         },
       },
 
@@ -2737,7 +2903,14 @@ export const openApiDocument = {
       },
       CreateRewardMultipliersInput: {
         type: 'object',
-        required: ['barangayId', 'interval', 'startDate', 'endDate', 'multiplierExp', 'multiplierPoints'],
+        required: [
+          'barangayId',
+          'interval',
+          'startDate',
+          'endDate',
+          'multiplierExp',
+          'multiplierPoints',
+        ],
         properties: {
           barangayId: { type: 'number', example: 1 },
           interval: { $ref: '#/components/schemas/IntervalType' },
@@ -2839,4 +3012,4 @@ export const openApiDocument = {
       },
     },
   },
-} 
+};

@@ -1,7 +1,18 @@
 import { Context } from 'hono';
 import { StatusCodes } from 'http-status-codes';
-import { createTrashStatistics, deleteTrashStatistics, getTrashStatisticsById, getTrashStatistics, updateTrashStatistics } from '@/services/trashStatisticsService';
-import { validateCreateTrashStatistics, validateUpdateTrashStatistics, parseTrashStatisticsId } from '@/utils/trashStatistics/trashStatisticsUtil';
+
+import {
+  createTrashStatistics,
+  deleteTrashStatistics,
+  getTrashStatisticsById,
+  getTrashStatistics,
+  updateTrashStatistics,
+} from '@/services/trashStatisticsService';
+import {
+  validateCreateTrashStatistics,
+  validateUpdateTrashStatistics,
+  parseTrashStatisticsId,
+} from '@/utils/trashStatistics/trashStatisticsUtil';
 
 /**
  * Get all active trash statistics (non-deleted trash statistics)

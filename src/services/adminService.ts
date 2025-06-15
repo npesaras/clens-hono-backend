@@ -1,4 +1,5 @@
 import { eq, isNull, and } from 'drizzle-orm';
+
 import { db } from '@/db/dbConfig';
 import { admin, users } from '@/db/schema';
 import { NotFoundError } from '@/utils/error';
@@ -17,11 +18,8 @@ export async function createAdmin(data: CreateAdminInput) {
   const user = await db
     .select()
     .from(users)
-    .where(and(
-      eq(users.id, data.userId),
-      isNull(users.deletedAt)
-    ));
-  
+    .where(and(eq(users.id, data.userId), isNull(users.deletedAt)));
+
   if (!user[0]) {
     throw new NotFoundError('User not found or has been deleted');
   }
@@ -30,10 +28,7 @@ export async function createAdmin(data: CreateAdminInput) {
   const existingAdmin = await db
     .select()
     .from(admin)
-    .where(and(
-      eq(admin.userId, data.userId),
-      isNull(admin.deletedAt)
-    ));
+    .where(and(eq(admin.userId, data.userId), isNull(admin.deletedAt)));
 
   if (existingAdmin[0]) {
     throw new Error('Admin record already exists for this user');
@@ -43,7 +38,8 @@ export async function createAdmin(data: CreateAdminInput) {
   return newAdmin;
 }
 
-export async function getAdmins() {  return await db
+export async function getAdmins() {
+  return await db
     .select({
       id: admin.id,
       userId: admin.userId,
@@ -58,18 +54,16 @@ export async function getAdmins() {  return await db
         firstName: users.firstName,
         middleName: users.middleName,
         lastName: users.lastName,
-        usertype: users.usertype
-      }
+        usertype: users.usertype,
+      },
     })
     .from(admin)
     .leftJoin(users, eq(admin.userId, users.id))
-    .where(and(
-      isNull(admin.deletedAt),
-      isNull(users.deletedAt)
-    ));
+    .where(and(isNull(admin.deletedAt), isNull(users.deletedAt)));
 }
 
-export async function getAdminById(id: number) {  const result = await db
+export async function getAdminById(id: number) {
+  const result = await db
     .select({
       id: admin.id,
       userId: admin.userId,
@@ -84,26 +78,25 @@ export async function getAdminById(id: number) {  const result = await db
         firstName: users.firstName,
         middleName: users.middleName,
         lastName: users.lastName,
-        usertype: users.usertype
-      }
+        usertype: users.usertype,
+      },
     })
     .from(admin)
     .leftJoin(users, eq(admin.userId, users.id))
-    .where(and(
-      eq(admin.id, id),
-      isNull(admin.deletedAt),
-      isNull(users.deletedAt)
-    ));
-  
+    .where(
+      and(eq(admin.id, id), isNull(admin.deletedAt), isNull(users.deletedAt))
+    );
+
   const adminRecord = result[0];
   if (!adminRecord) {
     throw new NotFoundError('Admin not found');
   }
-  
+
   return adminRecord;
 }
 
-export async function getAdminByUserId(userId: number) {  const result = await db
+export async function getAdminByUserId(userId: number) {
+  const result = await db
     .select({
       id: admin.id,
       userId: admin.userId,
@@ -118,29 +111,31 @@ export async function getAdminByUserId(userId: number) {  const result = await d
         firstName: users.firstName,
         middleName: users.middleName,
         lastName: users.lastName,
-        usertype: users.usertype
-      }
+        usertype: users.usertype,
+      },
     })
     .from(admin)
     .leftJoin(users, eq(admin.userId, users.id))
-    .where(and(
-      eq(admin.userId, userId),
-      isNull(admin.deletedAt),
-      isNull(users.deletedAt)
-    ));
-  
+    .where(
+      and(
+        eq(admin.userId, userId),
+        isNull(admin.deletedAt),
+        isNull(users.deletedAt)
+      )
+    );
+
   const adminRecord = result[0];
   if (!adminRecord) {
     throw new NotFoundError('Admin not found for this user');
   }
-  
+
   return adminRecord;
 }
 
 export async function updateAdmin(id: number, data: UpdateAdminInput) {
   // First check if admin exists and is not deleted
   const existingAdmin = await getAdminById(id);
-  
+
   if (!existingAdmin) {
     throw new NotFoundError('Admin not found');
   }
@@ -150,11 +145,8 @@ export async function updateAdmin(id: number, data: UpdateAdminInput) {
     const user = await db
       .select()
       .from(users)
-      .where(and(
-        eq(users.id, data.userId),
-        isNull(users.deletedAt)
-      ));
-    
+      .where(and(eq(users.id, data.userId), isNull(users.deletedAt)));
+
     if (!user[0]) {
       throw new NotFoundError('User not found or has been deleted');
     }
@@ -162,10 +154,7 @@ export async function updateAdmin(id: number, data: UpdateAdminInput) {
     const existingAdminForUser = await db
       .select()
       .from(admin)
-      .where(and(
-        eq(admin.userId, data.userId),
-        isNull(admin.deletedAt)
-      ));
+      .where(and(eq(admin.userId, data.userId), isNull(admin.deletedAt)));
 
     if (existingAdminForUser[0]) {
       throw new Error('Admin record already exists for this user');
@@ -176,18 +165,18 @@ export async function updateAdmin(id: number, data: UpdateAdminInput) {
     .update(admin)
     .set({
       ...data,
-      updatedAt: new Date()
+      updatedAt: new Date(),
     })
     .where(eq(admin.id, id))
     .returning();
-  
+
   return updatedAdmin;
 }
 
 export async function deleteAdmin(id: number) {
   // Check if admin exists and is not already deleted
   const existingAdmin = await getAdminById(id);
-  
+
   if (!existingAdmin) {
     throw new NotFoundError('Admin not found');
   }
@@ -196,10 +185,10 @@ export async function deleteAdmin(id: number) {
     .update(admin)
     .set({
       deletedAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
     })
     .where(eq(admin.id, id))
     .returning();
-  
+
   return deletedAdmin;
 }

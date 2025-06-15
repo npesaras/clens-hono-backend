@@ -1,7 +1,18 @@
 import { Context } from 'hono';
 import { StatusCodes } from 'http-status-codes';
-import { createTruck, deleteTruck, getTruckById, getTrucks, updateTruck } from '@/services/truckService';
-import { validateCreateTruck, validateUpdateTruck, parseTruckId } from '@/utils/truck/truckUtil';
+
+import {
+  createTruck,
+  deleteTruck,
+  getTruckById,
+  getTrucks,
+  updateTruck,
+} from '@/services/truckService';
+import {
+  validateCreateTruck,
+  validateUpdateTruck,
+  parseTruckId,
+} from '@/utils/truck/truckUtil';
 
 /**
  * Get all active trucks (non-deleted trucks)

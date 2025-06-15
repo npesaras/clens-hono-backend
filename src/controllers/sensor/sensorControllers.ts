@@ -1,7 +1,18 @@
 import { Context } from 'hono';
 import { StatusCodes } from 'http-status-codes';
-import { createSensor, deleteSensor, getSensorById, getSensors, updateSensor } from '@/services/sensorService';
-import { validateCreateSensor, validateUpdateSensor, parseSensorId } from '@/utils/sensor/sensorUtil';
+
+import {
+  createSensor,
+  deleteSensor,
+  getSensorById,
+  getSensors,
+  updateSensor,
+} from '@/services/sensorService';
+import {
+  validateCreateSensor,
+  validateUpdateSensor,
+  parseSensorId,
+} from '@/utils/sensor/sensorUtil';
 
 /**
  * Get all sensors

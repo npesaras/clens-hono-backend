@@ -1,4 +1,5 @@
 import { eq } from 'drizzle-orm';
+
 import { db } from '@/db/dbConfig';
 import { sensor } from '@/db/schema';
 import { NotFoundError } from '@/utils/error';
@@ -17,22 +18,17 @@ export async function createSensor(data: CreateSensorInput) {
 }
 
 export async function getSensors() {
-  return await db
-    .select()
-    .from(sensor);
+  return await db.select().from(sensor);
 }
 
 export async function getSensorById(id: number) {
-  const result = await db
-    .select()
-    .from(sensor)
-    .where(eq(sensor.id, id));
-  
+  const result = await db.select().from(sensor).where(eq(sensor.id, id));
+
   const foundSensor = result[0];
   if (!foundSensor) {
     throw new NotFoundError('Sensor not found');
   }
-  
+
   return foundSensor;
 }
 
@@ -42,11 +38,11 @@ export async function updateSensor(id: number, data: UpdateSensorInput) {
     .set(data)
     .where(eq(sensor.id, id))
     .returning();
-  
+
   if (!updatedSensor) {
     throw new NotFoundError('Sensor not found');
   }
-  
+
   return updatedSensor;
 }
 
@@ -55,10 +51,10 @@ export async function deleteSensor(id: number) {
     .delete(sensor)
     .where(eq(sensor.id, id))
     .returning();
-  
+
   if (!deletedSensor) {
     throw new NotFoundError('Sensor not found');
   }
-  
+
   return deletedSensor;
 }

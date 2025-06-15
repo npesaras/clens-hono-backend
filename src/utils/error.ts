@@ -55,7 +55,10 @@ export function makeError<TError extends Error>(error: TError) {
     };
   }
 
-  if (error.message.includes('jwt malformed') || error.message.includes('invalid signature')) {
+  if (
+    error.message.includes('jwt malformed') ||
+    error.message.includes('invalid signature')
+  ) {
     return {
       statusCode: StatusCodes.BAD_REQUEST,
       error: { name: 'BadRequestError', message: 'Invalid token' },

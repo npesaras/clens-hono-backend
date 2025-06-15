@@ -3,20 +3,22 @@
  * This module defines all collection schedule-related API endpoints
  */
 
-import { authenticationMiddleware } from "@/middlewares/authentication.js";
-import { Hono } from "hono";
+import { Hono } from 'hono';
+
 import {
   createCollectionScheduleController,
   deleteCollectionScheduleController,
   getCollectionScheduleController,
   getCollectionSchedulesController,
   updateCollectionScheduleController,
-} from "./collectionScheduleControllers.js";
+} from './collectionScheduleControllers.js';
+
+import { authenticationMiddleware } from '@/middlewares/authentication.js';
 
 /**
  * Collection Schedule Router Configuration
  * All routes require authentication
- * 
+ *
  * Available endpoints:
  * - GET    /collection-schedules      - Retrieve all collection schedules
  * - POST   /collection-schedules      - Create a new collection schedule
@@ -26,18 +28,38 @@ import {
  */
 const router = new Hono()
   // Get all collection schedules (requires authentication)
-  .get("/collection-schedules", authenticationMiddleware, getCollectionSchedulesController)
-  
+  .get(
+    '/collection-schedules',
+    authenticationMiddleware,
+    getCollectionSchedulesController
+  )
+
   // Create a new collection schedule (requires authentication)
-  .post("/collection-schedules", authenticationMiddleware, createCollectionScheduleController)
-  
+  .post(
+    '/collection-schedules',
+    authenticationMiddleware,
+    createCollectionScheduleController
+  )
+
   // Get a specific collection schedule by ID (requires authentication)
-  .get("/collection-schedules/:id", authenticationMiddleware, getCollectionScheduleController)
-  
+  .get(
+    '/collection-schedules/:id',
+    authenticationMiddleware,
+    getCollectionScheduleController
+  )
+
   // Delete a collection schedule (requires authentication)
-  .delete("/collection-schedules/:id", authenticationMiddleware, deleteCollectionScheduleController)
-  
+  .delete(
+    '/collection-schedules/:id',
+    authenticationMiddleware,
+    deleteCollectionScheduleController
+  )
+
   // Update a collection schedule's information (requires authentication)
-  .put("/collection-schedules/:id", authenticationMiddleware, updateCollectionScheduleController);
+  .put(
+    '/collection-schedules/:id',
+    authenticationMiddleware,
+    updateCollectionScheduleController
+  );
 
 export default router;

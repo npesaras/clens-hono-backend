@@ -3,20 +3,21 @@
  * This module contains all collection schedule-related request handlers
  */
 
-import type { Context } from "hono";
+import type { Context } from 'hono';
 import { StatusCodes } from 'http-status-codes';
-import { 
-  createCollectionSchedule, 
-  getCollectionSchedules, 
-  getCollectionScheduleById, 
-  updateCollectionSchedule, 
-  deleteCollectionSchedule 
-} from "@/services/collectionScheduleService.js";
-import { 
-  validateCreateCollectionSchedule, 
-  validateUpdateCollectionSchedule, 
-  parseCollectionScheduleId 
-} from "@/utils/collectionSchedule/collectionScheduleUtil.js";
+
+import {
+  createCollectionSchedule,
+  getCollectionSchedules,
+  getCollectionScheduleById,
+  updateCollectionSchedule,
+  deleteCollectionSchedule,
+} from '@/services/collectionScheduleService.js';
+import {
+  validateCreateCollectionSchedule,
+  validateUpdateCollectionSchedule,
+  parseCollectionScheduleId,
+} from '@/utils/collectionSchedule/collectionScheduleUtil.js';
 
 /**
  * Get all collection schedules
@@ -49,7 +50,8 @@ export async function getCollectionScheduleController(c: Context) {
 export async function createCollectionScheduleController(c: Context) {
   const body = await c.req.json();
   const validatedData = validateCreateCollectionSchedule(body);
-  const createdCollectionSchedule = await createCollectionSchedule(validatedData);
+  const createdCollectionSchedule =
+    await createCollectionSchedule(validatedData);
   return c.json(createdCollectionSchedule, StatusCodes.CREATED);
 }
 
@@ -64,7 +66,10 @@ export async function updateCollectionScheduleController(c: Context) {
   const id = parseCollectionScheduleId(c.req.param('id'));
   const body = await c.req.json();
   const validatedData = validateUpdateCollectionSchedule(body);
-  const updatedCollectionSchedule = await updateCollectionSchedule(id, validatedData);
+  const updatedCollectionSchedule = await updateCollectionSchedule(
+    id,
+    validatedData
+  );
   return c.json(updatedCollectionSchedule);
 }
 

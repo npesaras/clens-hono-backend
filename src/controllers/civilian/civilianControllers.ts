@@ -3,22 +3,23 @@
  * This module contains all civilian-related request handlers
  */
 
-import type { Context } from "hono";
-import { 
-  createCivilian, 
-  getCivilians, 
-  getCivilianById, 
-  getCivilianByUserId,
-  updateCivilian, 
+import type { Context } from 'hono';
+
+import {
+  createCivilian,
   deleteCivilian,
-  getCivilianLeaderboard
-} from "@/services/civilianService.js";
-import { 
-  validateCreateCivilian, 
-  validateUpdateCivilian, 
-  parseCivilianId 
-} from "@/utils/civilian/civilianUtil.js";
-import { BadRequestError } from "@/utils/error.js";
+  getCivilianById,
+  getCivilianByUserId,
+  getCivilianLeaderboard,
+  getCivilians,
+  updateCivilian,
+} from '@/services/civilianService.js';
+import {
+  parseCivilianId,
+  validateCreateCivilian,
+  validateUpdateCivilian,
+} from '@/utils/civilian/civilianUtil.js';
+import { BadRequestError } from '@/utils/error.js';
 
 /**
  * Get all civilians with their associated user information
@@ -26,12 +27,8 @@ import { BadRequestError } from "@/utils/error.js";
  * @returns JSON response with array of civilian records
  */
 export async function getCiviliansController(c: Context) {
-  try {
-    const civilians = await getCivilians();
-    return c.json(civilians);
-  } catch (error) {
-    throw error;
-  }
+  const civilians = await getCivilians();
+  return c.json(civilians);
 }
 
 /**
@@ -41,13 +38,9 @@ export async function getCiviliansController(c: Context) {
  * @throws NotFoundError if civilian doesn't exist or is deleted
  */
 export async function getCivilianController(c: Context) {
-  try {
-    const civilianId = parseCivilianId(c.req.param('id'));
-    const civilian = await getCivilianById(civilianId);
-    return c.json(civilian);
-  } catch (error) {
-    throw error;
-  }
+  const civilianId = parseCivilianId(c.req.param('id'));
+  const civilian = await getCivilianById(civilianId);
+  return c.json(civilian);
 }
 
 /**
@@ -57,13 +50,9 @@ export async function getCivilianController(c: Context) {
  * @throws NotFoundError if civilian doesn't exist for the user
  */
 export async function getCivilianByUserController(c: Context) {
-  try {
-    const userId = parseCivilianId(c.req.param('userId'));
-    const civilian = await getCivilianByUserId(userId);
-    return c.json(civilian);
-  } catch (error) {
-    throw error;
-  }
+  const userId = parseCivilianId(c.req.param('userId'));
+  const civilian = await getCivilianByUserId(userId);
+  return c.json(civilian);
 }
 
 /**
@@ -74,17 +63,10 @@ export async function getCivilianByUserController(c: Context) {
  * @throws NotFoundError if referenced user doesn't exist
  */
 export async function createCivilianController(c: Context) {
-  try {
-    const body = await c.req.json();
-    const validatedData = validateCreateCivilian(body);
-    const civilian = await createCivilian(validatedData);
-    return c.json(civilian, 201);
-  } catch (error) {
-    if (error instanceof SyntaxError) {
-      throw new BadRequestError('Invalid JSON in request body');
-    }
-    throw error;
-  }
+  const body = await c.req.json();
+  const validatedData = validateCreateCivilian(body);
+  const civilian = await createCivilian(validatedData);
+  return c.json(civilian, 201);
 }
 
 /**
@@ -95,18 +77,11 @@ export async function createCivilianController(c: Context) {
  * @throws BadRequestError if update data is invalid
  */
 export async function updateCivilianController(c: Context) {
-  try {
-    const civilianId = parseCivilianId(c.req.param('id'));
-    const body = await c.req.json();
-    const validatedData = validateUpdateCivilian(body);
-    const civilian = await updateCivilian(civilianId, validatedData);
-    return c.json(civilian);
-  } catch (error) {
-    if (error instanceof SyntaxError) {
-      throw new BadRequestError('Invalid JSON in request body');
-    }
-    throw error;
-  }
+  const civilianId = parseCivilianId(c.req.param('id'));
+  const body = await c.req.json();
+  const validatedData = validateUpdateCivilian(body);
+  const civilian = await updateCivilian(civilianId, validatedData);
+  return c.json(civilian);
 }
 
 /**
@@ -116,13 +91,9 @@ export async function updateCivilianController(c: Context) {
  * @throws NotFoundError if civilian doesn't exist or is already deleted
  */
 export async function deleteCivilianController(c: Context) {
-  try {
-    const civilianId = parseCivilianId(c.req.param('id'));
-    const civilian = await deleteCivilian(civilianId);
-    return c.json(civilian);
-  } catch (error) {
-    throw error;
-  }
+  const civilianId = parseCivilianId(c.req.param('id'));
+  const civilian = await deleteCivilian(civilianId);
+  return c.json(civilian);
 }
 
 /**
@@ -131,17 +102,13 @@ export async function deleteCivilianController(c: Context) {
  * @returns JSON response with leaderboard data
  */
 export async function getCivilianLeaderboardController(c: Context) {
-  try {
-    const limitParam = c.req.query('limit');
-    const limit = limitParam ? parseInt(limitParam, 10) : 10;
-    
-    if (isNaN(limit) || limit < 1 || limit > 100) {
-      throw new BadRequestError('Limit must be a number between 1 and 100');
-    }
-    
-    const leaderboard = await getCivilianLeaderboard(limit);
-    return c.json(leaderboard);
-  } catch (error) {
-    throw error;
+  const limitParam = c.req.query('limit');
+  const limit = limitParam ? parseInt(limitParam, 10) : 10;
+
+  if (isNaN(limit) || limit < 1 || limit > 100) {
+    throw new BadRequestError('Limit must be a number between 1 and 100');
   }
+
+  const leaderboard = await getCivilianLeaderboard(limit);
+  return c.json(leaderboard);
 }
