@@ -48,7 +48,7 @@ export const address = pgTable('address', {
 });
 
 // User Table - exactly matching ERD
-export const users = pgTable('user', {
+export const users = pgTable('users', {
   id: serial('id').primaryKey(),
   usertype: userTypeEnum('user_type'),
   username: varchar('username', { length: 50 }).notNull().unique(),

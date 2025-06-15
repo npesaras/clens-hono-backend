@@ -65,6 +65,24 @@ import sensorDataRoutes from '@/controllers/sensorData/routes';
 import trashStatisticsRoutes from '@/controllers/trashStatistics/routes';
 
 /**
+ * Import water quality statistics-related routes from the waterQualityStatistics module
+ * This includes all CRUD operations for water quality statistics management
+ */
+import waterQualityStatisticsRoutes from '@/controllers/waterQualityStatistics/routes';
+
+/**
+ * Import collection schedule-related routes from the collectionSchedule module
+ * This includes all CRUD operations for collection schedule management
+ */
+import collectionScheduleRoutes from '@/controllers/collectionSchedule/routes';
+
+/**
+ * Import reward multipliers-related routes from the rewardMultipliers module
+ * This includes all CRUD operations for reward multipliers management
+ */
+import rewardMultipliersRoutes from '@/controllers/rewardMultipliers/routes';
+
+/**
  * Combine all route modules into a single array
  * Using 'as const' to ensure type safety and prevent modification
  * Currently includes:
@@ -77,8 +95,10 @@ import trashStatisticsRoutes from '@/controllers/trashStatistics/routes';
  * - truckRouteRoutes: Handles all truck route-related endpoints (/truck-routes/*)
  * - trashRecordRoutes: Handles all trash record-related endpoints (/trash-records/*)
  * - sensorRoutes: Handles all sensor-related endpoints (/sensors/*)
- * - sensorDataRoutes: Handles all sensor data-related endpoints (/sensor-data/*)
- * - trashStatisticsRoutes: Handles all trash statistics-related endpoints (/trash-statistics/*)
+ * - sensorDataRoutes: Handles all sensor data-related endpoints (/sensor-data/*) * - trashStatisticsRoutes: Handles all trash statistics-related endpoints (/trash-statistics/*)
+ * - waterQualityStatisticsRoutes: Handles all water quality statistics-related endpoints (/water-quality-statistics/*)
+ * - collectionScheduleRoutes: Handles all collection schedule-related endpoints (/collection-schedules/*)
+ * - rewardMultipliersRoutes: Handles all reward multipliers-related endpoints (/reward-multipliers/*)
  */
 export const routes = [
   usersRoutes, 
@@ -91,7 +111,10 @@ export const routes = [
   trashRecordRoutes, 
   sensorRoutes, 
   sensorDataRoutes, 
-  trashStatisticsRoutes
+  trashStatisticsRoutes,
+  waterQualityStatisticsRoutes,
+  collectionScheduleRoutes,
+  rewardMultipliersRoutes
 ] as const;
 
 /**
