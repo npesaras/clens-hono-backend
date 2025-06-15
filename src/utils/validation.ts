@@ -2,7 +2,7 @@ import { Context } from 'hono';
 import { StatusCodes } from 'http-status-codes';
 import { ZodError, ZodSchema } from 'zod';
 
-import { BadRequestError } from '@/utils/error';
+import { assertParam, throwBadRequest } from '@/middlewares/error-handler';
 
 /**
  * Validates request body using a Zod schema
@@ -20,9 +20,9 @@ export async function validateRequestBody<T>(
     return schema.parse(body);
   } catch (error) {
     if (error instanceof ZodError) {
-      throw new BadRequestError(`Validation failed: ${error.message}`);
+      throwBadRequest(`Validation failed: ${error.message}`);
     }
-    throw new BadRequestError('Invalid JSON in request body');
+    throwBadRequest('Invalid JSON in request body');
   }
 }
 
@@ -39,11 +39,9 @@ export function validateRequestParams<T>(c: Context, schema: ZodSchema<T>): T {
     return schema.parse(params);
   } catch (error) {
     if (error instanceof ZodError) {
-      throw new BadRequestError(
-        `Parameter validation failed: ${error.message}`
-      );
+      throwBadRequest(`Parameter validation failed: ${error.message}`);
     }
-    throw new BadRequestError('Invalid request parameters');
+    throwBadRequest('Invalid request parameters');
   }
 }
 
@@ -60,9 +58,9 @@ export function validateQueryParams<T>(c: Context, schema: ZodSchema<T>): T {
     return schema.parse(query);
   } catch (error) {
     if (error instanceof ZodError) {
-      throw new BadRequestError(`Query validation failed: ${error.message}`);
+      throwBadRequest(`Query validation failed: ${error.message}`);
     }
-    throw new BadRequestError('Invalid query parameters');
+    throwBadRequest('Invalid query parameters');
   }
 }
 
@@ -133,4 +131,37 @@ export function createPaginatedResponse<T>(
     },
     timestamp: new Date().toISOString(),
   });
+}
+
+/**
+ * Safely parses an ID parameter from the request
+ * @param c - Hono Context
+ * @param paramName - The parameter name (default: 'id')
+ * @returns Parsed numeric ID
+ * @throws BadRequestError if ID is invalid
+ */
+export function parseIdParam(c: Context, paramName = 'id'): number {
+  const idStr = c.req.param(paramName);
+  assertParam(idStr, paramName);
+
+  const id = Number(idStr);
+  if (isNaN(id) || id <= 0) {
+    throwBadRequest(`Invalid ${paramName}: must be a positive number`);
+  }
+
+  return id;
+}
+
+/**
+ * Safely gets and validates request body JSON
+ * @param c - Hono Context
+ * @returns Parsed JSON object
+ * @throws BadRequestError if JSON is invalid
+ */
+export async function getValidatedBody(c: Context): Promise<unknown> {
+  try {
+    return await c.req.json();
+  } catch {
+    throwBadRequest('Invalid JSON in request body');
+  }
 }

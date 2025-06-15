@@ -8,11 +8,8 @@ import {
   getUsers,
   updateUser,
 } from '@/services/userService';
-import {
-  validateCreateUser,
-  validateUpdateUser,
-  parseUserId,
-} from '@/utils/users/userUtil';
+import { createUserSchema, updateUserSchema } from '@/utils/users/userUtil';
+import { parseIdParam, validateRequestBody } from '@/utils/validation';
 
 /**
  * Get all active users (non-deleted users)
@@ -31,7 +28,7 @@ export async function getUsersController(c: Context) {
  * @throws NotFoundError if user doesn't exist or is deleted
  */
 export async function getUserController(c: Context) {
-  const id = parseUserId(c.req.param('id'));
+  const id = parseIdParam(c);
   const user = await getUserById(id);
   return c.json(user);
 }
@@ -43,8 +40,7 @@ export async function getUserController(c: Context) {
  * @throws ValidationError if request body is invalid
  */
 export async function createUserController(c: Context) {
-  const body = await c.req.json();
-  const validatedData = validateCreateUser(body);
+  const validatedData = await validateRequestBody(c, createUserSchema);
   const createdUser = await createUser(validatedData);
   return c.json(createdUser, StatusCodes.CREATED);
 }
@@ -57,9 +53,8 @@ export async function createUserController(c: Context) {
  * @throws ValidationError if update data is invalid
  */
 export async function updateUserController(c: Context) {
-  const id = parseUserId(c.req.param('id'));
-  const body = await c.req.json();
-  const validatedData = validateUpdateUser(body);
+  const id = parseIdParam(c);
+  const validatedData = await validateRequestBody(c, updateUserSchema);
   const updatedUser = await updateUser(id, validatedData);
   return c.json(updatedUser);
 }
@@ -71,7 +66,7 @@ export async function updateUserController(c: Context) {
  * @throws NotFoundError if user doesn't exist or is already deleted
  */
 export async function deleteUserController(c: Context) {
-  const id = parseUserId(c.req.param('id'));
+  const id = parseIdParam(c);
   const deletedUser = await deleteUser(id);
   return c.json(deletedUser);
 }

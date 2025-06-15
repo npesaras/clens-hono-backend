@@ -1,8 +1,7 @@
-import { eq, isNull, and } from 'drizzle-orm';
+import { and, eq, isNull } from 'drizzle-orm';
 
 import { db } from '@/db/dbConfig';
-import { address, province, city, barangay } from '@/db/schema';
-import { NotFoundError } from '@/utils/error';
+import { address, barangay, city, province } from '@/db/schema';
 
 export type CreateAddressInput = {
   street: string;

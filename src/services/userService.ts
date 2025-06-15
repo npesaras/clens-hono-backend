@@ -1,10 +1,10 @@
 import bcrypt from 'bcryptjs';
-import { eq, isNull, and } from 'drizzle-orm';
+import { and, eq, isNull } from 'drizzle-orm';
 
 import { db } from '@/db/dbConfig';
 import { users } from '@/db/schema';
+import { assertFound } from '@/middlewares/error-handler';
 import { env } from '@/utils/env';
-import { NotFoundError } from '@/utils/error';
 
 export type UserType = 'admin' | 'civilian' | 'collector';
 
@@ -46,10 +46,7 @@ export async function getUserById(id: number) {
     .where(and(eq(users.id, id), isNull(users.deletedAt)));
 
   const user = result[0];
-  if (!user) {
-    throw new NotFoundError('User not found');
-  }
-
+  assertFound(user, 'User', id);
   return user;
 }
 
@@ -64,10 +61,7 @@ export async function updateUser(id: number, data: UpdateUserInput) {
     .returning();
 
   const updatedUser = result[0];
-  if (!updatedUser) {
-    throw new NotFoundError('User not found');
-  }
-
+  assertFound(updatedUser, 'User', id);
   return updatedUser;
 }
 
@@ -83,9 +77,6 @@ export async function deleteUser(id: number) {
     .returning();
 
   const deletedUser = result[0];
-  if (!deletedUser) {
-    throw new NotFoundError('User not found');
-  }
-
+  assertFound(deletedUser, 'User', id);
   return deletedUser;
 }
