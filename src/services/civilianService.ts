@@ -6,12 +6,12 @@ import { NotFoundError } from '@/utils/error';
 export type CreateCivilianInput = {
   userId: number;
   addressId: number;
-  level?: number;
-  exp?: number;
-  streak?: number;
+  level: number;
+  exp: number;
+  streak: number;
   leaderboardRank?: number;
-  totalVolumeDisposed?: number;
-  points?: number;
+  totalVolumeDisposed: number;
+  points: number;
 };
 
 export type UpdateCivilianInput = Partial<CreateCivilianInput>;
@@ -77,9 +77,9 @@ export async function getCivilians() {
         id: users.id,
         username: users.username,
         email: users.email,
-        firstname: users.firstname,
-        middlename: users.middlename,
-        lastname: users.lastname,
+        firstName: users.firstName,
+        middleName: users.middleName,
+        lastName: users.lastName,
         usertype: users.usertype
       },
       address: {
@@ -120,14 +120,13 @@ export async function getCivilianById(id: number) {
       points: civilian.points,
       createdAt: civilian.createdAt,
       updatedAt: civilian.updatedAt,
-      deletedAt: civilian.deletedAt,
-      user: {
+      deletedAt: civilian.deletedAt,      user: {
         id: users.id,
         username: users.username,
         email: users.email,
-        firstname: users.firstname,
-        middlename: users.middlename,
-        lastname: users.lastname,
+        firstName: users.firstName,
+        middleName: users.middleName,
+        lastName: users.lastName,
         usertype: users.usertype      
     },
       address: {
@@ -176,14 +175,13 @@ export async function getCivilianByUserId(userId: number) {
       points: civilian.points,
       createdAt: civilian.createdAt,
       updatedAt: civilian.updatedAt,
-      deletedAt: civilian.deletedAt,
-      user: {
+      deletedAt: civilian.deletedAt,      user: {
         id: users.id,
         username: users.username,
         email: users.email,
-        firstname: users.firstname,
-        middlename: users.middlename,
-        lastname: users.lastname,
+        firstName: users.firstName,
+        middleName: users.middleName,
+        lastName: users.lastName,
         usertype: users.usertype
       },      address: {
         id: address.id,
@@ -309,12 +307,11 @@ export async function getCivilianLeaderboard(limit: number = 10) {
       streak: civilian.streak,
       leaderboardRank: civilian.leaderboardRank,
       totalVolumeDisposed: civilian.totalVolumeDisposed,
-      points: civilian.points,
-      user: {
+      points: civilian.points,      user: {
         id: users.id,
         username: users.username,
-        firstname: users.firstname,
-        lastname: users.lastname
+        firstName: users.firstName,
+        lastName: users.lastName
       }
     })
     .from(civilian)

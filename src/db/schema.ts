@@ -1,6 +1,6 @@
 import { pgTable, serial, text, timestamp, pgEnum, integer, doublePrecision, boolean, varchar, date, time, primaryKey } from 'drizzle-orm/pg-core';
 
-// Create the enum types
+// Create the enum types - exactly matching ERD
 export const userTypeEnum = pgEnum('usertype', ['admin', 'civilian', 'collector']);
 export const privilegeLevelEnum = pgEnum('privilege_level', ['superadmin', 'moderator', 'staff']);
 export const wasteTypeEnum = pgEnum('waste_type', ['organic', 'recyclable', 'hazardous', 'non-recyclable']);
@@ -9,14 +9,14 @@ export const connectionModeEnum = pgEnum('connection_mode', ['Wifi', 'lora']);
 export const statisticsTypeEnum = pgEnum('statistics_type', ['civilian', 'barangay']);
 export const intervalEnum = pgEnum('interval_type', ['day', 'week', 'month', 'year']);
 
-// Province Table
+// Province Table - exactly matching ERD
 export const province = pgTable('province', {
   id: serial('id').primaryKey(),
   code: integer('code').notNull(),
   name: text('name').notNull(),
 });
 
-// City Table
+// City Table - exactly matching ERD
 export const city = pgTable('city', {
   id: serial('id').primaryKey(),
   code: integer('code').notNull(),
@@ -24,7 +24,7 @@ export const city = pgTable('city', {
   provinceId: integer('province_id').notNull().references(() => province.id),
 });
 
-// Barangay Table
+// Barangay Table - exactly matching ERD
 export const barangay = pgTable('barangay', {
   id: serial('id').primaryKey(),
   code: integer('code').notNull(),
@@ -35,7 +35,7 @@ export const barangay = pgTable('barangay', {
   totalDisposed: integer('total_disposed'),
 });
 
-// Address Table
+// Address Table - exactly matching ERD
 export const address = pgTable('address', {
   id: serial('id').primaryKey(),
   street: text('street').notNull(),
@@ -47,22 +47,22 @@ export const address = pgTable('address', {
   deletedAt: timestamp('deleted_at'),
 });
 
-// User Table
+// User Table - exactly matching ERD
 export const users = pgTable('user', {
   id: serial('id').primaryKey(),
   usertype: userTypeEnum('user_type'),
   username: varchar('username', { length: 50 }).notNull().unique(),
   email: varchar('email', { length: 50 }).notNull().unique(),
-  firstname: varchar('first_name', { length: 30 }).notNull(),
-  middlename: varchar('middle_name', { length: 30 }).notNull(),
-  lastname: varchar('last_name', { length: 30 }).notNull(),
+  firstName: varchar('first_name', { length: 30 }).notNull(),
+  middleName: varchar('middle_name', { length: 30 }).notNull(),
+  lastName: varchar('last_name', { length: 30 }).notNull(),
   password: varchar('password', { length: 255 }).notNull(),
   createdAt: timestamp('created_at').defaultNow(),
   updatedAt: timestamp('updated_at').defaultNow(),
   deletedAt: timestamp('deleted_at'),
 });
 
-// Admin Table
+// Admin Table - exactly matching ERD (datetime -> timestamp in Postgres)
 export const admin = pgTable('admin', {
   id: serial('id').primaryKey(),
   userId: integer('user_id').notNull().unique().references(() => users.id),
@@ -72,7 +72,7 @@ export const admin = pgTable('admin', {
   deletedAt: timestamp('deleted_at'),
 });
 
-// Civilian Table
+// Civilian Table - exactly matching ERD (datetime -> timestamp in Postgres)
 export const civilian = pgTable('civilian', {
   id: serial('id').primaryKey(),
   userId: integer('user_id').notNull().unique().references(() => users.id),
@@ -88,7 +88,7 @@ export const civilian = pgTable('civilian', {
   deletedAt: timestamp('deleted_at'),
 });
 
-// Truck Table
+// Truck Table - exactly matching ERD (datetime -> timestamp in Postgres)
 export const truck = pgTable('truck', {
   id: serial('id').primaryKey(),
   plateNumber: varchar('plate_number').notNull(),
@@ -100,7 +100,7 @@ export const truck = pgTable('truck', {
   deletedAt: timestamp('deleted_at'),
 });
 
-// Location Table
+// Location Table - exactly matching ERD (datetime -> timestamp in Postgres)
 export const location = pgTable('location', {
   id: serial('id').primaryKey(),
   latitude: varchar('latitude').notNull(),
@@ -111,16 +111,16 @@ export const location = pgTable('location', {
   deletedAt: timestamp('deleted_at'),
 });
 
-// Truck Route Table
+// Truck Route Table - exactly matching ERD (datetime -> timestamp in Postgres, geometry -> text)
 export const truckRoute = pgTable('truck_route', {
   id: serial('id').primaryKey(),
   truckId: integer('truck_id').notNull().references(() => truck.id),
-  route: text('route').notNull(), // geometry type stored as text
+  route: text('route').notNull(), // geometry type stored as text in Postgres
   validFrom: timestamp('valid_from').notNull(),
   validTo: timestamp('valid_to').notNull(),
 });
 
-// Trash Record Table
+// Trash Record Table - exactly matching ERD (datetime -> timestamp in Postgres)
 export const trashRecord = pgTable('trash_record', {
   id: serial('id').primaryKey(),
   civilianId: integer('civilian_id').notNull().references(() => civilian.id),
@@ -137,7 +137,7 @@ export const trashRecord = pgTable('trash_record', {
   deletedAt: timestamp('deleted_at'),
 });
 
-// Sensor Table
+// Sensor Table - exactly matching ERD
 export const sensor = pgTable('sensor', {
   id: serial('id').primaryKey(),
   activeStatus: boolean('active_status').notNull(),
@@ -145,7 +145,7 @@ export const sensor = pgTable('sensor', {
   sensorType: sensorTypeEnum('sensor_type').notNull(),
 });
 
-// Sensor Data Table
+// Sensor Data Table - exactly matching ERD
 export const sensorData = pgTable('sensor_data', {
   id: serial('id').primaryKey(),
   sensorId: integer('sensor_id').notNull().references(() => sensor.id),
@@ -160,19 +160,20 @@ export const sensorData = pgTable('sensor_data', {
   deletedAt: timestamp('deleted_at'),
 });
 
-// Trash Statistics Table
+// Trash Statistics Table - exactly matching ERD
+// Note: entity_id references either barangay.id or civilian.id based on type field
 export const trashStatistics = pgTable('trash_statistics', {
   id: serial('id').primaryKey(),
   type: statisticsTypeEnum('type').notNull(),
   entityId: integer('entity_id').notNull(),
   leaderboardRank: integer('leaderboard_rank').notNull(),
   totalDisposed: doublePrecision('total_disposed').notNull(),
-  createdAt: timestamp('created_at').defaultNow(),
-  updatedAt: timestamp('updated_at').defaultNow(),
+  createdAt: timestamp('created_at'),
+  updatedAt: timestamp('updated_at'),
   deletedAt: timestamp('deleted_at'),
 });
 
-// Water Quality Statistics Table
+// Water Quality Statistics Table - exactly matching ERD
 export const waterQualityStatistics = pgTable('water_quality_statistics', {
   interval: intervalEnum('interval').notNull(),
   startDate: date('start_date').notNull(),
@@ -183,14 +184,14 @@ export const waterQualityStatistics = pgTable('water_quality_statistics', {
   aveTurbidity: doublePrecision('ave_turbidity').notNull(),
   aveOrp: doublePrecision('ave_orp').notNull(),
   aveElectricalConductivity: doublePrecision('ave_electrical_conductivity').notNull(),
-  updatedAt: timestamp('updated_at').defaultNow(),
+  updatedAt: timestamp('updated_at'),
 }, (table) => {
   return {
     pk: primaryKey({ columns: [table.interval, table.startDate] }),
   };
 });
 
-// Reward Multipliers Table
+// Reward Multipliers Table - exactly matching ERD
 export const rewardMultipliers = pgTable('reward_multipliers', {
   id: serial('id').primaryKey(),
   barangayId: integer('barangay_id').notNull().references(() => barangay.id),
@@ -199,11 +200,11 @@ export const rewardMultipliers = pgTable('reward_multipliers', {
   endDate: date('end_date').notNull(),
   multiplierExp: doublePrecision('multiplier_exp').notNull(),
   multiplierPoints: doublePrecision('multiplier_points').notNull(),
-  createdAt: timestamp('created_at').defaultNow(),
-  updatedAt: timestamp('updated_at').defaultNow(),
+  createdAt: timestamp('created_at'),
+  updatedAt: timestamp('updated_at'),
 });
 
-// Collection Schedule Table
+// Collection Schedule Table - exactly matching ERD
 export const collectionSchedule = pgTable('collection_schedule', {
   id: serial('id').primaryKey(),
   barangayId: integer('barangay_id').notNull().references(() => barangay.id),

@@ -4,14 +4,14 @@ import { z } from 'zod';
 export const userTypeEnum = z.enum(['admin', 'civilian', 'collector']);
 export type UserType = z.infer<typeof userTypeEnum>;
 
-// Validation schemas
+// Validation schemas - exactly matching ERD field names
 export const createUserSchema = z.object({
     usertype: userTypeEnum,
     username: z.string().min(3, 'Username must be at least 3 characters'),
     email: z.string().email('Invalid email format'),
-    firstname: z.string().min(1, 'First name is required'),
-    middlename: z.string().min(1, 'Middle name is required'),
-    lastname: z.string().min(1, 'Last name is required'),
+    firstName: z.string().min(1, 'First name is required'),
+    middleName: z.string().min(1, 'Middle name is required'),
+    lastName: z.string().min(1, 'Last name is required'),
     password: z.string().min(8, 'Password must be at least 8 characters')
 });
 
@@ -19,9 +19,9 @@ export const updateUserSchema = z.object({
     usertype: userTypeEnum.optional(),
     username: z.string().min(3, 'Username must be at least 3 characters').optional(),
     email: z.string().email('Invalid email format').optional(),
-    firstname: z.string().min(1, 'First name is required').optional(),
-    middlename: z.string().min(1, 'Middle name is required').optional(),
-    lastname: z.string().min(1, 'Last name is required').optional()
+    firstName: z.string().min(1, 'First name is required').optional(),
+    middleName: z.string().min(1, 'Middle name is required').optional(),
+    lastName: z.string().min(1, 'Last name is required').optional()
 });
 
 // Types based on schemas

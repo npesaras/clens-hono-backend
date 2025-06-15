@@ -1,15 +1,15 @@
 import { z } from 'zod';
 
-// Validation schemas
+// Validation schemas - exactly matching ERD
 export const createCivilianSchema = z.object({
     userId: z.number().int().positive('User ID must be a positive integer'),
     addressId: z.number().int().positive('Address ID must be a positive integer'),
-    level: z.number().int().min(1, 'Level must be at least 1').optional(),
-    exp: z.number().int().min(0, 'Experience must be non-negative').optional(),
-    streak: z.number().int().min(0, 'Streak must be non-negative').optional(),
+    level: z.number().int().min(1, 'Level must be at least 1'),
+    exp: z.number().int().min(0, 'Experience must be non-negative'),
+    streak: z.number().int().min(0, 'Streak must be non-negative'),
     leaderboardRank: z.number().int().positive('Leaderboard rank must be positive').optional(),
-    totalVolumeDisposed: z.number().min(0, 'Total volume disposed must be non-negative').optional(),
-    points: z.number().min(0, 'Points must be non-negative').optional()
+    totalVolumeDisposed: z.number().min(0, 'Total volume disposed must be non-negative'),
+    points: z.number().min(0, 'Points must be non-negative')
 });
 
 export const updateCivilianSchema = z.object({

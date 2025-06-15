@@ -17,13 +17,10 @@ export async function createAddress(data: CreateAddressInput) {
   const provinceRecord = await db
     .select()
     .from(province)
-    .where(and(
-      eq(province.id, data.provinceId),
-      isNull(province.deletedAt)
-    ));
+    .where(eq(province.id, data.provinceId));
   
   if (!provinceRecord[0]) {
-    throw new NotFoundError('Province not found or has been deleted');
+    throw new NotFoundError('Province not found');
   }
 
   // Validate that city exists and belongs to the province
