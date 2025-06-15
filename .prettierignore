@@ -1,0 +1,43 @@
+# Dependencies
+node_modules/
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+
+# Build outputs
+dist/
+build/
+coverage/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Database
+drizzle/
+**/*.sql
+
+# Logs
+*.log
+logs/
+
+# IDE
+.vscode/
+.idea/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+
+# Config files (optional - remove if you want to format them)
+*.config.js
+*.config.mjs
+*.config.ts
+
+# Documentation
+CHANGELOG.md
