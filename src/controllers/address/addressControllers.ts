@@ -4,6 +4,7 @@
  */
 
 import type { Context } from "hono";
+
 import { 
   createAddress, 
   getAddresses, 
@@ -11,6 +12,7 @@ import {
   updateAddress, 
   deleteAddress 
 } from "@/services/addressService.js";
+
 import { 
   validateCreateAddress, 
   validateUpdateAddress, 
@@ -60,7 +62,8 @@ export async function createAddressController(c: Context) {
     const validatedData = validateCreateAddress(body);
     const address = await createAddress(validatedData);
     return c.json(address, 201);
-  } catch (error) {
+  } 
+  catch (error) {
     if (error instanceof SyntaxError) {
       throw new BadRequestError('Invalid JSON in request body');
     }
@@ -82,7 +85,8 @@ export async function updateAddressController(c: Context) {
     const validatedData = validateUpdateAddress(body);
     const address = await updateAddress(addressId, validatedData);
     return c.json(address);
-  } catch (error) {
+  } 
+  catch (error) {
     if (error instanceof SyntaxError) {
       throw new BadRequestError('Invalid JSON in request body');
     }
@@ -101,7 +105,8 @@ export async function deleteAddressController(c: Context) {
     const addressId = parseAddressId(c.req.param('id'));
     const address = await deleteAddress(addressId);
     return c.json(address);
-  } catch (error) {
+  } 
+  catch (error) {
     throw error;
   }
 }
