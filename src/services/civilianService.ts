@@ -1,6 +1,6 @@
 import { eq, isNull, and, desc } from 'drizzle-orm';
 import { db } from '@/db/dbConfig';
-import { civilian, users, address } from '@/db/schema';
+import { civilian, users, address, province, city, barangay } from '@/db/schema';
 import { NotFoundError } from '@/utils/error';
 
 export type CreateCivilianInput = {
@@ -25,7 +25,6 @@ export async function createCivilian(data: CreateCivilianInput) {
       eq(users.id, data.userId),
       isNull(users.deletedAt)
     ));
-  
   if (!user[0]) {
     throw new NotFoundError('User not found or has been deleted');
   }
@@ -51,7 +50,6 @@ export async function createCivilian(data: CreateCivilianInput) {
       eq(civilian.userId, data.userId),
       isNull(civilian.deletedAt)
     ));
-
   if (existingCivilian[0]) {
     throw new Error('Civilian record already exists for this user');
   }
@@ -87,18 +85,20 @@ export async function getCivilians() {
       address: {
         id: address.id,
         street: address.street,
-        barangay: address.barangay,
-        city: address.city,
-        province: address.province,
-        zipCode: address.zipCode,
-        country: address.country,
-        latitude: address.latitude,
-        longitude: address.longitude
+        provinceId: address.provinceId,
+        provinceName: province.name,
+        cityId: address.cityId,
+        cityName: city.name,
+        barangayId: address.barangayId,
+        barangayName: barangay.name
       }
     })
     .from(civilian)
     .leftJoin(users, eq(civilian.userId, users.id))
     .leftJoin(address, eq(civilian.addressId, address.id))
+    .leftJoin(province, eq(address.provinceId, province.id))
+    .leftJoin(city, eq(address.cityId, city.id))
+    .leftJoin(barangay, eq(address.barangayId, barangay.id))
     .where(and(
       isNull(civilian.deletedAt),
       isNull(users.deletedAt),
@@ -128,23 +128,25 @@ export async function getCivilianById(id: number) {
         firstname: users.firstname,
         middlename: users.middlename,
         lastname: users.lastname,
-        usertype: users.usertype
-      },
+        usertype: users.usertype      
+    },
       address: {
         id: address.id,
         street: address.street,
-        barangay: address.barangay,
-        city: address.city,
-        province: address.province,
-        zipCode: address.zipCode,
-        country: address.country,
-        latitude: address.latitude,
-        longitude: address.longitude
+        provinceId: address.provinceId,
+        provinceName: province.name,
+        cityId: address.cityId,
+        cityName: city.name,
+        barangayId: address.barangayId,
+        barangayName: barangay.name
       }
     })
     .from(civilian)
     .leftJoin(users, eq(civilian.userId, users.id))
     .leftJoin(address, eq(civilian.addressId, address.id))
+    .leftJoin(province, eq(address.provinceId, province.id))
+    .leftJoin(city, eq(address.cityId, city.id))
+    .leftJoin(barangay, eq(address.barangayId, barangay.id))
     .where(and(
       eq(civilian.id, id),
       isNull(civilian.deletedAt),
@@ -183,22 +185,23 @@ export async function getCivilianByUserId(userId: number) {
         middlename: users.middlename,
         lastname: users.lastname,
         usertype: users.usertype
-      },
-      address: {
+      },      address: {
         id: address.id,
         street: address.street,
-        barangay: address.barangay,
-        city: address.city,
-        province: address.province,
-        zipCode: address.zipCode,
-        country: address.country,
-        latitude: address.latitude,
-        longitude: address.longitude
+        provinceId: address.provinceId,
+        provinceName: province.name,
+        cityId: address.cityId,
+        cityName: city.name,
+        barangayId: address.barangayId,
+        barangayName: barangay.name
       }
     })
     .from(civilian)
     .leftJoin(users, eq(civilian.userId, users.id))
     .leftJoin(address, eq(civilian.addressId, address.id))
+    .leftJoin(province, eq(address.provinceId, province.id))
+    .leftJoin(city, eq(address.cityId, city.id))
+    .leftJoin(barangay, eq(address.barangayId, barangay.id))
     .where(and(
       eq(civilian.userId, userId),
       isNull(civilian.deletedAt),
@@ -315,7 +318,8 @@ export async function getCivilianLeaderboard(limit: number = 10) {
       }
     })
     .from(civilian)
-    .leftJoin(users, eq(civilian.userId, users.id))    .where(and(
+    .leftJoin(users, eq(civilian.userId, users.id))    
+    .where(and(
       isNull(civilian.deletedAt),
       isNull(users.deletedAt)
     ))

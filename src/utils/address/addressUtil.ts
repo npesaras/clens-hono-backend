@@ -3,24 +3,16 @@ import { z } from 'zod';
 // Validation schemas
 export const createAddressSchema = z.object({
     street: z.string().min(1, 'Street is required'),
-    barangay: z.string().min(1, 'Barangay is required'),
-    city: z.string().min(1, 'City is required'),
-    province: z.string().min(1, 'Province is required'),
-    zipCode: z.string().min(1, 'ZIP code is required'),
-    country: z.string().min(1, 'Country is required').optional(),
-    latitude: z.number().min(-90).max(90, 'Latitude must be between -90 and 90').optional(),
-    longitude: z.number().min(-180).max(180, 'Longitude must be between -180 and 180').optional()
+    provinceId: z.number().int().positive('Province ID must be a positive integer'),
+    cityId: z.number().int().positive('City ID must be a positive integer'),
+    barangayId: z.number().int().positive('Barangay ID must be a positive integer')
 });
 
 export const updateAddressSchema = z.object({
     street: z.string().min(1, 'Street is required').optional(),
-    barangay: z.string().min(1, 'Barangay is required').optional(),
-    city: z.string().min(1, 'City is required').optional(),
-    province: z.string().min(1, 'Province is required').optional(),
-    zipCode: z.string().min(1, 'ZIP code is required').optional(),
-    country: z.string().min(1, 'Country is required').optional(),
-    latitude: z.number().min(-90).max(90, 'Latitude must be between -90 and 90').optional(),
-    longitude: z.number().min(-180).max(180, 'Longitude must be between -180 and 180').optional()
+    provinceId: z.number().int().positive('Province ID must be a positive integer').optional(),
+    cityId: z.number().int().positive('City ID must be a positive integer').optional(),
+    barangayId: z.number().int().positive('Barangay ID must be a positive integer').optional()
 });
 
 // Types based on schemas
