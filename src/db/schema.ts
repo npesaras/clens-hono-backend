@@ -1,51 +1,64 @@
 import {
+  boolean,
+  date,
+  doublePrecision,
+  integer,
+  pgEnum,
   pgTable,
+  primaryKey,
   serial,
   text,
-  timestamp,
-  pgEnum,
-  integer,
-  doublePrecision,
-  boolean,
-  varchar,
-  date,
   time,
-  primaryKey,
+  timestamp,
+  varchar,
 } from 'drizzle-orm/pg-core';
 
-// Create the enum types - exactly matching ERD
+// =============================================================================
+// ENUMS - Exactly matching ERD specifications
+// =============================================================================
+
 export const userTypeEnum = pgEnum('usertype', [
   'admin',
   'civilian',
   'collector',
 ]);
+
 export const privilegeLevelEnum = pgEnum('privilege_level', [
   'superadmin',
   'moderator',
   'staff',
 ]);
+
 export const wasteTypeEnum = pgEnum('waste_type', [
   'organic',
   'recyclable',
   'hazardous',
   'non-recyclable',
 ]);
+
 export const sensorTypeEnum = pgEnum('sensor_type', [
   'type1',
   'type2',
   'type3',
 ]);
+
 export const connectionModeEnum = pgEnum('connection_mode', ['Wifi', 'lora']);
+
 export const statisticsTypeEnum = pgEnum('statistics_type', [
   'civilian',
   'barangay',
 ]);
+
 export const intervalEnum = pgEnum('interval_type', [
   'day',
   'week',
   'month',
   'year',
 ]);
+
+// =============================================================================
+// LOCATION HIERARCHY TABLES
+// =============================================================================
 
 // Province Table - exactly matching ERD
 export const province = pgTable('province', {
@@ -97,6 +110,12 @@ export const address = pgTable('address', {
   deletedAt: timestamp('deleted_at'),
 });
 
+// =============================================================================
+// USER MANAGEMENT TABLES
+// =============================================================================
+
+// User Table - exactly matching ERD
+
 // User Table - exactly matching ERD
 export const users = pgTable('users', {
   id: serial('id').primaryKey(),
@@ -146,6 +165,10 @@ export const civilian = pgTable('civilian', {
   deletedAt: timestamp('deleted_at'),
 });
 
+// =============================================================================
+// OPERATIONAL TABLES (Trucks, Routes, Locations)
+// =============================================================================
+
 // Truck Table - exactly matching ERD (datetime -> timestamp in Postgres)
 export const truck = pgTable('truck', {
   id: serial('id').primaryKey(),
@@ -185,6 +208,10 @@ export const truckRoute = pgTable('truck_route', {
   validTo: timestamp('valid_to').notNull(),
 });
 
+// =============================================================================
+// WASTE MANAGEMENT TABLES
+// =============================================================================
+
 // Trash Record Table - exactly matching ERD (datetime -> timestamp in Postgres)
 export const trashRecord = pgTable('trash_record', {
   id: serial('id').primaryKey(),
@@ -203,6 +230,10 @@ export const trashRecord = pgTable('trash_record', {
   updatedAt: timestamp('updated_at').defaultNow(),
   deletedAt: timestamp('deleted_at'),
 });
+
+// =============================================================================
+// SENSOR & MONITORING TABLES
+// =============================================================================
 
 // Sensor Table - exactly matching ERD
 export const sensor = pgTable('sensor', {
@@ -230,6 +261,10 @@ export const sensorData = pgTable('sensor_data', {
   createdAt: timestamp('created_at').defaultNow(),
   deletedAt: timestamp('deleted_at'),
 });
+
+// =============================================================================
+// STATISTICS & ANALYTICS TABLES
+// =============================================================================
 
 // Trash Statistics Table - exactly matching ERD
 // Note: entity_id references either barangay.id or civilian.id based on type field
@@ -269,6 +304,10 @@ export const waterQualityStatistics = pgTable(
     };
   }
 );
+
+// =============================================================================
+// CONFIGURATION & SCHEDULING TABLES
+// =============================================================================
 
 // Reward Multipliers Table - exactly matching ERD
 export const rewardMultipliers = pgTable('reward_multipliers', {

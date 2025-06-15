@@ -4,19 +4,18 @@
  */
 
 import type { Context } from 'hono';
-import { StatusCodes } from 'http-status-codes';
 
 import {
   createAddress,
-  getAddresses,
-  getAddressById,
-  updateAddress,
   deleteAddress,
+  getAddressById,
+  getAddresses,
+  updateAddress,
 } from '@/services/addressService.js';
 import {
+  parseAddressId,
   validateCreateAddress,
   validateUpdateAddress,
-  parseAddressId,
 } from '@/utils/address/addressUtil.js';
 
 /**

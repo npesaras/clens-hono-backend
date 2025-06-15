@@ -7,17 +7,17 @@ import type { Context } from 'hono';
 
 import {
   createCivilian,
-  getCivilians,
+  deleteCivilian,
   getCivilianById,
   getCivilianByUserId,
-  updateCivilian,
-  deleteCivilian,
   getCivilianLeaderboard,
+  getCivilians,
+  updateCivilian,
 } from '@/services/civilianService.js';
 import {
+  parseCivilianId,
   validateCreateCivilian,
   validateUpdateCivilian,
-  parseCivilianId,
 } from '@/utils/civilian/civilianUtil.js';
 import { BadRequestError } from '@/utils/error.js';
 
