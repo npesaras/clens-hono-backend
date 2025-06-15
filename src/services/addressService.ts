@@ -22,29 +22,25 @@ export async function createAddress(data: CreateAddressInput) {
   if (!provinceRecord[0]) {
     throw new NotFoundError('Province not found');
   }
-
   // Validate that city exists and belongs to the province
   const cityRecord = await db
     .select()
     .from(city)
     .where(and(
       eq(city.id, data.cityId),
-      eq(city.provinceId, data.provinceId),
-      isNull(city.deletedAt)
+      eq(city.provinceId, data.provinceId)
     ));
   
   if (!cityRecord[0]) {
     throw new NotFoundError('City not found or does not belong to the specified province');
   }
-
   // Validate that barangay exists and belongs to the city
   const barangayRecord = await db
     .select()
     .from(barangay)
     .where(and(
       eq(barangay.id, data.barangayId),
-      eq(barangay.cityId, data.cityId),
-      isNull(barangay.deletedAt)
+      eq(barangay.cityId, data.cityId)
     ));
   
   if (!barangayRecord[0]) {
@@ -82,12 +78,8 @@ export async function getAddresses() {
     .from(address)
     .leftJoin(province, eq(address.provinceId, province.id))
     .leftJoin(city, eq(address.cityId, city.id))
-    .leftJoin(barangay, eq(address.barangayId, barangay.id))
-    .where(and(
-      isNull(address.deletedAt),
-      isNull(province.deletedAt),
-      isNull(city.deletedAt),
-      isNull(barangay.deletedAt)
+    .leftJoin(barangay, eq(address.barangayId, barangay.id))    .where(and(
+      isNull(address.deletedAt)
     ));
 }
 
@@ -118,13 +110,9 @@ export async function getAddressById(id: number) {
     .from(address)
     .leftJoin(province, eq(address.provinceId, province.id))
     .leftJoin(city, eq(address.cityId, city.id))
-    .leftJoin(barangay, eq(address.barangayId, barangay.id))
-    .where(and(
+    .leftJoin(barangay, eq(address.barangayId, barangay.id))    .where(and(
       eq(address.id, id),
-      isNull(address.deletedAt),
-      isNull(province.deletedAt),
-      isNull(city.deletedAt),
-      isNull(barangay.deletedAt)
+      isNull(address.deletedAt)
     ));
   
   const addressRecord = result[0];
@@ -147,43 +135,32 @@ export async function updateAddress(id: number, data: UpdateAddressInput) {
   if (data.provinceId || data.cityId || data.barangayId) {
     const provinceId = data.provinceId || existingAddress.provinceId;
     const cityId = data.cityId || existingAddress.cityId;
-    const barangayId = data.barangayId || existingAddress.barangayId;
-
-    // Validate province
+    const barangayId = data.barangayId || existingAddress.barangayId;    // Validate province
     const provinceRecord = await db
       .select()
       .from(province)
-      .where(and(
-        eq(province.id, provinceId),
-        isNull(province.deletedAt)
-      ));
-    
-    if (!provinceRecord[0]) {
-      throw new NotFoundError('Province not found or has been deleted');
+      .where(eq(province.id, provinceId));
+      if (!provinceRecord[0]) {
+      throw new NotFoundError('Province not found');
     }
 
     // Validate city belongs to province
-    const cityRecord = await db
-      .select()
+    const cityRecord = await db      .select()
       .from(city)
       .where(and(
         eq(city.id, cityId),
-        eq(city.provinceId, provinceId),
-        isNull(city.deletedAt)
+        eq(city.provinceId, provinceId)
       ));
     
     if (!cityRecord[0]) {
       throw new NotFoundError('City not found or does not belong to the specified province');
-    }
-
-    // Validate barangay belongs to city
+    }    // Validate barangay belongs to city
     const barangayRecord = await db
       .select()
       .from(barangay)
       .where(and(
         eq(barangay.id, barangayId),
-        eq(barangay.cityId, cityId),
-        isNull(barangay.deletedAt)
+        eq(barangay.cityId, cityId)
       ));
     
     if (!barangayRecord[0]) {
