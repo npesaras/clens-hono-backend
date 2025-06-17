@@ -2,7 +2,7 @@ import { eq } from 'drizzle-orm';
 
 import { db } from '@/db/dbConfig';
 import { collectionSchedule } from '@/db/schema';
-import { NotFoundError } from '@/utils/error';
+import { assertFound } from '@/middlewares/error-handler';
 
 export type CreateCollectionScheduleInput = {
   barangayId: number;
@@ -34,9 +34,7 @@ export async function getCollectionScheduleById(id: number) {
     .where(eq(collectionSchedule.id, id));
 
   const foundCollectionSchedule = result[0];
-  if (!foundCollectionSchedule) {
-    throw new NotFoundError('Collection schedule not found');
-  }
+  assertFound(foundCollectionSchedule, 'Collection schedule', id);
 
   return foundCollectionSchedule;
 }
@@ -51,9 +49,7 @@ export async function updateCollectionSchedule(
     .where(eq(collectionSchedule.id, id))
     .returning();
 
-  if (!updatedCollectionSchedule) {
-    throw new NotFoundError('Collection schedule not found');
-  }
+  assertFound(updatedCollectionSchedule, 'Collection schedule', id);
 
   return updatedCollectionSchedule;
 }
@@ -64,9 +60,7 @@ export async function deleteCollectionSchedule(id: number) {
     .where(eq(collectionSchedule.id, id))
     .returning();
 
-  if (!deletedCollectionSchedule) {
-    throw new NotFoundError('Collection schedule not found');
-  }
+  assertFound(deletedCollectionSchedule, 'Collection schedule', id);
 
   return deletedCollectionSchedule;
 }

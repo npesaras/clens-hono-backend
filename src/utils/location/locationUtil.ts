@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { throwBadRequest } from '@/middlewares/error-handler';
+
 // Validation schemas
 export const createLocationSchema = z.object({
   latitude: z.string().min(1, 'Latitude is required'),
@@ -31,8 +33,8 @@ export function validateUpdateLocation(data: unknown) {
 }
 
 export function parseLocationId(id: string | undefined): number {
-  if (!id) throw new Error('Location ID is required');
+  if (!id) throwBadRequest('Location ID is required');
   const parsedId = Number(id);
-  if (isNaN(parsedId)) throw new Error('Invalid location ID');
+  if (isNaN(parsedId)) throwBadRequest('Invalid location ID');
   return parsedId;
 }

@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { throwBadRequest } from '@/middlewares/error-handler';
+
 // Interval enum
 export const intervalEnum = z.enum(['day', 'week', 'month', 'year']);
 export type IntervalType = z.infer<typeof intervalEnum>;
@@ -66,6 +68,6 @@ export function parseWaterQualityStatisticsKey(
   startDate: string | undefined
 ): { interval: IntervalType; startDate: string } {
   if (!interval || !startDate)
-    throw new Error('Interval and start date are required');
+    throwBadRequest('Interval and start date are required');
   return { interval: intervalEnum.parse(interval), startDate };
 }

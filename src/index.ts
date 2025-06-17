@@ -1,7 +1,7 @@
 import { serve } from '@hono/node-server';
 import { swaggerUI } from '@hono/swagger-ui';
 import { sql } from 'drizzle-orm';
-import { Hono, Context } from 'hono';
+import { Context, Hono } from 'hono';
 import { cors } from 'hono/cors';
 
 import { routes } from '@/controllers/routes';
@@ -30,7 +30,7 @@ app.get(env.HEALTH_CHECK_PATH, async c => {
     // Simple query to verify database connection
     const result = await db.select({ count: sql`1` }).from(users);
     if (!result[0]) dbStatus = 'error';
-  } catch (error) {
+  } catch {
     dbStatus = 'error';
   }
 

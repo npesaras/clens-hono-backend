@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { throwBadRequest } from '@/middlewares/error-handler';
+
 // Interval enum
 export const intervalEnum = z.enum(['day', 'week', 'month', 'year']);
 export type IntervalType = z.infer<typeof intervalEnum>;
@@ -54,8 +56,8 @@ export function validateUpdateRewardMultipliers(data: unknown) {
 }
 
 export function parseRewardMultipliersId(id: string | undefined): number {
-  if (!id) throw new Error('Reward Multipliers ID is required');
+  if (!id) throwBadRequest('Reward Multipliers ID is required');
   const parsedId = Number(id);
-  if (isNaN(parsedId)) throw new Error('Invalid reward multipliers ID');
+  if (isNaN(parsedId)) throwBadRequest('Invalid reward multipliers ID');
   return parsedId;
 }

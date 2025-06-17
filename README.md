@@ -30,31 +30,37 @@ A modern RESTful API built with Hono.js, Drizzle ORM, and PostgreSQL, featuring 
 # Docker Setup
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/npesaras/clens-hono-backend.git
    cd clens-hono-kit
    ```
 
 2. Build and start all services with Docker Compose:
+
    ```bash
    docker-compose up -d
    ```
 
    This will start three containers:
+
    - **hono-api**: The main application on port 5000
    - **drizzle-studio**: Database management UI on port 4000
    - **hono-drizzle-db**: PostgreSQL database on port 5432
 
 3. Check if containers are running properly:
+
    ```bash
    docker ps
    ```
 
 4. Once running, you can access:
+
    - API at `http://localhost:5000`
    - Drizzle Studio at `http://localhost:4000`
 
 5. To view application logs:
+
    ```bash
    docker logs hono-api
    ```
@@ -68,29 +74,32 @@ A modern RESTful API built with Hono.js, Drizzle ORM, and PostgreSQL, featuring 
 
 # Usage
 
-
 ### Database
 
 Start the development server:
+
 ```bash
 pnpm run dev
 ```
-The server will be running at `http://localhost:3000`
 
+The server will be running at `http://localhost:3000`
 
 ### Database Management
 
 Generate migrations:
+
 ```bash
 pnpm run generate
 ```
 
 Run migrations:
+
 ```bash
 pnpm run migrate
 ```
 
 Access Drizzle Studio:
+
 ```bash
 pnpm run studio
 ```
@@ -101,15 +110,15 @@ pnpm run studio
 
 ## Response Codes
 
-| Status Code | Description |
-|-------------|-------------|
-| 200 | Success |
-| 201 | Created |
-| 400 | Bad Request - Invalid input |
-| 401 | Unauthorized - Missing or invalid token |
-| 404 | Not Found - Resource doesn't exist |
-| 409 | Conflict - Username/email already exists |
-| 500 | Server Error |
+| Status Code | Description                              |
+| ----------- | ---------------------------------------- |
+| 200         | Success                                  |
+| 201         | Created                                  |
+| 400         | Bad Request - Invalid input              |
+| 401         | Unauthorized - Missing or invalid token  |
+| 404         | Not Found - Resource doesn't exist       |
+| 409         | Conflict - Username/email already exists |
+| 500         | Server Error                             |
 
 <br>
 

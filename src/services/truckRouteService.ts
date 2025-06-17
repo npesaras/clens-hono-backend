@@ -2,7 +2,7 @@ import { eq } from 'drizzle-orm';
 
 import { db } from '@/db/dbConfig';
 import { truckRoute } from '@/db/schema';
-import { NotFoundError } from '@/utils/error';
+import { assertFound } from '@/middlewares/error-handler';
 
 export type CreateTruckRouteInput = {
   truckId: number;
@@ -36,9 +36,7 @@ export async function getTruckRouteById(id: number) {
     .where(eq(truckRoute.id, id));
 
   const foundTruckRoute = result[0];
-  if (!foundTruckRoute) {
-    throw new NotFoundError('Truck route not found');
-  }
+  assertFound(foundTruckRoute, ' truck route', id);
 
   return foundTruckRoute;
 }
@@ -47,6 +45,7 @@ export async function updateTruckRoute(
   id: number,
   data: UpdateTruckRouteInput
 ) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const updateData: any = { ...data };
   if (data.validFrom) updateData.validFrom = new Date(data.validFrom);
   if (data.validTo) updateData.validTo = new Date(data.validTo);
@@ -57,9 +56,7 @@ export async function updateTruckRoute(
     .where(eq(truckRoute.id, id))
     .returning();
 
-  if (!updatedTruckRoute) {
-    throw new NotFoundError('Truck route not found');
-  }
+  assertFound(updatedTruckRoute, ' truck route', id);
 
   return updatedTruckRoute;
 }
@@ -70,9 +67,7 @@ export async function deleteTruckRoute(id: number) {
     .where(eq(truckRoute.id, id))
     .returning();
 
-  if (!deletedTruckRoute) {
-    throw new NotFoundError('Truck route not found');
-  }
+  assertFound(deletedTruckRoute, ' truck route', id);
 
   return deletedTruckRoute;
 }

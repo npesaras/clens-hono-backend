@@ -1,8 +1,8 @@
-import { eq, isNull, and } from 'drizzle-orm';
+import { and, eq, isNull } from 'drizzle-orm';
 
 import { db } from '@/db/dbConfig';
 import { admin, users } from '@/db/schema';
-import { NotFoundError } from '@/utils/error';
+import { assertFound, throwBadRequest } from '@/middlewares/error-handler';
 
 export type PrivilegeLevel = 'superadmin' | 'moderator' | 'staff';
 
@@ -20,9 +20,7 @@ export async function createAdmin(data: CreateAdminInput) {
     .from(users)
     .where(and(eq(users.id, data.userId), isNull(users.deletedAt)));
 
-  if (!user[0]) {
-    throw new NotFoundError('User not found or has been deleted');
-  }
+  assertFound(user[0], 'User', data.userId);
 
   // Check if admin record already exists for this user
   const existingAdmin = await db
@@ -31,7 +29,7 @@ export async function createAdmin(data: CreateAdminInput) {
     .where(and(eq(admin.userId, data.userId), isNull(admin.deletedAt)));
 
   if (existingAdmin[0]) {
-    throw new Error('Admin record already exists for this user');
+    throwBadRequest('Admin record already exists for this user');
   }
 
   const [newAdmin] = await db.insert(admin).values(data).returning();
@@ -88,9 +86,7 @@ export async function getAdminById(id: number) {
     );
 
   const adminRecord = result[0];
-  if (!adminRecord) {
-    throw new NotFoundError('Admin not found');
-  }
+  assertFound(adminRecord, 'Admin', id);
 
   return adminRecord;
 }
@@ -125,9 +121,7 @@ export async function getAdminByUserId(userId: number) {
     );
 
   const adminRecord = result[0];
-  if (!adminRecord) {
-    throw new NotFoundError('Admin not found for this user');
-  }
+  assertFound(adminRecord, 'Admin', `user ID ${userId}`);
 
   return adminRecord;
 }
@@ -136,10 +130,6 @@ export async function updateAdmin(id: number, data: UpdateAdminInput) {
   // First check if admin exists and is not deleted
   const existingAdmin = await getAdminById(id);
 
-  if (!existingAdmin) {
-    throw new NotFoundError('Admin not found');
-  }
-
   // If updating userId, check if the new user exists and doesn't already have an admin record
   if (data.userId && data.userId !== existingAdmin.userId) {
     const user = await db
@@ -147,9 +137,7 @@ export async function updateAdmin(id: number, data: UpdateAdminInput) {
       .from(users)
       .where(and(eq(users.id, data.userId), isNull(users.deletedAt)));
 
-    if (!user[0]) {
-      throw new NotFoundError('User not found or has been deleted');
-    }
+    assertFound(user[0], 'User', data.userId);
 
     const existingAdminForUser = await db
       .select()
@@ -157,7 +145,7 @@ export async function updateAdmin(id: number, data: UpdateAdminInput) {
       .where(and(eq(admin.userId, data.userId), isNull(admin.deletedAt)));
 
     if (existingAdminForUser[0]) {
-      throw new Error('Admin record already exists for this user');
+      throwBadRequest('Admin record already exists for this user');
     }
   }
 
@@ -175,11 +163,7 @@ export async function updateAdmin(id: number, data: UpdateAdminInput) {
 
 export async function deleteAdmin(id: number) {
   // Check if admin exists and is not already deleted
-  const existingAdmin = await getAdminById(id);
-
-  if (!existingAdmin) {
-    throw new NotFoundError('Admin not found');
-  }
+  await getAdminById(id);
 
   const [deletedAdmin] = await db
     .update(admin)

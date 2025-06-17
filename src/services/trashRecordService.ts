@@ -1,8 +1,8 @@
-import { eq, isNull, and } from 'drizzle-orm';
+import { and, eq, isNull } from 'drizzle-orm';
 
 import { db } from '@/db/dbConfig';
 import { trashRecord } from '@/db/schema';
-import { NotFoundError } from '@/utils/error';
+import { assertFound } from '@/middlewares/error-handler';
 
 export type CreateTrashRecordInput = {
   civilianId: number;
@@ -46,9 +46,7 @@ export async function getTrashRecordById(id: number) {
     .where(and(eq(trashRecord.id, id), isNull(trashRecord.deletedAt)));
 
   const foundTrashRecord = result[0];
-  if (!foundTrashRecord) {
-    throw new NotFoundError('Trash record not found');
-  }
+  assertFound(foundTrashRecord, ' trash record', id);
 
   return foundTrashRecord;
 }
@@ -57,6 +55,7 @@ export async function updateTrashRecord(
   id: number,
   data: UpdateTrashRecordInput
 ) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const updateData: any = { ...data, updatedAt: new Date() };
   if (data.dateDisposed) updateData.dateDisposed = new Date(data.dateDisposed);
   if (data.dateCollected)
@@ -68,9 +67,7 @@ export async function updateTrashRecord(
     .where(and(eq(trashRecord.id, id), isNull(trashRecord.deletedAt)))
     .returning();
 
-  if (!updatedTrashRecord) {
-    throw new NotFoundError('Trash record not found');
-  }
+  assertFound(updatedTrashRecord, ' trash record', id);
 
   return updatedTrashRecord;
 }
@@ -82,9 +79,7 @@ export async function deleteTrashRecord(id: number) {
     .where(and(eq(trashRecord.id, id), isNull(trashRecord.deletedAt)))
     .returning();
 
-  if (!deletedTrashRecord) {
-    throw new NotFoundError('Trash record not found');
-  }
+  assertFound(deletedTrashRecord, ' trash record', id);
 
   return deletedTrashRecord;
 }

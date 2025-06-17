@@ -2,7 +2,7 @@ import { eq, isNull, and } from 'drizzle-orm';
 
 import { db } from '@/db/dbConfig';
 import { trashStatistics } from '@/db/schema';
-import { NotFoundError } from '@/utils/error';
+import { assertFound } from '@/middlewares/error-handler';
 
 export type CreateTrashStatisticsInput = {
   type: 'civilian' | 'barangay';
@@ -35,9 +35,7 @@ export async function getTrashStatisticsById(id: number) {
     .where(and(eq(trashStatistics.id, id), isNull(trashStatistics.deletedAt)));
 
   const foundTrashStatistics = result[0];
-  if (!foundTrashStatistics) {
-    throw new NotFoundError('Trash statistics not found');
-  }
+  assertFound(foundTrashStatistics, ' trash statistics', id);
 
   return foundTrashStatistics;
 }
@@ -52,9 +50,7 @@ export async function updateTrashStatistics(
     .where(and(eq(trashStatistics.id, id), isNull(trashStatistics.deletedAt)))
     .returning();
 
-  if (!updatedTrashStatistics) {
-    throw new NotFoundError('Trash statistics not found');
-  }
+  assertFound(updatedTrashStatistics, ' trash statistics', id);
 
   return updatedTrashStatistics;
 }
@@ -66,9 +62,7 @@ export async function deleteTrashStatistics(id: number) {
     .where(and(eq(trashStatistics.id, id), isNull(trashStatistics.deletedAt)))
     .returning();
 
-  if (!deletedTrashStatistics) {
-    throw new NotFoundError('Trash statistics not found');
-  }
+  assertFound(deletedTrashStatistics, ' trash statistics', id);
 
   return deletedTrashStatistics;
 }

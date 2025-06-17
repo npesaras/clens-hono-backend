@@ -1,15 +1,15 @@
-import { eq, isNull, and, desc } from 'drizzle-orm';
+import { and, desc, eq, isNull } from 'drizzle-orm';
 
 import { db } from '@/db/dbConfig';
 import {
-  civilian,
-  users,
   address,
-  province,
-  city,
   barangay,
+  city,
+  civilian,
+  province,
+  users,
 } from '@/db/schema';
-import { NotFoundError } from '@/utils/error';
+import { assertFound, throwBadRequest } from '@/middlewares/error-handler';
 
 export type CreateCivilianInput = {
   userId: number;
@@ -30,9 +30,7 @@ export async function createCivilian(data: CreateCivilianInput) {
     .select()
     .from(users)
     .where(and(eq(users.id, data.userId), isNull(users.deletedAt)));
-  if (!user[0]) {
-    throw new NotFoundError('User not found or has been deleted');
-  }
+  assertFound(user[0], 'User', data.userId);
 
   // Check if address exists and is not deleted
   const addressRecord = await db
@@ -40,9 +38,7 @@ export async function createCivilian(data: CreateCivilianInput) {
     .from(address)
     .where(and(eq(address.id, data.addressId), isNull(address.deletedAt)));
 
-  if (!addressRecord[0]) {
-    throw new NotFoundError('Address not found or has been deleted');
-  }
+  assertFound(addressRecord[0], 'Address', data.addressId);
 
   // Check if civilian record already exists for this user
   const existingCivilian = await db
@@ -50,7 +46,7 @@ export async function createCivilian(data: CreateCivilianInput) {
     .from(civilian)
     .where(and(eq(civilian.userId, data.userId), isNull(civilian.deletedAt)));
   if (existingCivilian[0]) {
-    throw new Error('Civilian record already exists for this user');
+    throwBadRequest('Civilian record already exists for this user');
   }
 
   const [newCivilian] = await db.insert(civilian).values(data).returning();
@@ -158,9 +154,7 @@ export async function getCivilianById(id: number) {
     );
 
   const civilianRecord = result[0];
-  if (!civilianRecord) {
-    throw new NotFoundError('Civilian not found');
-  }
+  assertFound(civilianRecord, 'Civilian record', id);
 
   return civilianRecord;
 }
@@ -216,9 +210,7 @@ export async function getCivilianByUserId(userId: number) {
     );
 
   const civilianRecord = result[0];
-  if (!civilianRecord) {
-    throw new NotFoundError('Civilian not found for this user');
-  }
+  assertFound(civilianRecord, 'Civilian record', `user ID ${userId}`);
 
   return civilianRecord;
 }
@@ -227,9 +219,7 @@ export async function updateCivilian(id: number, data: UpdateCivilianInput) {
   // First check if civilian exists and is not deleted
   const existingCivilian = await getCivilianById(id);
 
-  if (!existingCivilian) {
-    throw new NotFoundError('Civilian not found');
-  }
+  assertFound(existingCivilian, 'Existing civilian', id);
 
   // If updating userId, check if the new user exists and doesn't already have a civilian record
   if (data.userId && data.userId !== existingCivilian.userId) {
@@ -238,9 +228,7 @@ export async function updateCivilian(id: number, data: UpdateCivilianInput) {
       .from(users)
       .where(and(eq(users.id, data.userId), isNull(users.deletedAt)));
 
-    if (!user[0]) {
-      throw new NotFoundError('User not found or has been deleted');
-    }
+    assertFound(user[0], 'User', data.userId);
 
     const existingCivilianForUser = await db
       .select()
@@ -248,7 +236,7 @@ export async function updateCivilian(id: number, data: UpdateCivilianInput) {
       .where(and(eq(civilian.userId, data.userId), isNull(civilian.deletedAt)));
 
     if (existingCivilianForUser[0]) {
-      throw new Error('Civilian record already exists for this user');
+      throwBadRequest('Civilian record already exists for this user');
     }
   }
 
@@ -259,9 +247,7 @@ export async function updateCivilian(id: number, data: UpdateCivilianInput) {
       .from(address)
       .where(and(eq(address.id, data.addressId), isNull(address.deletedAt)));
 
-    if (!addressRecord[0]) {
-      throw new NotFoundError('Address not found or has been deleted');
-    }
+    assertFound(addressRecord[0], 'Address', data.addressId);
   }
 
   const [updatedCivilian] = await db
@@ -280,9 +266,7 @@ export async function deleteCivilian(id: number) {
   // Check if civilian exists and is not already deleted
   const existingCivilian = await getCivilianById(id);
 
-  if (!existingCivilian) {
-    throw new NotFoundError('Civilian not found');
-  }
+  assertFound(existingCivilian, 'Existing civilian', id);
 
   const [deletedCivilian] = await db
     .update(civilian)

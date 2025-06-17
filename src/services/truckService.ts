@@ -2,7 +2,7 @@ import { eq, isNull, and } from 'drizzle-orm';
 
 import { db } from '@/db/dbConfig';
 import { truck } from '@/db/schema';
-import { NotFoundError } from '@/utils/error';
+import { assertFound } from '@/middlewares/error-handler';
 
 export type CreateTruckInput = {
   plateNumber: string;
@@ -29,9 +29,7 @@ export async function getTruckById(id: number) {
     .where(and(eq(truck.id, id), isNull(truck.deletedAt)));
 
   const foundTruck = result[0];
-  if (!foundTruck) {
-    throw new NotFoundError('Truck not found');
-  }
+  assertFound(foundTruck, ' truck', id);
 
   return foundTruck;
 }
@@ -43,9 +41,7 @@ export async function updateTruck(id: number, data: UpdateTruckInput) {
     .where(and(eq(truck.id, id), isNull(truck.deletedAt)))
     .returning();
 
-  if (!updatedTruck) {
-    throw new NotFoundError('Truck not found');
-  }
+  assertFound(updatedTruck, ' truck', id);
 
   return updatedTruck;
 }
@@ -57,9 +53,7 @@ export async function deleteTruck(id: number) {
     .where(and(eq(truck.id, id), isNull(truck.deletedAt)))
     .returning();
 
-  if (!deletedTruck) {
-    throw new NotFoundError('Truck not found');
-  }
+  assertFound(deletedTruck, ' truck', id);
 
   return deletedTruck;
 }

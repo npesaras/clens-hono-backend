@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { throwBadRequest } from '@/middlewares/error-handler';
+
 // Waste type enum
 export const wasteTypeEnum = z.enum([
   'organic',
@@ -78,8 +80,8 @@ export function validateUpdateTrashRecord(data: unknown) {
 }
 
 export function parseTrashRecordId(id: string | undefined): number {
-  if (!id) throw new Error('Trash Record ID is required');
+  if (!id) throwBadRequest('Trash Record ID is required');
   const parsedId = Number(id);
-  if (isNaN(parsedId)) throw new Error('Invalid trash record ID');
+  if (isNaN(parsedId)) throwBadRequest('Invalid trash record ID');
   return parsedId;
 }

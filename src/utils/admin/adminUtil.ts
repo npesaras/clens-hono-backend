@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { throwBadRequest } from '@/middlewares/error-handler';
+
 // Privilege level enum
 export const privilegeLevelEnum = z.enum(['superadmin', 'moderator', 'staff']);
 export type PrivilegeLevel = z.infer<typeof privilegeLevelEnum>;
@@ -33,8 +35,8 @@ export function validateUpdateAdmin(data: unknown) {
 }
 
 export function parseAdminId(id: string | undefined): number {
-  if (!id) throw new Error('Admin ID is required');
+  if (!id) throwBadRequest('Admin ID is required');
   const parsedId = Number(id);
-  if (isNaN(parsedId)) throw new Error('Invalid admin ID');
+  if (isNaN(parsedId)) throwBadRequest('Invalid admin ID');
   return parsedId;
 }

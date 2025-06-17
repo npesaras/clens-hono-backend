@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { throwBadRequest } from '@/middlewares/error-handler';
+
 // Validation schemas
 export const createCollectionScheduleSchema = z.object({
   barangayId: z
@@ -52,8 +54,8 @@ export function validateUpdateCollectionSchedule(data: unknown) {
 }
 
 export function parseCollectionScheduleId(id: string | undefined): number {
-  if (!id) throw new Error('Collection Schedule ID is required');
+  if (!id) throwBadRequest('Collection Schedule ID is required');
   const parsedId = Number(id);
-  if (isNaN(parsedId)) throw new Error('Invalid collection schedule ID');
+  if (isNaN(parsedId)) throwBadRequest('Invalid collection schedule ID');
   return parsedId;
 }

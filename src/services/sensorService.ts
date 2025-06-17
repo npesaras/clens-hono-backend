@@ -2,7 +2,7 @@ import { eq } from 'drizzle-orm';
 
 import { db } from '@/db/dbConfig';
 import { sensor } from '@/db/schema';
-import { NotFoundError } from '@/utils/error';
+import { assertFound } from '@/middlewares/error-handler';
 
 export type CreateSensorInput = {
   activeStatus: boolean;
@@ -25,9 +25,7 @@ export async function getSensorById(id: number) {
   const result = await db.select().from(sensor).where(eq(sensor.id, id));
 
   const foundSensor = result[0];
-  if (!foundSensor) {
-    throw new NotFoundError('Sensor not found');
-  }
+  assertFound(foundSensor, 'Sensor', id);
 
   return foundSensor;
 }
@@ -39,9 +37,7 @@ export async function updateSensor(id: number, data: UpdateSensorInput) {
     .where(eq(sensor.id, id))
     .returning();
 
-  if (!updatedSensor) {
-    throw new NotFoundError('Sensor not found');
-  }
+  assertFound(updatedSensor, 'Sensor', id);
 
   return updatedSensor;
 }
@@ -52,9 +48,7 @@ export async function deleteSensor(id: number) {
     .where(eq(sensor.id, id))
     .returning();
 
-  if (!deletedSensor) {
-    throw new NotFoundError('Sensor not found');
-  }
+  assertFound(deletedSensor, 'Sensor', id);
 
   return deletedSensor;
 }

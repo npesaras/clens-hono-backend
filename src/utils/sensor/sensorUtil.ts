@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { throwBadRequest } from '@/middlewares/error-handler';
+
 // Sensor type enum
 export const sensorTypeEnum = z.enum(['type1', 'type2', 'type3']);
 export type SensorType = z.infer<typeof sensorTypeEnum>;
@@ -38,8 +40,8 @@ export function validateUpdateSensor(data: unknown) {
 }
 
 export function parseSensorId(id: string | undefined): number {
-  if (!id) throw new Error('Sensor ID is required');
+  if (!id) throwBadRequest('Sensor ID is required');
   const parsedId = Number(id);
-  if (isNaN(parsedId)) throw new Error('Invalid sensor ID');
+  if (isNaN(parsedId)) throwBadRequest('Invalid sensor ID');
   return parsedId;
 }
