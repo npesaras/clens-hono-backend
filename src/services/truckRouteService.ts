@@ -45,6 +45,7 @@ export async function updateTruckRoute(
   id: number,
   data: UpdateTruckRouteInput
 ) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const updateData: any = { ...data };
   if (data.validFrom) updateData.validFrom = new Date(data.validFrom);
   if (data.validTo) updateData.validTo = new Date(data.validTo);

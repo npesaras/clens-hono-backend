@@ -5,7 +5,7 @@ services:
       dockerfile: Dockerfile
     container_name: hono-api
     ports:
-      - "5000:5000"
+      - '5000:5000'
     depends_on:
       postgres:
         condition: service_healthy
@@ -22,7 +22,7 @@ services:
     container_name: drizzle-studio
     command: pnpm studio
     ports:
-      - "4000:4000"
+      - '4000:4000'
     depends_on:
       postgres:
         condition: service_healthy
@@ -40,11 +40,11 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: hono_db
     ports:
-      - "5432:5432"
+      - '5432:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
       interval: 5s
       timeout: 5s
       retries: 5

@@ -1,4 +1,4 @@
-import { eq, isNull, and } from 'drizzle-orm';
+import { and, eq, isNull } from 'drizzle-orm';
 
 import { db } from '@/db/dbConfig';
 import { trashRecord } from '@/db/schema';
@@ -55,6 +55,7 @@ export async function updateTrashRecord(
   id: number,
   data: UpdateTrashRecordInput
 ) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const updateData: any = { ...data, updatedAt: new Date() };
   if (data.dateDisposed) updateData.dateDisposed = new Date(data.dateDisposed);
   if (data.dateCollected)
