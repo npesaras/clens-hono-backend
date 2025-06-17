@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { throwBadRequest } from '@/middlewares/error-handler';
+
 // Statistics type enum
 export const statisticsTypeEnum = z.enum(['civilian', 'barangay']);
 export type StatisticsType = z.infer<typeof statisticsTypeEnum>;
@@ -51,8 +53,8 @@ export function validateUpdateTrashStatistics(data: unknown) {
 }
 
 export function parseTrashStatisticsId(id: string | undefined): number {
-  if (!id) throw new Error('Trash Statistics ID is required');
+  if (!id) throwBadRequest('Trash Statistics ID is required');
   const parsedId = Number(id);
-  if (isNaN(parsedId)) throw new Error('Invalid trash statistics ID');
+  if (isNaN(parsedId)) throwBadRequest('Invalid trash statistics ID');
   return parsedId;
 }

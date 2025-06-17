@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { throwBadRequest } from '@/middlewares/error-handler';
+
 // Validation schemas - exactly matching ERD
 export const createCivilianSchema = z.object({
   userId: z.number().int().positive('User ID must be a positive integer'),
@@ -58,8 +60,8 @@ export function validateUpdateCivilian(data: unknown) {
 }
 
 export function parseCivilianId(id: string | undefined): number {
-  if (!id) throw new Error('Civilian ID is required');
+  if (!id) throwBadRequest('Civilian ID is required');
   const parsedId = Number(id);
-  if (isNaN(parsedId)) throw new Error('Invalid civilian ID');
+  if (isNaN(parsedId)) throwBadRequest('Invalid civilian ID');
   return parsedId;
 }

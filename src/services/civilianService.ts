@@ -9,7 +9,7 @@ import {
   province,
   users,
 } from '@/db/schema';
-import { assertFound } from '@/middlewares/error-handler';
+import { assertFound, throwBadRequest } from '@/middlewares/error-handler';
 
 export type CreateCivilianInput = {
   userId: number;
@@ -46,7 +46,7 @@ export async function createCivilian(data: CreateCivilianInput) {
     .from(civilian)
     .where(and(eq(civilian.userId, data.userId), isNull(civilian.deletedAt)));
   if (existingCivilian[0]) {
-    throw new Error('Civilian record already exists for this user');
+    throwBadRequest('Civilian record already exists for this user');
   }
 
   const [newCivilian] = await db.insert(civilian).values(data).returning();
@@ -236,7 +236,7 @@ export async function updateCivilian(id: number, data: UpdateCivilianInput) {
       .where(and(eq(civilian.userId, data.userId), isNull(civilian.deletedAt)));
 
     if (existingCivilianForUser[0]) {
-      throw new Error('Civilian record already exists for this user');
+      throwBadRequest('Civilian record already exists for this user');
     }
   }
 

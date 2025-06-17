@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { throwBadRequest } from '@/middlewares/error-handler';
+
 // Validation schemas
 export const createTruckRouteSchema = z.object({
   truckId: z.number().int().positive('Truck ID must be a positive integer'),
@@ -36,8 +38,8 @@ export function validateUpdateTruckRoute(data: unknown) {
 }
 
 export function parseTruckRouteId(id: string | undefined): number {
-  if (!id) throw new Error('Truck Route ID is required');
+  if (!id) throwBadRequest('Truck Route ID is required');
   const parsedId = Number(id);
-  if (isNaN(parsedId)) throw new Error('Invalid truck route ID');
+  if (isNaN(parsedId)) throwBadRequest('Invalid truck route ID');
   return parsedId;
 }

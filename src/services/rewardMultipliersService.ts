@@ -1,4 +1,4 @@
-import { eq, isNull, and } from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
 
 import { db } from '@/db/dbConfig';
 import { rewardMultipliers } from '@/db/schema';

@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { throwBadRequest } from '@/middlewares/error-handler';
+
 // Connection mode enum
 export const connectionModeEnum = z.enum(['Wifi', 'lora']);
 export type ConnectionMode = z.infer<typeof connectionModeEnum>;
@@ -53,8 +55,8 @@ export function validateUpdateSensorData(data: unknown) {
 }
 
 export function parseSensorDataId(id: string | undefined): number {
-  if (!id) throw new Error('Sensor Data ID is required');
+  if (!id) throwBadRequest('Sensor Data ID is required');
   const parsedId = Number(id);
-  if (isNaN(parsedId)) throw new Error('Invalid sensor data ID');
+  if (isNaN(parsedId)) throwBadRequest('Invalid sensor data ID');
   return parsedId;
 }

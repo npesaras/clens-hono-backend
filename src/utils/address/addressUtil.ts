@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { throwBadRequest } from '@/middlewares/error-handler';
+
 // Validation schemas
 export const createAddressSchema = z.object({
   street: z.string().min(1, 'Street is required'),
@@ -47,8 +49,8 @@ export function validateUpdateAddress(data: unknown) {
 }
 
 export function parseAddressId(id: string | undefined): number {
-  if (!id) throw new Error('Address ID is required');
+  if (!id) throwBadRequest('Address ID is required');
   const parsedId = Number(id);
-  if (isNaN(parsedId)) throw new Error('Invalid address ID');
+  if (isNaN(parsedId)) throwBadRequest('Invalid address ID');
   return parsedId;
 }

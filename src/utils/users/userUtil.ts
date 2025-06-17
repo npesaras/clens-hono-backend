@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { throwBadRequest } from '@/middlewares/error-handler';
+
 // User type enum
 export const userTypeEnum = z.enum(['admin', 'civilian', 'collector']);
 export type UserType = z.infer<typeof userTypeEnum>;
@@ -41,8 +43,8 @@ export function validateUpdateUser(data: unknown) {
 }
 
 export function parseUserId(id: string | undefined): number {
-  if (!id) throw new Error('User ID is required');
+  if (!id) throwBadRequest('User ID is required');
   const parsedId = Number(id);
-  if (isNaN(parsedId)) throw new Error('Invalid user ID');
+  if (isNaN(parsedId)) throwBadRequest('Invalid user ID');
   return parsedId;
 }

@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { throwBadRequest } from '@/middlewares/error-handler';
+
 // Validation schemas
 export const createTruckSchema = z.object({
   plateNumber: z.string().min(1, 'Plate number is required'),
@@ -38,8 +40,8 @@ export function validateUpdateTruck(data: unknown) {
 }
 
 export function parseTruckId(id: string | undefined): number {
-  if (!id) throw new Error('Truck ID is required');
+  if (!id) throwBadRequest('Truck ID is required');
   const parsedId = Number(id);
-  if (isNaN(parsedId)) throw new Error('Invalid truck ID');
+  if (isNaN(parsedId)) throwBadRequest('Invalid truck ID');
   return parsedId;
 }
